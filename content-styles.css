@@ -16,3 +16,12 @@ div.toolbar-filter.userCount div.user-issue-cnt-0{
   border: 3px blue solid;
   overflow: auto;
 }
+.tagDiv {
+  background-color: white;
+  border: solid 2px black;
+  border-radius: 2px;
+  color: black;
+}
+.tagDiv:disabled {
+  background-color: grey;
+}
