@@ -38,5 +38,29 @@ const utils = {
       (key) => drupalConfig.statusField[key] === id
     );
   },
+  addHideCondition: (element, hideCondition) => {
+    const parentRow = element.closest("tr");
+    if (!parentRow.hasOwnProperty('hideConditions')) {
+      parentRow.hideConditions = new Set();
+    }
+    parentRow.hideConditions.add(hideCondition);
+    this.setHideStatus(parentRow);
+  },
+  removeHideCondition: (element, hideCondition) => {
+    const parentRow = element.closest("tr");
+    if (!parentRow.hasOwnProperty('hideConditions')) {
+      return;
+    }
+    parentRow.hideConditions.delete(hideCondition);
+    this.setHideStatus(parentRow);
+  },
+  setHideStatus: (element) => {
+    if (element.hasOwnProperty('hideConditions') && element.hideConditions.size > 0) {
+      element.style.display = "none";
+    }
+    else {
+      element.style.display = "table-row";
+    }
+  }
 };
 export { utils };

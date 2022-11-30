@@ -3,6 +3,8 @@
  *
  * @type {{createElement: (function(): HTMLDivElement)}}
  */
+import {utils} from "./common";
+
 const userCount = {
     createElement: function () {
         // On issue queue search page
@@ -57,11 +59,10 @@ const userCount = {
                     target.innerText = "✅";
                     target.setAttribute("filtered", true);
                     assignedFields.forEach((assignedField) => {
-                        const parentRow = assignedField.closest("tr");
                         if (assignedField.innerText.includes(name)) {
-                            parentRow.style.display = "table-row";
+                            utils.addHideCondition(assignedField, 'user');
                         } else {
-                            parentRow.style.display = "none";
+                            utils.removeHideCondition(assignedField, 'user');
                         }
                     });
                 };
