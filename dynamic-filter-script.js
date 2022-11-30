@@ -1,3 +1,6 @@
+let src = chrome.runtime.getURL("common.js");
+const { utils } = await import(src);
+
 /**
  * Creates a search input for dynamic title searching.
  *
@@ -30,10 +33,10 @@ const titleFilter = {
         // compare current name to search input
         if (name.includes(searchQuery)) {
           // found name matching search, display it
-          nameElement.parentNode.parentNode.style.display = "table-row";
+          utils.removeHideCondition(nameElement)
         } else {
           // no match, don't display name
-          nameElement.parentNode.parentNode.style.display = "none";
+          utils.addHideCondition(nameElement);
         }
       }
     });

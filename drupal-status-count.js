@@ -54,9 +54,9 @@ const statusCount = {
                     target.setAttribute("filtered", true);
                     statusFields.forEach((statusField) => {
                         if (statusField.innerText.includes(name)) {
-                            utils.removeHideCondition(statusField, 'status');
+                            utils.removeHideCondition(statusField);
                         } else {
-                            utils.addHideCondition(statusField, 'status');
+                            utils.addHideCondition(statusField);
                         }
                     });
                 };

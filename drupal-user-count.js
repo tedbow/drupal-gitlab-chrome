@@ -62,9 +62,9 @@ const userCount = {
                     target.setAttribute("filtered", true);
                     assignedFields.forEach((assignedField) => {
                         if (assignedField.innerText.includes(name)) {
-                            utils.removeHideCondition(assignedField, 'user');
+                            utils.removeHideCondition(assignedField);
                         } else {
-                            utils.addHideCondition(assignedField, 'user');
+                            utils.addHideCondition(assignedField);
                         }
                     });
                 };

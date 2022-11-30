@@ -38,20 +38,20 @@ const utils = {
       (key) => drupalConfig.statusField[key] === id
     );
   },
-  addHideCondition: (element, hideCondition) => {
+  addHideCondition: (element) => {
     const parentRow = element.closest("tr");
     if (!parentRow.hasOwnProperty('hideConditions')) {
       parentRow.hideConditions = new Set();
     }
-    parentRow.hideConditions.add(hideCondition);
+    parentRow.hideConditions.add(utils.getElementColumnIndex(element));
     utils.setHideStatus(parentRow);
   },
-  removeHideCondition: (element, hideCondition) => {
+  removeHideCondition: (element) => {
     const parentRow = element.closest("tr");
     if (!parentRow.hasOwnProperty('hideConditions')) {
       return;
     }
-    parentRow.hideConditions.delete(hideCondition);
+    parentRow.hideConditions.delete(utils.getElementColumnIndex(element));
     utils.setHideStatus(parentRow);
   },
   setHideStatus: (element) => {
@@ -61,6 +61,11 @@ const utils = {
     else {
       element.style.display = "table-row";
     }
+  },
+  getElementColumnIndex(element) {
+    const td = element.closest("td");
+    const tds = Array.from(td.closest("tr").children);
+    return tds.indexOf(td);
   }
 };
 export { utils };
