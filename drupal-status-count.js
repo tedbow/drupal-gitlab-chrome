@@ -5,7 +5,6 @@
  */
 const statusCount = {
     createElement: function () {
-        const statusInput = document.getElementById("edit-assigned");
         const statusFields = document.querySelectorAll(
             "td.views-field.views-field-field-issue-status"
         );
