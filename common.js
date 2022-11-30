@@ -44,7 +44,7 @@ const utils = {
       parentRow.hideConditions = new Set();
     }
     parentRow.hideConditions.add(hideCondition);
-    this.setHideStatus(parentRow);
+    utils.setHideStatus(parentRow);
   },
   removeHideCondition: (element, hideCondition) => {
     const parentRow = element.closest("tr");
@@ -52,7 +52,7 @@ const utils = {
       return;
     }
     parentRow.hideConditions.delete(hideCondition);
-    this.setHideStatus(parentRow);
+    utils.setHideStatus(parentRow);
   },
   setHideStatus: (element) => {
     if (element.hasOwnProperty('hideConditions') && element.hideConditions.size > 0) {

@@ -1,3 +1,6 @@
+let src = chrome.runtime.getURL("common.js");
+const { utils } = await import(src);
+
 /**
  * Creates a toolbar item that lists the number of issues with different statuses.
  *
@@ -50,11 +53,10 @@ const statusCount = {
                     target.innerText = "✅";
                     target.setAttribute("filtered", true);
                     statusFields.forEach((statusField) => {
-                        const parentRow = statusField.closest("tr");
                         if (statusField.innerText.includes(name)) {
-                            parentRow.style.display = "table-row";
+                            utils.removeHideCondition(statusField, 'status');
                         } else {
-                            parentRow.style.display = "none";
+                            utils.addHideCondition(statusField, 'status');
                         }
                     });
                 };

@@ -1,9 +1,11 @@
+let src = chrome.runtime.getURL("common.js");
+const { utils } = await import(src);
+
 /**
  * Creates a toolbar item that lists how many issues each user has and allows filtering by user.
  *
  * @type {{createElement: (function(): HTMLDivElement)}}
  */
-import {utils} from "./common";
 
 const userCount = {
     createElement: function () {
@@ -60,9 +62,9 @@ const userCount = {
                     target.setAttribute("filtered", true);
                     assignedFields.forEach((assignedField) => {
                         if (assignedField.innerText.includes(name)) {
-                            utils.addHideCondition(assignedField, 'user');
-                        } else {
                             utils.removeHideCondition(assignedField, 'user');
+                        } else {
+                            utils.addHideCondition(assignedField, 'user');
                         }
                     });
                 };
