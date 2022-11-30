@@ -18,7 +18,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["common.js", "drupal-user-count.js", "dynamic-filter-script.js", "multi-page.js", "toolbar.js","drupal-status-count.js", "rowFilterer.js"],
+      "resources": ["common.js", "drupal-user-count.js", "dynamic-filter-script.js", "multi-page.js", "toolbar.js","drupal-status-count.js", "toolbarRowFilterer.js"],
       "matches": ["https://www.drupal.org/*"]
     }
   ],

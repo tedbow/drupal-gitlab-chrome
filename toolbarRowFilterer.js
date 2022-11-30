@@ -1,4 +1,4 @@
-class rowFilterer {
+class toolbarRowFilterer {
 
   addHideCondition(element) {
     const parentRow = element.closest("tr");
@@ -95,4 +95,4 @@ class rowFilterer {
 
   }
 }
-export { rowFilterer };
+export { toolbarRowFilterer };

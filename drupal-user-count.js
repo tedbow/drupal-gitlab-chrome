@@ -1,5 +1,5 @@
-let src = chrome.runtime.getURL("rowFilterer.js");
-const { rowFilterer } = await import(src);
+let src = chrome.runtime.getURL("toolbarRowFilterer.js");
+const { toolbarRowFilterer } = await import(src);
 
 /**
  * Creates a toolbar item that lists how many issues each user has and allows filtering by user.
@@ -7,7 +7,7 @@ const { rowFilterer } = await import(src);
  * @type {{createElement: (function(): HTMLDivElement)}}
  */
 
-class userCountFilter extends rowFilterer {
+class userCountFilter extends toolbarRowFilterer {
     createElement() {
         // On issue queue search page
         const assignedInput = document.getElementById("edit-assigned");
