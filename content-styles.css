@@ -1,4 +1,4 @@
-div.usersCount div,
+div.userCount div,
 div.statusCount div
 {
   float: left;
@@ -6,14 +6,14 @@ div.statusCount div
   border-style: groove;
   padding-right: 10px;
 }
-div.usersCount div ,
+div.userCount div ,
 div.statusCount div a.user-filter {
   cursor: pointer;
 }
-div.usersCount div.user-issue-cnt-0{
+div.userCount div.user-issue-cnt-0{
   background-color: red;
 }
-.usersCount,
+.userCount,
 .statusCount {
   border: 3px blue solid;
   overflow: auto;
