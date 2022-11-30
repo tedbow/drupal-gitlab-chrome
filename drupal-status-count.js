@@ -6,7 +6,6 @@
 const statusCount = {
     createElement: function () {
         const statusInput = document.getElementById("edit-assigned");
-        const statusText = statusInput.getAttribute("value").trim();
         const statusFields = document.querySelectorAll(
             "td.views-field.views-field-field-issue-status"
         );
@@ -64,8 +63,6 @@ const statusCount = {
                 clicker.className = "user-filter";
                 statusDiv.appendChild(clicker);
             }
-
-            statusDiv.className = `user-issue-cnt-${statusIssue.count}`;
             statusesDiv.appendChild(statusDiv);
         });
         return statusesDiv;

@@ -10,8 +10,7 @@ div.usersCount div ,
 div.statusCount div a.user-filter {
   cursor: pointer;
 }
-div.usersCount div.user-issue-cnt-0 ,div.statusCount div
-div.user-issue-cnt-0 {
+div.usersCount div.user-issue-cnt-0{
   background-color: red;
 }
 .usersCount,
