@@ -1,37 +1,7 @@
-class toolbarRowFilterer {
+let src = chrome.runtime.getURL("rowFilterer.js");
+const { rowFilterer } = await import(src);
 
-  addHideCondition(element) {
-    const parentRow = element.closest("tr");
-    if (!parentRow.hasOwnProperty("hideConditions")) {
-      parentRow.hideConditions = new Set();
-    }
-    parentRow.hideConditions.add(this.getElementColumnIndex(element));
-    this.setHideStatus(parentRow);
-  }
-  removeHideCondition(element) {
-    const parentRow = element.closest("tr");
-    if (!parentRow.hasOwnProperty("hideConditions")) {
-      return;
-    }
-    parentRow.hideConditions.delete(this.getElementColumnIndex(element));
-    this.setHideStatus(parentRow);
-  }
-  setHideStatus(element) {
-    if (
-      element.hasOwnProperty("hideConditions") &&
-      element.hideConditions.size > 0
-    ) {
-      element.style.display = "none";
-    } else {
-      element.style.display = "table-row";
-    }
-  }
-
-  getElementColumnIndex(element) {
-    const td = element.closest("td");
-    const tds = Array.from(td.closest("tr").children);
-    return tds.indexOf(td);
-  }
+class toolbarRowFilterer extends rowFilterer {
 
   setUpFilter(displayedElements, filterType, filterValues) {
     if (filterValues === undefined) {
