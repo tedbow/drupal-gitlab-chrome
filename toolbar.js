@@ -20,8 +20,8 @@ const listingToolbar = {
 
     // Add the individual elements to the toolbar.
     customToolbar.appendChild(userCount.createElement());
-    //customToolbar.appendChild(statusCount.createElement());
-    //customToolbar.appendChild(titleFilter.createElement());
+    customToolbar.appendChild(statusCount.createElement());
+    customToolbar.appendChild(titleFilter.createElement());
     issueTable.parentNode.insertBefore(customToolbar, issueTable);
   },
 
