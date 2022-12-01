@@ -1,20 +1,18 @@
-div.userCount div,
-div.statusCount div
+div.toolbar-filter div
 {
   float: left;
   border: 1px;
   border-style: groove;
   padding-right: 10px;
 }
-div.userCount div ,
-div.statusCount div a.user-filter {
+
+div.toolbar-filter div a.filter {
   cursor: pointer;
 }
-div.userCount div.user-issue-cnt-0{
+div.toolbar-filter.userCount div.user-issue-cnt-0{
   background-color: red;
 }
-.userCount,
-.statusCount {
+.toolbar-filter {
   border: 3px blue solid;
   overflow: auto;
 }

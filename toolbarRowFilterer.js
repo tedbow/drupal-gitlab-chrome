@@ -23,7 +23,7 @@ class toolbarRowFilterer extends rowFilterer {
       ];
     }
     const containerDiv = document.createElement("div");
-    containerDiv.className = `${filterType}Count`;
+    containerDiv.className = `${filterType}Count toolbar-filter`;
     filterValues.forEach(
       function (filterValue) {
         let issueInfo = { name: filterValue, count: 0 };
