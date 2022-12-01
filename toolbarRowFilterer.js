@@ -34,6 +34,9 @@ class toolbarRowFilterer extends rowFilterer {
         });
         const filterValueDiv = document.createElement("div");
         filterValueDiv.innerText = `${filterValue}: ${issueInfo.count}`;
+        filterValueDiv.className = `${filterType}-issue-cnt-${issueInfo.count}`;
+        filterValueDiv.setAttribute("issue_cnt", issueInfo.count);
+
         if (issueInfo.count) {
           const clicker = document.createElement("a");
           //clicker.setAttribute('href', '#')
@@ -73,7 +76,6 @@ class toolbarRowFilterer extends rowFilterer {
           filterValueDiv.appendChild(clicker);
         }
 
-        filterValueDiv.className = `${filterType}-issue-cnt-${issueInfo.count}`;
         containerDiv.appendChild(filterValueDiv);
       }.bind(this)
     );
