@@ -10,8 +10,6 @@
   src = chrome.runtime.getURL("merge-request-status.js");
   const { mergeRequestStatus } = await import(src);
 
-  mergeRequestStatus.addColumn();
-
   chrome.storage.sync.get(
     utils.settingDefaults,
     function (items) {
@@ -21,6 +19,7 @@
           if (items.load_pages) {
             multiPage.addPages();
           }
+          mergeRequestStatus.addColumn();
           listingToolbar.create();
           return false;
         }

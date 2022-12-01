@@ -28,12 +28,15 @@ class toolbarRowFilterer extends rowFilterer {
       function (filterValue) {
         let issueInfo = { name: filterValue, count: 0 };
         displayedElements.forEach((field) => {
-          if (field.textContent.includes(filterValue)) {
+          if (this.fieldMatchesFilterValue(field, filterValue)) {
             issueInfo.count++;
           }
         });
         const filterValueDiv = document.createElement("div");
-        filterValueDiv.innerText = `${filterValue}: ${issueInfo.count}`;
+        filterValueDiv.setAttribute("issue_cnt", issueInfo.count);
+        filterValueDiv.innerText =
+          (filterValue.length === 0 ? this.getNoValueLabel() : filterValue) +
+          `: ${issueInfo.count}`;
         if (issueInfo.count) {
           const clicker = document.createElement("a");
           //clicker.setAttribute('href', '#')
@@ -60,7 +63,9 @@ class toolbarRowFilterer extends rowFilterer {
             target.setAttribute("filtered", true);
             displayedElements.forEach(
               function (displayedElement) {
-                if (displayedElement.innerText.includes(filterValue)) {
+                if (
+                  this.fieldMatchesFilterValue(displayedElement, filterValue)
+                ) {
                   this.removeHideCondition(displayedElement);
                 } else {
                   this.addHideCondition(displayedElement);
@@ -78,6 +83,29 @@ class toolbarRowFilterer extends rowFilterer {
       }.bind(this)
     );
     return containerDiv;
+  }
+
+  /**
+   * Gets the label if a field has no value.
+   *
+   * @returns {string}
+   */
+  getNoValueLabel() {
+    return "No value";
+  }
+
+  /**
+   * Determines if a field matches a value.
+   *
+   * @param field
+   * @param filterValue
+   * @returns {boolean}
+   */
+  fieldMatchesFilterValue(field, filterValue) {
+    return (
+      (filterValue.length === 0 && field.textContent.trim().length === 0) ||
+      (filterValue.length !== 0 && field.textContent.includes(filterValue))
+    );
   }
 }
 export { toolbarRowFilterer };
