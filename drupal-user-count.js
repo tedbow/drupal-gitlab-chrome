@@ -21,6 +21,10 @@ class userCountFilter extends toolbarRowFilterer {
         }
         return this.setUpFilter(assignedFields, 'user');
     }
+    getNoValueLabel() {
+        return "Unassigned";
+    }
+
 }
 const userCount = new userCountFilter();
 export { userCount };

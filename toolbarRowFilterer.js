@@ -28,12 +28,13 @@ class toolbarRowFilterer extends rowFilterer {
       function (filterValue) {
         let issueInfo = { name: filterValue, count: 0 };
         displayedElements.forEach((field) => {
-          if (field.textContent.includes(filterValue)) {
+          if (this.fieldMatchesFilterValue(field, filterValue)) {
             issueInfo.count++;
           }
         });
         const filterValueDiv = document.createElement("div");
-        filterValueDiv.innerText = `${filterValue}: ${issueInfo.count}`;
+        filterValueDiv.setAttribute('issue_cnt', issueInfo.count);
+        filterValueDiv.innerText = (filterValue.length === 0 ? this.getNoValueLabel() : filterValue) + `: ${issueInfo.count}`;
         if (issueInfo.count) {
           const clicker = document.createElement("a");
           //clicker.setAttribute('href', '#')
@@ -60,7 +61,7 @@ class toolbarRowFilterer extends rowFilterer {
             target.setAttribute("filtered", true);
             displayedElements.forEach(
               function (displayedElement) {
-                if (displayedElement.innerText.includes(filterValue)) {
+                if (this.fieldMatchesFilterValue(displayedElement, filterValue)) {
                   this.removeHideCondition(displayedElement);
                 } else {
                   this.addHideCondition(displayedElement);
@@ -79,5 +80,13 @@ class toolbarRowFilterer extends rowFilterer {
     );
     return containerDiv;
   }
+
+    getNoValueLabel() {
+        return "No value";
+    }
+
+    fieldMatchesFilterValue(field, filterValue) {
+        return (filterValue.length === 0 && field.textContent.trim().length === 0) || (filterValue.length !== 0 && field.textContent.includes(filterValue));
+    }
 }
 export { toolbarRowFilterer };
