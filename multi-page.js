@@ -24,6 +24,7 @@ const multiPage = {
       return;
     }
     if (pageLinks.length === 0) {
+      viewEl.classList.add("multi-page-all-loaded");
       return;
     }
     const table = viewEl.querySelector("tbody");
