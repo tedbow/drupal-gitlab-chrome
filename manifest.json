@@ -28,7 +28,8 @@
         "drupal-status-count.js",
         "toolbarRowFilterer.js",
         "rowFilterer.js",
-        "drupal-priority-count.js"
+        "drupal-priority-count.js",
+        "mergeRequestFilter.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     }

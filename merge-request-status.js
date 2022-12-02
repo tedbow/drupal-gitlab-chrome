@@ -6,6 +6,7 @@
 import { utils } from "./common.js";
 
 const mergeRequestStatus = {
+  existingStatues: new Set(),
   addColumn: function () {
     // store name elements in array-like object
     const namesFromDOM = document.querySelectorAll(
@@ -21,8 +22,10 @@ const mergeRequestStatus = {
         .then((response) => response.json())
         .then((data) => {
           const tdElement = document.createElement("td");
+          tdElement.classList.add('merge-request-status')
           if (Object.keys(data).length === 0) {
             tdElement.appendChild(document.createTextNode("No"));
+            tdElement.classList.add('merge-request-status-none')
           } else {
             for (const key in data) {
               const anchorLink = document.createElement("a");
@@ -34,6 +37,9 @@ const mergeRequestStatus = {
                   `, ${data[key].user_notes_count} comments`
               );
               anchorLink.appendChild(link);
+              this.existingStatues.add(data[key].merge_status);
+              tdElement.classList.add('merge-request-status-exists')
+              tdElement.classList.add('merge-request-status_' + data[key].merge_status);
               Object.assign(anchorLink, {
                 title: "Merge request #" + data[key].iid,
                 href: data[key].web_url,
