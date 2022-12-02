@@ -12,6 +12,7 @@ const mergeRequestStatus = {
     const namesFromDOM = document.querySelectorAll(
       "tbody .views-field-title a"
     );
+    let columnsAdded = 0;
     for (const nameElement of namesFromDOM) {
       const issueId = utils.getIssueIdFromUrl(nameElement.getAttribute("href"));
 
@@ -50,6 +51,10 @@ const mergeRequestStatus = {
             }
           }
           nameElement.parentNode.parentNode.appendChild(tdElement);
+          columnsAdded++;
+          if (columnsAdded === namesFromDOM.length) {
+            utils.getIssueListViewElement().classList.add('merge-request-column-added');
+          }
         });
     }
     const thElement = document.createElement("TH");
@@ -59,6 +64,9 @@ const mergeRequestStatus = {
     document
       .querySelector("table.project-issue thead tr")
       .appendChild(thElement);
+  },
+  isAdded: function () {
+    return utils.getIssueListViewElement().classList.contains('merge-request-column-added');
   },
 };
 

@@ -6,6 +6,8 @@
   const { multiPage } = await import(src);
   src = chrome.runtime.getURL("toolbar.js");
   const { listingToolbar } = await import(src);
+  src = chrome.runtime.getURL("mergeRequestFilter.js");
+  const { mergeRequestFilter } = await import(src);
 
   src = chrome.runtime.getURL("merge-request-status.js");
   const { mergeRequestStatus } = await import(src);
@@ -29,6 +31,16 @@
           listingToolbar.create();
           mergeRequestStatus.addColumn();
         }
+        const checkMergeRequestColumnInterval = setInterval(function () {
+          const isMultiplePage = document.getElementsByClassName('multi-page-all-loaded');
+          if (
+              mergeRequestStatus.isAdded()
+          ) {
+
+            window.clearInterval(checkMergeRequestColumnInterval);
+            listingToolbar.getToolbarElement().appendChild(mergeRequestFilter.createElement());
+          }
+        }, 500);
         return false;
       }
       return true;
