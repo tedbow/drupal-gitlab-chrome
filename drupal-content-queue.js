@@ -10,21 +10,28 @@
   src = chrome.runtime.getURL("merge-request-status.js");
   const { mergeRequestStatus } = await import(src);
 
-  chrome.storage.sync.get(
-    utils.settingDefaults,
-    function (items) {
-      console.log(items)
-      items.projects.every((project) => {
-        if (document.URL.includes(`issues/search/${project}`)) {
-          if (items.load_pages) {
-            multiPage.addPages();
-          }
-          mergeRequestStatus.addColumn();
+  chrome.storage.sync.get(utils.settingDefaults, function (items) {
+    items.projects.every((project) => {
+      if (document.URL.includes(`issues/search/${project}`)) {
+        if (items.load_pages) {
+          multiPage.addPages();
+          const checkInterval = setInterval(function () {
+            const isMultiplePage = document.getElementsByClassName('multi-page-all-loaded');
+            if (
+                isMultiplePage.length > 0
+            ) {
+              listingToolbar.create();
+              window.clearInterval(checkInterval);
+              mergeRequestStatus.addColumn();
+            }
+          }, 500);
+        } else {
           listingToolbar.create();
-          return false;
+          mergeRequestStatus.addColumn();
         }
-        return true;
-      });
-    }
-  );
+        return false;
+      }
+      return true;
+    });
+  });
 })();

@@ -3,7 +3,10 @@
   "description": "Helper functionality",
   "version": "1.0",
   "manifest_version": 3,
-  "host_permissions": ["https://www.drupal.org/*"],
+  "host_permissions": [
+    "https://www.drupal.org/*",
+    "https://git.drupalcode.org/project/*"
+  ],
   "background": {
     "type": "module",
     "service_worker": "background.js"
@@ -14,6 +17,12 @@
       "matches": ["https://www.drupal.org/project/issues/search/*"],
       "css": ["content-styles.css"],
       "js": ["drupal-content-queue.js"]
+    },
+    {
+      "type": "module",
+      "matches": ["https://git.drupalcode.org/project/*"],
+      "js": ["gitlab.js"],
+      "css": ["gitlab-styles.css"]
     }
   ],
   "web_accessible_resources": [
@@ -32,6 +41,10 @@
         "mergeRequestFilter.js"
       ],
       "matches": ["https://www.drupal.org/*"]
+    },
+    {
+      "resources": ["common.js"],
+      "matches": ["https://git.drupalcode.org/*"]
     }
   ],
   "options_ui": {

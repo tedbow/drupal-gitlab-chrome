@@ -1,0 +1,31 @@
+.project-issue-status-1 {
+  background-color: #fff;
+}
+.project-issue-status-2 {
+  background-color: #c0ffc0;
+}
+.project-issue-status-3,
+.project-issue-status-4,
+.project-issue-status-5,
+.project-issue-status-6 {
+  background-color: #ddf;
+}
+.project-issue-status-7 {
+  background-color: #ffc9c9;
+}
+.project-issue-status-8 {
+  background-color: #ffd;
+}
+.project-issue-status-13 {
+  background-color: #ffe7dd;
+}
+.project-issue-status-14 {
+  background-color: #e7ffdd;
+}
+.project-issue-status-2,
+.project-issue-status-3,
+.project-issue-status-5,
+.project-issue-status-6,
+.project-issue-status-7 {
+  text-decoration: line-through;
+}
