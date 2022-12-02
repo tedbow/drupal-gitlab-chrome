@@ -38,7 +38,7 @@
           ) {
 
             window.clearInterval(checkMergeRequestColumnInterval);
-            listingToolbar.getToolbarElement().appendChild(mergeRequestFilter.createElement());
+            listingToolbar.getElement().insertBefore(mergeRequestFilter.createElement(), document.getElementById('extension-filter'));
           }
         }, 500);
         return false;

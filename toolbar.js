@@ -31,12 +31,12 @@ const listingToolbar = {
   },
 
   removeExisting: function () {
-    const existingToolbar = this.getToolbarElement();
+    const existingToolbar = this.getElement();
     if (existingToolbar) {
       existingToolbar.remove();
     }
   },
-  getToolbarElement: function () {
+  getElement: function () {
     return document.getElementById(this.elementId);
   },
 };
