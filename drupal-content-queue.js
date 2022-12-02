@@ -32,7 +32,6 @@
           mergeRequestStatus.addColumn();
         }
         const checkMergeRequestColumnInterval = setInterval(function () {
-          const isMultiplePage = document.getElementsByClassName('multi-page-all-loaded');
           if (
               mergeRequestStatus.isAdded()
           ) {
