@@ -26,7 +26,7 @@ const mergeRequestStatus = {
           tdElement.classList.add('merge-request-status')
           if (Object.keys(data).length === 0) {
             tdElement.appendChild(document.createTextNode("No"));
-            tdElement.classList.add('merge-request-status-none')
+            tdElement.classList.add('merge-request-status_none');
           } else {
             for (const key in data) {
               const anchorLink = document.createElement("a");

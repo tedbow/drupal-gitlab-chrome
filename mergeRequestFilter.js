@@ -17,6 +17,7 @@ class mergeRequestFilterer extends toolbarRowFilterer {
         const mergeRequestsTds = utils.getIssueListViewElement().querySelectorAll(
             "td.merge-request-status"
         );
+        mergeRequestStatus.existingStatues.add('none');
         return this.setUpFilter(mergeRequestsTds, 'user', mergeRequestStatus.existingStatues);
     }
 

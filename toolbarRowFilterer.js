@@ -64,7 +64,7 @@ class toolbarRowFilterer extends rowFilterer {
             displayedElements.forEach(
               function (displayedElement) {
                 if (
-                  this.fieldMatchesFilterValue(displayedElement,    )
+                  this.fieldMatchesFilterValue(displayedElement, filterValue)
                 ) {
                   this.removeHideCondition(displayedElement);
                 } else {
