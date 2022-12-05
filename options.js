@@ -7,12 +7,18 @@ function save_options() {
     .value.split(/\n/)
     .map((line) => line.trim())
     .filter((n) => n);
+  const auto_tags = document
+      .getElementById("auto_tags")
+      .value.split(/\n/)
+      .map((line) => line.trim())
+      .filter((n) => n);
   const load_pages = document.getElementById("load_pages").checked;
 
   chrome.storage.sync.set(
     {
       projects: projects,
       load_pages: load_pages,
+      auto_tags: auto_tags
     },
     function () {
       // Reset from storage to remove empty lines, if any.
@@ -32,9 +38,18 @@ function restore_options() {
     {
       projects: [],
       load_pages: false,
+      auto_tags: [],
     },
     function (items) {
+      if (items.auto_tags.length === 0) {
+        items.auto_tags = [
+          'Needs tests',
+          'Needs issue summary update',
+          'Accessibility',
+        ];
+      }
       document.getElementById("projects").value = items.projects.join("\n");
+      document.getElementById("auto_tags").value = items.auto_tags.join("\n");
       document.getElementById("load_pages").checked = items.load_pages;
     }
   );
