@@ -25,6 +25,7 @@
     }
     items.projects.every((project) => {
       if (document.URL.includes(`issues/search/${project}`)) {
+        utils.setProject(project);
         if (items.load_pages) {
           multiPage.addPages();
           const checkInterval = setInterval(function () {

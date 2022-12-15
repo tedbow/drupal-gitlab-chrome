@@ -52,7 +52,7 @@ const mergeRequestStatus = {
           }
           rowElement.appendChild(tdElement);
           columnsAdded++;
-          if (columnsAdded === namesFromDOM.length) {
+          if (columnsAdded === rowElements.length) {
             utils
               .getIssueListViewElement()
               .classList.add("merge-request-column-added");

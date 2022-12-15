@@ -46,5 +46,18 @@ const utils = {
     const issueLink = rowElement.querySelector('.views-field-title a');
     return utils.getIssueIdFromUrl(issueLink.getAttribute("href"));
   },
+  gotoNode: function (nid, queryString) {
+    let url = `https://www.drupal.org/project/${this.getProject()}/issues/${nid}`;
+    if (queryString !== undefined) {
+      url += `?${queryString}`;
+    }
+    window.location.href = url;
+  },
+  setProject: function (project) {
+    this.getIssueListViewElement().setAttribute('current_project', project);
+  },
+  getProject: function () {
+    return this.getIssueListViewElement().getAttribute('current_project');
+  }
 };
 export { utils };
