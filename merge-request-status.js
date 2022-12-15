@@ -9,7 +9,7 @@ const mergeRequestStatus = {
   existingStatues: new Set(),
   addColumn: function () {
     // store name elements in array-like object
-    const rowElements = utils.getIssueTableElement().querySelectorAll('tr');
+    const rowElements = utils.getIssueTableElement().querySelectorAll("tr");
     let columnsAdded = 0;
     for (const rowElement of rowElements) {
       const issueId = utils.getNidForRow(rowElement);

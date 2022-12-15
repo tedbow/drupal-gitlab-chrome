@@ -44,7 +44,7 @@ const utils = {
     return this.getIssueListViewElement().querySelector("table.project-issue");
   },
   getNidForRow: function (rowElement) {
-    const issueLink = rowElement.querySelector('.views-field-title a');
+    const issueLink = rowElement.querySelector(".views-field-title a");
     return utils.getIssueIdFromUrl(issueLink.getAttribute("href"));
   },
   gotoNode: function (nid, queryString) {
@@ -55,20 +55,21 @@ const utils = {
     window.location.href = url;
   },
   setProject: function (project) {
-    this.getIssueListViewElement().setAttribute('current_project', project);
+    this.getIssueListViewElement().setAttribute("current_project", project);
   },
   getProject: function () {
-    return this.getIssueListViewElement().getAttribute('current_project');
+    return this.getIssueListViewElement().getAttribute("current_project");
   },
   sleep: function (ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   },
   removeArrayItem: function (theArray, theItem) {
     const index = theArray.indexOf(theItem);
-    if (index > -1) { // only splice array when item is found
+    if (index > -1) {
+      // only splice array when item is found
       theArray.splice(index, 1); // 2nd parameter means remove one item only
     }
     return theArray;
-  }
+  },
 };
 export { utils };
