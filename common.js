@@ -61,7 +61,12 @@ const utils = {
     return this.getIssueListViewElement().getAttribute("current_project");
   },
   sleep: function (ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, this.getRandomInt(ms - 200, ms)));
+  },
+  getRandomInt: function(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
   },
   removeArrayItem: function (theArray, theItem) {
     const index = theArray.indexOf(theItem);

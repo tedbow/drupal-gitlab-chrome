@@ -34,14 +34,23 @@ const bulkActions = {
     });
     this.createColumn();
     const inputDiv = document.createElement("div");
+    const bulkLabel = document.createElement('h3');
+    bulkLabel.innerText = "Bulk actions";
+    inputDiv.appendChild(bulkLabel);
     const table = utils.getIssueTableElement();
     table.append(inputDiv);
     chrome.storage.sync.get(utils.settingDefaults, function (items) {
       const issueTagsDiv = document.createElement("div");
+      const tagsDivLabel = document.createElement('h4');
+      tagsDivLabel.innerText = "Tags";
+      inputDiv.appendChild(tagsDivLabel);
       issueTagsDiv.className = "issueTagsDiv";
       inputDiv.appendChild(issueTagsDiv);
       const commonIssueTags = items.auto_tags;
       commonIssueTags.forEach((tag) => {
+        const tagContainer = document.createElement('div');
+        tagContainer.classList.add('tag-container');
+        issueTagsDiv.appendChild(tagContainer);
         const tagSelect = document.createElement("select");
         tagSelect.name = `bulk-tag-${tag}`;
         tagSelect.id = tagSelect.name;
@@ -50,14 +59,14 @@ const bulkActions = {
         const tagLabel = document.createElement("label");
         tagLabel.setAttribute("for", tagSelect.id);
         tagLabel.innerHTML = tag;
-        issueTagsDiv.appendChild(tagLabel);
+        tagContainer.appendChild(tagLabel);
         ["no-action", "add", "remove"].forEach((option) => {
           const optionElement = document.createElement("option");
           optionElement.text = option;
           optionElement.value = option;
           tagSelect.appendChild(optionElement);
         });
-        issueTagsDiv.appendChild(tagSelect);
+        tagContainer.appendChild(tagSelect);
       });
     });
     const actionButton = document.createElement("button");
@@ -97,6 +106,7 @@ const bulkActions = {
     table.append(actionButton);
   },
   gotoNextNode: function () {
+    utils.sleep(1000);
     chrome.storage.sync.get({ bulk_actions: {} }, function (items) {
       if (items.bulk_actions.hasOwnProperty("nids")) {
         utils.gotoNode(items.bulk_actions.nids[0], "bulk_action=1");

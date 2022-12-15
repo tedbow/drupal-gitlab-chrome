@@ -34,3 +34,7 @@ div.toolbar-filter.userCount div.user-issue-cnt-0 {
   font-size: 15px;
   font-weight: bold;
 }
+
+.tag-container {
+  float: left;
+}
