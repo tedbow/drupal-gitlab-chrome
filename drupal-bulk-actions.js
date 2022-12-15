@@ -22,6 +22,18 @@ const bulkActions = {
         });
     },
     createForm: function () {
+        chrome.storage.sync.get({bulk_actions: {}}, function (items) {
+            if (items.bulk_actions.hasOwnProperty('finish_msg')) {
+                alert(items.bulk_actions.finish_msg);
+                chrome.storage.sync.set(
+                    {
+                        bulk_actions: {},
+                    },
+                    function () {
+                    }
+                );
+            }
+        });
         this.createColumn();
         const inputDiv = document.createElement('div');
         const table = utils.getIssueTableElement();
@@ -69,28 +81,82 @@ const bulkActions = {
                     nids.add(checkbox.value);
                 }
             });
-            chrome.storage.sync.set(
-                {
-                    bulk_actions: {"nids": nids, "tagActions": tagActions},
-                },
-                function () {
-                    utils.gotoNode(nids.values().next().value, 'bulk_action=1')
-                }
-            );
             console.log(tagActions);
             console.log(nids);
+            chrome.storage.sync.set(
+                {
+                    bulk_actions: {
+                        "nids": Array.from(nids.values()),
+                        "tagActions": tagActions,
+                        "return_url": window.location.href,
+                    },
+                },
+                function () {
+                    bulkActions.gotoNextNode()
+                }
+            );
         }
         table.append(actionButton);
     },
-    doBulkAction: function () {
-        const params = new Proxy(new URLSearchParams(window.location.search), {
-            get: (searchParams, prop) => searchParams.get(prop),
+    gotoNextNode: function () {
+        chrome.storage.sync.get({bulk_actions: {}}, function (items) {
+            if (items.bulk_actions.hasOwnProperty('nids')) {
+                utils.gotoNode(items.bulk_actions.nids[0], 'bulk_action=1');
+            }
         });
-        if (!params.has('bulk_action')) {
-            return;
-        }
-        chrome.storage.sync.get({bulk_actions: {"nids": []}}, function (items) {
+    },
+    doBulkAction: function () {
+        const params = new URLSearchParams(window.location.search);
+        chrome.storage.sync.get({bulk_actions: {}}, function (items) {
             const nid = utils.getIssueIdFromUrl(window.location.href);
+            console.log(items.bulk_actions);
+
+            if (!items.bulk_actions.hasOwnProperty('nids')) {
+                if (items.bulk_actions.hasOwnProperty('finish_msg')) {
+                    window.location.href = items.bulk_actions.return_url;
+                    return;
+                }
+                return;
+            }
+            if (!items.bulk_actions.nids.includes(nid)) {
+                const statusMessage = document.querySelector('.messages.status')
+                if (statusMessage === undefined) {
+                    alert("Maybe wrong node 🤔");
+                    return;
+                }
+                bulkActions.gotoNextNode();
+                return;
+            }
+            if (items.bulk_actions.hasOwnProperty('tagActions')) {
+                for (const [tag, action] of Object.entries(items.bulk_actions.tagActions)) {
+                   if (action === 'add') {
+                       issueUtils.addTag(tag);
+                   }
+                   else if (action === 'remove') {
+                       issueUtils.removeTag(tag)
+                   }
+                }
+            }
+            const nids = utils.removeArrayItem(items.bulk_actions.nids, nid);
+            let newBulksActions;
+            if (nids.length === 0) {
+                newBulksActions = {
+                  finish_msg: "Operations complete🎉",
+                  return_url:  items.bulk_actions.return_url,
+                };
+            }
+            else {
+                items.bulk_actions.nids = nids;
+                newBulksActions = items.bulk_actions;
+            }
+            chrome.storage.sync.set(
+                {
+                    bulk_actions: newBulksActions,
+                },
+                function () {
+                    document.getElementById('edit-submit--2').click();
+                }
+            );
         });
     }
 };

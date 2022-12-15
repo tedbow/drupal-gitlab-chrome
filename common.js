@@ -32,6 +32,7 @@ const utils = {
     let parts = url.split("/");
     let lastPart = parts[parts.length - 1];
     parts = lastPart.split("#");
+    parts = parts[0].split("?");
     return parts[0];
   },
   getStatusForId: (id) => {
@@ -47,7 +48,7 @@ const utils = {
     return utils.getIssueIdFromUrl(issueLink.getAttribute("href"));
   },
   gotoNode: function (nid, queryString) {
-    let url = `https://www.drupal.org/project/${this.getProject()}/issues/${nid}`;
+    let url = `https://www.drupal.org/i/${nid}`;
     if (queryString !== undefined) {
       url += `?${queryString}`;
     }
@@ -58,6 +59,16 @@ const utils = {
   },
   getProject: function () {
     return this.getIssueListViewElement().getAttribute('current_project');
+  },
+  sleep: function (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  },
+  removeArrayItem: function (theArray, theItem) {
+    const index = theArray.indexOf(theItem);
+    if (index > -1) { // only splice array when item is found
+      theArray.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    return theArray;
   }
 };
 export { utils };

@@ -1,13 +1,26 @@
 const issueUtils = {
     addTag: function (tag) {
-
         if (this.hasTag(tag)) {
             return;
         }
         const existingTags = this.getExistingTags();
         existingTags.push(tag);
-        this.getTagInput().value = existingTags.join(', ');
+        this.setTags(existingTags);
 
+    },
+    removeTag: function (tag) {
+        if (!this.hasTag(tag)) {
+            return;
+        }
+        const existingTags = this.getExistingTags();
+        const index = existingTags.indexOf(tag);
+        if (index > -1) { // only splice array when item is found
+            existingTags.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        this.setTags(existingTags);
+    },
+    setTags: function (tags) {
+        this.getTagInput().value = tags.join(', ');
     },
     hasTag: function (tag) {
         return this.getExistingTags().includes(tag);
