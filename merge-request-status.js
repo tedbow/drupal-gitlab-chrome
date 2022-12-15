@@ -9,10 +9,12 @@ const mergeRequestStatus = {
   existingStatues: new Set(),
   addColumn: function () {
     // store name elements in array-like object
-    const rowElements = utils.getIssueTableElement().querySelectorAll("tr");
+    const namesFromDOM = document.querySelectorAll(
+      "tbody .views-field-title a"
+    );
     let columnsAdded = 0;
-    for (const rowElement of rowElements) {
-      const issueId = utils.getNidForRow(rowElement);
+    for (const nameElement of namesFromDOM) {
+      const issueId = utils.getIssueIdFromUrl(nameElement.getAttribute("href"));
 
       const address = fetch(
         `https://git.drupalcode.org/api/v4/merge_requests?state=opened&scope=all&in=title&search=` +
@@ -50,9 +52,9 @@ const mergeRequestStatus = {
               tdElement.appendChild(document.createElement("br"));
             }
           }
-          rowElement.appendChild(tdElement);
+          nameElement.parentNode.parentNode.appendChild(tdElement);
           columnsAdded++;
-          if (columnsAdded === rowElements.length) {
+          if (columnsAdded === namesFromDOM.length) {
             utils
               .getIssueListViewElement()
               .classList.add("merge-request-column-added");
