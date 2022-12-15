@@ -1,4 +1,5 @@
 import { utils } from "./common.js";
+import {issueUtils} from "./issue-node-common.js";
 
 const issueTags = {
 
@@ -10,12 +11,6 @@ addButtons: function () {
     return document.getElementById(createIdForTag(tag));
   }
   chrome.storage.sync.get(utils.settingDefaults, function (items) {
-    const assignedInput = document.getElementById(
-        "edit-taxonomy-vocabulary-9-und"
-    );
-    const assignedText = assignedInput.value;
-    const existingTags = assignedText.split(", ");
-
     const issueTagsDiv = document.createElement("div");
     issueTagsDiv.className = "issueTagsDiv";
     const commonIssueTags = items.auto_tags;
@@ -24,32 +19,24 @@ addButtons: function () {
       tagDiv.className = "tagDiv";
       tagDiv.innerText = `${tag}`;
       tagDiv.id = createIdForTag(tag);
-      if (existingTags.includes(`${tag}`)) {
+      if (issueUtils.hasTag(tag)) {
         tagDiv.setAttribute("disabled", "disabled");
       }
       issueTagsDiv.append(tagDiv);
     });
-    const issueTagsInputField = document.querySelector(
-        "#edit-taxonomy-vocabulary-9-und"
-    );
+    const issueTagsInputField = issueUtils.getTagInput();
     issueTagsInputField.parentNode.append(issueTagsInputField, issueTagsDiv);
 
     commonIssueTags.forEach((tag) => {
       getElementForTag(tag).addEventListener("click", function () {
-        const assignedText = assignedInput.value;
-        let tagsAdded =
-            (assignedText !== "" ? `${assignedText}, ` : "") + `${tag}`;
+        issueUtils.addTag(tag)
         getElementForTag(tag).setAttribute("disabled", "disabled");
-        document.getElementById("edit-taxonomy-vocabulary-9-und").value =
-            tagsAdded;
       });
     });
 
-    document
-        .getElementById("edit-taxonomy-vocabulary-9-und")
+    issueTagsInputField
         .addEventListener("input", function (event) {
-          const assignedText = assignedInput.value;
-          const existingTags = assignedText.split(",").map((tag) => tag.trim());
+          const existingTags = issueUtils.getExistingTags();
           commonIssueTags.forEach((tag) => {
             if (!existingTags.includes(`${tag}`)) {
               getElementForTag(tag).removeAttribute("disabled");

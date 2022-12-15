@@ -44,6 +44,7 @@
     {
       "resources": [
         "common.js",
+        "issue-node-common.js",
         "drupal-user-count.js",
         "dynamic-filter-script.js",
         "merge-request-status.js",
