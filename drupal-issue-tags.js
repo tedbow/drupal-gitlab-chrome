@@ -1,7 +1,8 @@
-(async () => {
-  const src = chrome.runtime.getURL("common.js");
-  const { utils } = await import(src);
+import { utils } from "./common.js";
 
+const issueTags = {
+
+addButtons: function () {
   function createIdForTag(tag) {
     return ("tag-button-" + tag.replace(/\W/g, "-")).toLowerCase();
   }
@@ -10,7 +11,7 @@
   }
   chrome.storage.sync.get(utils.settingDefaults, function (items) {
     const assignedInput = document.getElementById(
-      "edit-taxonomy-vocabulary-9-und"
+        "edit-taxonomy-vocabulary-9-und"
     );
     const assignedText = assignedInput.value;
     const existingTags = assignedText.split(", ");
@@ -29,7 +30,7 @@
       issueTagsDiv.append(tagDiv);
     });
     const issueTagsInputField = document.querySelector(
-      "#edit-taxonomy-vocabulary-9-und"
+        "#edit-taxonomy-vocabulary-9-und"
     );
     issueTagsInputField.parentNode.append(issueTagsInputField, issueTagsDiv);
 
@@ -37,23 +38,26 @@
       getElementForTag(tag).addEventListener("click", function () {
         const assignedText = assignedInput.value;
         let tagsAdded =
-          (assignedText !== "" ? `${assignedText}, ` : "") + `${tag}`;
+            (assignedText !== "" ? `${assignedText}, ` : "") + `${tag}`;
         getElementForTag(tag).setAttribute("disabled", "disabled");
         document.getElementById("edit-taxonomy-vocabulary-9-und").value =
-          tagsAdded;
+            tagsAdded;
       });
     });
 
     document
-      .getElementById("edit-taxonomy-vocabulary-9-und")
-      .addEventListener("input", function (event) {
-        const assignedText = assignedInput.value;
-        const existingTags = assignedText.split(",").map((tag) => tag.trim());
-        commonIssueTags.forEach((tag) => {
-          if (!existingTags.includes(`${tag}`)) {
-            getElementForTag(tag).removeAttribute("disabled");
-          }
+        .getElementById("edit-taxonomy-vocabulary-9-und")
+        .addEventListener("input", function (event) {
+          const assignedText = assignedInput.value;
+          const existingTags = assignedText.split(",").map((tag) => tag.trim());
+          commonIssueTags.forEach((tag) => {
+            if (!existingTags.includes(`${tag}`)) {
+              getElementForTag(tag).removeAttribute("disabled");
+            }
+          });
         });
-      });
   });
-})();
+}
+};
+  export { issueTags };
+
