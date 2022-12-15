@@ -33,16 +33,17 @@
               "multi-page-all-loaded"
             );
             if (isMultiplePage.length > 0) {
+              bulkActions.createForm();
               listingToolbar.create();
               window.clearInterval(checkInterval);
               mergeRequestStatus.addColumn();
-              bulkActions.createForm();
+
             }
           }, 500);
         } else {
+          bulkActions.createForm();
           listingToolbar.create();
           mergeRequestStatus.addColumn();
-          bulkActions.createForm();
         }
         const checkMergeRequestColumnInterval = setInterval(function () {
           if (mergeRequestStatus.isAdded()) {
