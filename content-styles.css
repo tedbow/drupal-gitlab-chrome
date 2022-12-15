@@ -37,4 +37,9 @@ div.toolbar-filter.userCount div.user-issue-cnt-0 {
 
 .tag-container {
   float: left;
+  padding-right: 10px;
+  border-right: 5px solid;
+}
+.bulk-inputs {
+  overflow: auto;
 }

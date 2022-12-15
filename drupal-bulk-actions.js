@@ -38,12 +38,13 @@ const bulkActions = {
     bulkLabel.innerText = "Bulk actions";
     inputDiv.appendChild(bulkLabel);
     const table = utils.getIssueTableElement();
-    table.append(inputDiv);
+    table.parentNode.append(inputDiv);
     chrome.storage.sync.get(utils.settingDefaults, function (items) {
       const issueTagsDiv = document.createElement("div");
       const tagsDivLabel = document.createElement('h4');
       tagsDivLabel.innerText = "Tags";
       inputDiv.appendChild(tagsDivLabel);
+      inputDiv.classList.add('bulk-inputs');
       issueTagsDiv.className = "issueTagsDiv";
       inputDiv.appendChild(issueTagsDiv);
       const commonIssueTags = items.auto_tags;
@@ -103,7 +104,7 @@ const bulkActions = {
         }
       );
     };
-    table.append(actionButton);
+    table.parentNode.append(actionButton);
   },
   gotoNextNode: function () {
     utils.sleep(1000);
