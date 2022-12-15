@@ -8,6 +8,8 @@
   const { listingToolbar } = await import(src);
   src = chrome.runtime.getURL("mergeRequestFilter.js");
   const { mergeRequestFilter } = await import(src);
+  src = chrome.runtime.getURL("drupal-bulk-actions.js");
+  const { bulkActions } = await import(src);
 
   src = chrome.runtime.getURL("merge-request-status.js");
   const { mergeRequestStatus } = await import(src);
@@ -33,11 +35,13 @@
               listingToolbar.create();
               window.clearInterval(checkInterval);
               mergeRequestStatus.addColumn();
+              bulkActions.createForm();
             }
           }, 500);
         } else {
           listingToolbar.create();
           mergeRequestStatus.addColumn();
+          bulkActions.createForm();
         }
         const checkMergeRequestColumnInterval = setInterval(function () {
           if (mergeRequestStatus.isAdded()) {
@@ -50,6 +54,7 @@
               );
           }
         }, 500);
+        // We have matched project so we can stop iterating.
         return false;
       }
       return true;

@@ -42,5 +42,9 @@ const utils = {
   getIssueTableElement: function () {
     return this.getIssueListViewElement().querySelector("table.project-issue");
   },
+  getNidForRow: function (rowElement) {
+    const issueLink = rowElement.querySelector('.views-field-title a');
+    return utils.getIssueIdFromUrl(issueLink.getAttribute("href"));
+  },
 };
 export { utils };

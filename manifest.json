@@ -48,7 +48,8 @@
         "rowFilterer.js",
         "drupal-priority-count.js",
         "mergeRequestFilter.js",
-        "drupal-component-count.js"
+        "drupal-component-count.js",
+        "drupal-bulk-actions.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },
