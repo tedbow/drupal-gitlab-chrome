@@ -32,6 +32,7 @@ const utils = {
     let parts = url.split("/");
     let lastPart = parts[parts.length - 1];
     parts = lastPart.split("#");
+    parts = parts[0].split("?");
     return parts[0];
   },
   getStatusForId: (id) => {
@@ -41,6 +42,39 @@ const utils = {
   },
   getIssueTableElement: function () {
     return this.getIssueListViewElement().querySelector("table.project-issue");
+  },
+  getNidForRow: function (rowElement) {
+    const issueLink = rowElement.querySelector(".views-field-title a");
+    return utils.getIssueIdFromUrl(issueLink.getAttribute("href"));
+  },
+  gotoNode: function (nid, queryString) {
+    let url = `https://www.drupal.org/i/${nid}`;
+    if (queryString !== undefined) {
+      url += `?${queryString}`;
+    }
+    window.location.href = url;
+  },
+  setProject: function (project) {
+    this.getIssueListViewElement().setAttribute("current_project", project);
+  },
+  getProject: function () {
+    return this.getIssueListViewElement().getAttribute("current_project");
+  },
+  sleep: function (ms) {
+    return new Promise((resolve) => setTimeout(resolve, this.getRandomInt(ms - 200, ms)));
+  },
+  getRandomInt: function(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+  },
+  removeArrayItem: function (theArray, theItem) {
+    const index = theArray.indexOf(theItem);
+    if (index > -1) {
+      // only splice array when item is found
+      theArray.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    return theArray;
   },
 };
 export { utils };

@@ -20,6 +20,12 @@
     },
     {
       "type": "module",
+      "matches": ["https://www.drupal.org/project/*/issues/*"],
+      "css": ["content-styles.css"],
+      "js": ["drupal-issue-node.js"]
+    },
+    {
+      "type": "module",
       "matches": ["https://git.drupalcode.org/project/*"],
       "js": ["gitlab.js"],
       "css": ["gitlab-styles.css"]
@@ -38,6 +44,7 @@
     {
       "resources": [
         "common.js",
+        "issue-node-common.js",
         "drupal-user-count.js",
         "dynamic-filter-script.js",
         "merge-request-status.js",
@@ -48,7 +55,9 @@
         "rowFilterer.js",
         "drupal-priority-count.js",
         "mergeRequestFilter.js",
-        "drupal-component-count.js"
+        "drupal-component-count.js",
+        "drupal-bulk-actions.js",
+        "drupal-issue-tags.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },

@@ -8,6 +8,8 @@
   const { listingToolbar } = await import(src);
   src = chrome.runtime.getURL("mergeRequestFilter.js");
   const { mergeRequestFilter } = await import(src);
+  src = chrome.runtime.getURL("drupal-bulk-actions.js");
+  const { bulkActions } = await import(src);
 
   src = chrome.runtime.getURL("merge-request-status.js");
   const { mergeRequestStatus } = await import(src);
@@ -23,6 +25,7 @@
     }
     items.projects.every((project) => {
       if (document.URL.includes(`issues/search/${project}`)) {
+        utils.setProject(project);
         if (items.load_pages) {
           multiPage.addPages();
           const checkInterval = setInterval(function () {
@@ -30,12 +33,15 @@
               "multi-page-all-loaded"
             );
             if (isMultiplePage.length > 0) {
+              bulkActions.createForm();
               listingToolbar.create();
               window.clearInterval(checkInterval);
               mergeRequestStatus.addColumn();
+
             }
           }, 500);
         } else {
+          bulkActions.createForm();
           listingToolbar.create();
           mergeRequestStatus.addColumn();
         }
@@ -50,6 +56,7 @@
               );
           }
         }, 500);
+        // We have matched project so we can stop iterating.
         return false;
       }
       return true;
