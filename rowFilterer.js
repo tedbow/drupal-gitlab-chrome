@@ -24,6 +24,8 @@ class rowFilterer {
       element.hideConditions.size > 0
     ) {
       element.style.display = "none";
+      // Automatically uncheck hidden checkboxes.
+      element.querySelectorAll("input[type='checkbox']").forEach(checkbox => checkbox.checked = false);
     } else {
       element.style.display = "table-row";
     }
