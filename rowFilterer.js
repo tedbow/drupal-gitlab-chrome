@@ -8,7 +8,7 @@ class rowFilterer {
       parentRow.hideConditions = new Set();
     }
     parentRow.hideConditions.add(this.getElementColumnIndex(element));
-    this.setHideStatus(parentRow);
+    rowFilterer.setHideStatus(parentRow);
   }
   removeHideCondition(element) {
     const parentRow = element.closest("tr");
@@ -16,9 +16,9 @@ class rowFilterer {
       return;
     }
     parentRow.hideConditions.delete(this.getElementColumnIndex(element));
-    this.setHideStatus(parentRow);
+    rowFilterer.setHideStatus(parentRow);
   }
-  setHideStatus(element) {
+  static setHideStatus(element) {
     if (
       element.hasOwnProperty("hideConditions") &&
       element.hideConditions.size > 0

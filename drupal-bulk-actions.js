@@ -1,11 +1,28 @@
 import { utils } from "./common.js";
 import { issueUtils } from "./issue-node-common.js";
+import {rowFilterer} from "./rowFilterer.js";
 
 const bulkActions = {
   createColumn: function () {
     const table = utils.getIssueTableElement();
     const headColumn = document.createElement("th");
-    headColumn.innerText = "🛠";
+    const checkAll = document.createElement('input');
+    checkAll.type = "checkbox";
+    checkAll.onclick = function (event) {
+      const nidCheckboxes = document.querySelectorAll(".bulk-nid-select");
+      rowFilterer
+      if (event.target.checked) {
+        nidCheckboxes.forEach(checkbox => {
+          checkbox.checked = true
+          // Set the hide status to uncheck the checkbox if hidden.
+          rowFilterer.setHideStatus(checkbox.closest('tr'));
+        });
+      }
+      else {
+        nidCheckboxes.forEach(checkbox => checkbox.checked = false);
+      }
+    }
+    headColumn.appendChild(checkAll);
     const headRow = table.querySelector("thead tr");
     headRow.insertBefore(headColumn, headRow.querySelector("th"));
     table.querySelectorAll("tbody tr").forEach((row) => {
