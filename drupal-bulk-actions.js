@@ -1,27 +1,26 @@
 import { utils } from "./common.js";
 import { issueUtils } from "./issue-node-common.js";
-import {rowFilterer} from "./rowFilterer.js";
+import { rowFilterer } from "./rowFilterer.js";
 
 const bulkActions = {
   createColumn: function () {
     const table = utils.getIssueTableElement();
     const headColumn = document.createElement("th");
-    const checkAll = document.createElement('input');
+    const checkAll = document.createElement("input");
     checkAll.type = "checkbox";
     checkAll.onclick = function (event) {
       const nidCheckboxes = document.querySelectorAll(".bulk-nid-select");
-      rowFilterer
+      rowFilterer;
       if (event.target.checked) {
-        nidCheckboxes.forEach(checkbox => {
-          checkbox.checked = true
+        nidCheckboxes.forEach((checkbox) => {
+          checkbox.checked = true;
           // Set the hide status to uncheck the checkbox if hidden.
-          rowFilterer.setHideStatus(checkbox.closest('tr'));
+          rowFilterer.setHideStatus(checkbox.closest("tr"));
         });
+      } else {
+        nidCheckboxes.forEach((checkbox) => (checkbox.checked = false));
       }
-      else {
-        nidCheckboxes.forEach(checkbox => checkbox.checked = false);
-      }
-    }
+    };
     headColumn.appendChild(checkAll);
     const headRow = table.querySelector("thead tr");
     headRow.insertBefore(headColumn, headRow.querySelector("th"));
@@ -51,23 +50,23 @@ const bulkActions = {
     });
     this.createColumn();
     const inputDiv = document.createElement("div");
-    const bulkLabel = document.createElement('h3');
+    const bulkLabel = document.createElement("h3");
     bulkLabel.innerText = "Bulk actions";
     inputDiv.appendChild(bulkLabel);
     const table = utils.getIssueTableElement();
     table.parentNode.append(inputDiv);
     chrome.storage.sync.get(utils.settingDefaults, function (items) {
       const issueTagsDiv = document.createElement("div");
-      const tagsDivLabel = document.createElement('h4');
+      const tagsDivLabel = document.createElement("h4");
       tagsDivLabel.innerText = "Tags";
       inputDiv.appendChild(tagsDivLabel);
-      inputDiv.classList.add('bulk-inputs');
+      inputDiv.classList.add("bulk-inputs");
       issueTagsDiv.className = "issueTagsDiv";
       inputDiv.appendChild(issueTagsDiv);
       const commonIssueTags = items.auto_tags;
       commonIssueTags.forEach((tag) => {
-        const tagContainer = document.createElement('div');
-        tagContainer.classList.add('tag-container');
+        const tagContainer = document.createElement("div");
+        tagContainer.classList.add("tag-container");
         issueTagsDiv.appendChild(tagContainer);
         const tagSelect = document.createElement("select");
         tagSelect.name = `bulk-tag-${tag}`;

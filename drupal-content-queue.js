@@ -37,7 +37,6 @@
               listingToolbar.create();
               window.clearInterval(checkInterval);
               mergeRequestStatus.addColumn();
-
             }
           }, 500);
         } else {
