@@ -58,12 +58,21 @@ const utils = {
     this.getIssueListViewElement().setAttribute("current_project", project);
   },
   getProject: function () {
-    return this.getIssueListViewElement().getAttribute("current_project");
+    const viewsElement = this.getIssueListViewElement();
+    if (viewsElement !== null && viewsElement !== undefined) {
+      return viewsElement.getAttribute("current_project");
+    }
+    let url = document.URL;
+    url = url.replace("https://www.drupal.org/project/", "");
+    const parts = url.split("/");
+    return parts[0];
   },
   sleep: function (ms) {
-    return new Promise((resolve) => setTimeout(resolve, this.getRandomInt(ms - 200, ms)));
+    return new Promise((resolve) =>
+      setTimeout(resolve, this.getRandomInt(ms - 200, ms))
+    );
   },
-  getRandomInt: function(min, max) {
+  getRandomInt: function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive

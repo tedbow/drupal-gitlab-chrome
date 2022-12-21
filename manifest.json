@@ -57,7 +57,8 @@
         "mergeRequestFilter.js",
         "drupal-component-count.js",
         "drupal-bulk-actions.js",
-        "drupal-issue-tags.js"
+        "drupal-issue-tags.js",
+        "drupal-merge-tests.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },
