@@ -155,6 +155,10 @@ const bulkActions = {
         }
       );
     };
+    const tabWarning = document.createElement("h2");
+    tabWarning.innerText =
+      "⚠️⚠️️ Warning do not interact with any tabs after you hit this button ⚠️⚠️️";
+    table.parentNode.append(tabWarning);
     table.parentNode.append(actionButton);
   },
   gotoNextNode: function () {
