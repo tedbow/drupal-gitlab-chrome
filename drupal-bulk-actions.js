@@ -86,10 +86,39 @@ const bulkActions = {
         tagContainer.appendChild(tagSelect);
       });
     });
+    // Create drop-down for versions
+    const issueVersionDiv = document.createElement("div");
+    const versionDivLabel = document.createElement("h4");
+    versionDivLabel.innerText = "Version select";
+    inputDiv.appendChild(versionDivLabel);
+    issueVersionDiv.className = "issueVersionDiv";
+    inputDiv.appendChild(issueVersionDiv);
+    //issueVersionDiv.innerText = '😜';
+    const versionSelect = document.createElement("select");
+    issueVersionDiv.append(versionSelect);
+    versionSelect.name = `bulk-version`;
+    versionSelect.id = "bulk-version";
+    const existingVersionSelect = document.getElementById("edit-version");
+    const noChangeOpt = document.createElement("option");
+    noChangeOpt.value = "no-action";
+    noChangeOpt.innerHTML = "no-action";
+    versionSelect.appendChild(noChangeOpt);
+    Array.from(existingVersionSelect.options).forEach((option) => {
+      const version = option.value;
+      if (!version.endsWith("-dev")) {
+        return;
+      }
+      const opt = document.createElement("option");
+      opt.value = version;
+      opt.innerHTML = version;
+      versionSelect.appendChild(opt);
+    });
+
     const actionButton = document.createElement("button");
     actionButton.value = "bulk_action";
     actionButton.innerText = "Do it";
     actionButton.onclick = function () {
+      // Find all selected tags.
       const tagActions = {};
       document.querySelectorAll(".bulk-tag").forEach((tagSelect) => {
         if (tagSelect.value === "no-action") {
@@ -98,6 +127,11 @@ const bulkActions = {
         const tag = tagSelect.getAttribute("bulk_tag");
         tagActions[tag] = tagSelect.value;
       });
+
+      // Find selected version.
+      const versionAction = document.getElementById("bulk-version").value;
+
+      // Find all selected nodes.
       const nidCheckBoxes = document.querySelectorAll(".bulk-nid-select");
       const nids = new Set();
       nidCheckBoxes.forEach((checkbox) => {
@@ -112,6 +146,7 @@ const bulkActions = {
           bulk_actions: {
             nids: Array.from(nids.values()),
             tagActions: tagActions,
+            versionAction: versionAction,
             return_url: window.location.href,
           },
         },
@@ -152,6 +187,8 @@ const bulkActions = {
         bulkActions.gotoNextNode();
         return;
       }
+
+      // Apply tag changes if any.
       if (items.bulk_actions.hasOwnProperty("tagActions")) {
         for (const [tag, action] of Object.entries(
           items.bulk_actions.tagActions
@@ -161,6 +198,15 @@ const bulkActions = {
           } else if (action === "remove") {
             issueUtils.removeTag(tag);
           }
+        }
+      }
+
+      // Set version.
+      if (items.bulk_actions.hasOwnProperty("versionAction")) {
+        const updateVersion = items.bulk_actions.versionAction;
+        if (updateVersion !== "no-action") {
+          document.getElementById("edit-field-issue-version-und").value =
+            updateVersion;
         }
       }
       const nids = utils.removeArrayItem(items.bulk_actions.nids, nid);
