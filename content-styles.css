@@ -43,3 +43,6 @@ div.toolbar-filter.userCount div.user-issue-cnt-0 {
 .bulk-inputs {
   overflow: auto;
 }
+.issueCollectDiv textarea{
+  display: block;
+}

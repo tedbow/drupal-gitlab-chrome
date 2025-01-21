@@ -11,6 +11,8 @@
   src = chrome.runtime.getURL("drupal-bulk-actions.js");
   const { bulkActions } = await import(src);
 
+  src = chrome.runtime.getURL("drupal-collect-issue-info.js");
+  const { issueCollect } = await import(src);
   src = chrome.runtime.getURL("merge-request-status.js");
   const { mergeRequestStatus } = await import(src);
 
@@ -44,6 +46,7 @@
           listingToolbar.create();
           mergeRequestStatus.addColumn();
         }
+        issueCollect.createForm();
         const checkMergeRequestColumnInterval = setInterval(function () {
           if (mergeRequestStatus.isAdded()) {
             window.clearInterval(checkMergeRequestColumnInterval);

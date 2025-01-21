@@ -58,7 +58,8 @@
         "drupal-component-count.js",
         "drupal-bulk-actions.js",
         "drupal-issue-tags.js",
-        "drupal-merge-tests.js"
+        "drupal-merge-tests.js",
+        "drupal-collect-issue-info.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },
