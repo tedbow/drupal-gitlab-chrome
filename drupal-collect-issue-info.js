@@ -22,34 +22,7 @@ const issueCollect = {
    * Handles displaying previously collected results if returning from collection
    */
   createForm: function () {
-    // Check if we're returning from a completed collection process
-    chrome.storage.sync.get({ collect_issues: {} }, function (items) {
-      if (items.collect_issues.hasOwnProperty("finish_msg")) {
-        // Format and display collection results
-        let textValue = '';
-        if (items.collect_issues.results && Array.isArray(items.collect_issues.results)) {
-          items.collect_issues.results.forEach(function (result) {
-            textValue += result.join(',');
-            textValue += "\n";
-          });
-        }
-        const resultElement = document.getElementById('collect-results');
-        if (resultElement) {
-          resultElement.innerText = textValue;
-        }
-        
-        // Alert user about completion and clear the collection state
-        alert(items.collect_issues.finish_msg);
-        chrome.storage.sync.set(
-          {
-            collect_issues: {},
-          },
-          function () {}
-        );
-      }
-    });
-
-    // Create the collapsible UI container
+    // Create the form first so elements are available
     const inputDetails = document.createElement("details");
     const collectLabel = document.createElement("summary");
     collectLabel.innerText = "Get Issue info";
@@ -91,6 +64,7 @@ const issueCollect = {
     const resultTextArea = document.createElement("textarea");
     resultTextArea.name = `collect-results`;
     resultTextArea.id = "collect-results";
+    resultTextArea.rows = 10; // Make results textarea taller
     issueCollectDiv.append(resultTextArea);
     
     // Add the form to the page
@@ -118,7 +92,59 @@ const issueCollect = {
       );
     };
     inputDetails.appendChild(actionButton);
+    
+    // Check if we're returning from a completed collection process
+    chrome.storage.sync.get({ collect_issues: {} }, function (items) {
+      if (items.collect_issues.hasOwnProperty("finish_msg")) {
+        // Automatically open the form
+        inputDetails.open = true;
+        
+        // Format and display collection results
+        let textValue = '';
+        if (items.collect_issues.results && Array.isArray(items.collect_issues.results)) {
+          items.collect_issues.results.forEach(function (result) {
+            textValue += result.join(',');
+            textValue += "\n";
+          });
+        }
+        
+        // Create status message in red above results
+        const statusMessage = document.createElement('div');
+        statusMessage.innerText = items.collect_issues.finish_msg;
+        statusMessage.style.color = '#cc0000'; // Drupal red
+        statusMessage.style.fontWeight = 'bold';
+        statusMessage.style.padding = '0.5rem 0';
+        statusMessage.style.marginBottom = '0.5rem';
+        
+        // Add the message before the results textarea
+        const collectResultsLabel = document.getElementById('collect-results').previousElementSibling;
+        if (collectResultsLabel) {
+          collectResultsLabel.after(statusMessage);
+        }
+        
+        // Set the result text
+        const resultElement = document.getElementById('collect-results');
+        if (resultElement) {
+          resultElement.value = textValue;
+          
+          // Set focus on the result textarea and scroll into view
+          setTimeout(() => {
+            resultElement.focus();
+            resultElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 500);
+        }
+        
+        // Clear the collection state
+        chrome.storage.sync.set(
+          {
+            collect_issues: {},
+          },
+          function () {}
+        );
+      }
+    });
   },
+  
   /**
    * Navigate to the next URL in the collection queue
    * Adds a small delay to prevent rate limiting
@@ -144,6 +170,7 @@ const issueCollect = {
       .map((line) => line.trim())
       .filter((n) => n);
   },
+  
   /**
    * Performs data collection on the current issue page
    * This runs automatically when navigating to an issue page in the collection queue
@@ -205,7 +232,7 @@ const issueCollect = {
       if (urls.length === 0) {
         // If no more URLs to process, prepare completion state
         newBulksActions = {
-          finish_msg: "Operations complete🎉",
+          finish_msg: "✅ Collection complete! Processed " + items.collect_issues.results.length + " issue pages",
           return_url: items.collect_issues.return_url,
           results: items.collect_issues.results || []
         };
