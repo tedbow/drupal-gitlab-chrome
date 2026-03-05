@@ -10,28 +10,30 @@
  * stay in sync with what the text format actually allows.
  */
 const tagsPlugin = {
-  FALLBACK_TAGS: ["blockquote", "code", "del", "em", "h2", "h3", "h4", "strong"],
+  FALLBACK_TAGS: ["blockquote", "code", "del", "em", "h2", "h3", "h4", "li", "ol", "strong", "ul"],
 
   /**
-   * Extracts allowed tag names from the BUEditor settings on the page.
-   * Falls back to a hardcoded list if the settings aren't available.
+   * Extracts allowed tag names from the BUEditor settings on the page,
+   * always merged with the base tag list (covers js:-action toolbar buttons
+   * like <ul>/<ol> whose patterns aren't simple <tag>%TEXT%</tag> wrappers).
+   * Falls back to the base list entirely if BUE settings aren't available.
    */
   getTagsFromPage: function () {
     try {
       const bue = window.Drupal && Drupal.settings && Drupal.settings.BUE;
-      if (!bue) return this.FALLBACK_TAGS;
-      const tags = new Set();
-      Object.values(bue.templates || {}).forEach((template) => {
-        (template.buttons || []).forEach((button) => {
-          const content = button[1] || "";
-          // Extract tag names from patterns like <strong>%TEXT%</strong>
-          const matches = content.matchAll(/<([a-z][a-z0-9]*)[\s>]/gi);
-          for (const m of matches) {
-            tags.add(m[1].toLowerCase());
-          }
+      const tags = new Set(this.FALLBACK_TAGS);
+      if (bue) {
+        Object.values(bue.templates || {}).forEach((template) => {
+          (template.buttons || []).forEach((button) => {
+            const content = button[1] || "";
+            const matches = content.matchAll(/<([a-z][a-z0-9]*)[\s>]/gi);
+            for (const m of matches) {
+              tags.add(m[1].toLowerCase());
+            }
+          });
         });
-      });
-      return tags.size > 0 ? Array.from(tags).sort() : this.FALLBACK_TAGS;
+      }
+      return Array.from(tags).sort();
     } catch (e) {
       return this.FALLBACK_TAGS;
     }
@@ -50,27 +52,43 @@ const tagsPlugin = {
   },
 
   /**
-   * Inserts <tag></tag> replacing the partial <tagprefix, placing the cursor
-   * between the opening and closing tags. If text is selected, wraps it.
+   * Returns the full insertion string and cursor offset for a given tag.
+   * List tags (ul/ol) are scaffolded with an inner <li></li>.
+   */
+  buildInsertion: function (tag, selectedText) {
+    if (tag === "ul" || tag === "ol") {
+      const inner = selectedText
+        ? selectedText.split("\n").map((line) => `  <li>${line}</li>`).join("\n")
+        : `  <li></li>`;
+      const inserted = `<${tag}>\n${inner}\n</${tag}>`;
+      // Cursor inside the first <li>
+      const cursorOffset = `<${tag}>\n  <li>`.length;
+      return { inserted, cursorOffset };
+    }
+    const inserted = `<${tag}>${selectedText}</${tag}>`;
+    const cursorOffset = `<${tag}>`.length + selectedText.length;
+    return { inserted, cursorOffset };
+  },
+
+  /**
+   * Inserts the tag snippet replacing the partial <tagprefix, placing the
+   * cursor appropriately. If text is selected, wraps it.
    */
   applyTag: function (textarea, tag) {
     const value = textarea.value;
     const selStart = textarea.selectionStart;
     const selEnd = textarea.selectionEnd;
 
-    // Find where the opening < is (just before cursor)
     const textBefore = value.slice(0, selStart);
     const openBracketPos = textBefore.lastIndexOf("<");
 
     const selectedText = value.slice(selStart, selEnd);
     const before = value.slice(0, openBracketPos);
     const after = value.slice(selEnd);
-    const inserted = `<${tag}>${selectedText}</${tag}>`;
+    const { inserted, cursorOffset } = this.buildInsertion(tag, selectedText);
 
     textarea.value = before + inserted + after;
-
-    // Place cursor between opening and closing tag (after selected text)
-    const cursorPos = openBracketPos + `<${tag}>`.length + selectedText.length;
+    const cursorPos = openBracketPos + cursorOffset;
     textarea.setSelectionRange(cursorPos, cursorPos);
     textarea.focus();
   },
