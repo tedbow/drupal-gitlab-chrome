@@ -52,7 +52,7 @@
         assigneeSpan.textContent += 'Unassigned';
       }
       // Insert at the top of the page (before the MR title)
-      const mrTitle = document.querySelector('.merge-request-details .title, .merge-request-title');
+      const mrTitle = document.querySelector('.detail-page-header .title');
       if (mrTitle && mrTitle.parentNode) {
         mrTitle.parentNode.insertBefore(infoDiv, mrTitle);
       } else {
