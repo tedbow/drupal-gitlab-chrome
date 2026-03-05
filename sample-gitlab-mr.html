@@ -1,0 +1,666 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html class="gl-system ui-indigo with-top-bar with-header application-chrome page-with-panels with-gl-container-queries " lang="en">
+<head prefix="og: http://ogp.me/ns#">
+<meta charset="utf-8">
+<meta content="IE=edge" http-equiv="X-UA-Compatible">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Add langcode to error metadata in API responses (!660) · Merge requests · project / canvas · GitLab</title>
+<script>
+//<![CDATA[
+window.gon={};gon.api_version="v4";gon.default_avatar_url="https://git.drupalcode.org/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";gon.max_file_size=10;gon.asset_host=null;gon.webpack_public_path="/assets/webpack/";gon.relative_url_root="";gon.user_color_mode="gl-system";gon.user_color_scheme="white";gon.markdown_surround_selection=true;gon.markdown_automatic_lists=true;gon.markdown_maintain_indentation=false;gon.math_rendering_limits_enabled=true;gon.iframe_rendering_enabled=false;gon.iframe_rendering_allowlist=[];gon.recaptcha_api_server_url="https://www.recaptcha.net/recaptcha/api.js";gon.recaptcha_sitekey=null;gon.gitlab_url="https://git.drupalcode.org";gon.promo_url="https://about.gitlab.com";gon.forum_url="https://forum.gitlab.com";gon.docs_url="https://docs.gitlab.com";gon.revision="91256b9c8dc";gon.feature_category="code_review_workflow";gon.gitlab_logo="/assets/gitlab_logo-2957169c8ef64c58616a1ac3f4fc626e8a35ce4eb3ed31bb0d873712f2a041a0.png";gon.secure=true;gon.sprite_icons="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg";gon.sprite_file_icons="/assets/file_icons/file_icons-90de312d3dbe794a19dee8aee171f184ff69ca9c9cf9fe37e8b254e84c3a1543.svg";gon.illustrations_path="/images/illustrations.svg";gon.emoji_sprites_css_path="/assets/emoji_sprites-bd26211944b9d072037ec97cb138f1a52cd03ef185cd38b8d1fcc963245199a1.css";gon.emoji_backend_version=4;gon.gridstack_css_path="/assets/lazy_bundles/gridstack-f42069e5c7b1542688660592b48f2cbd86e26b77030efd195d124dbd8fe64434.css";gon.test_env=false;gon.disable_animations=false;gon.suggested_label_colors={"#cc338b":"Magenta-pink","#dc143c":"Crimson","#c21e56":"Rose red","#cd5b45":"Dark coral","#ed9121":"Carrot orange","#eee600":"Titanium yellow","#009966":"Green-cyan","#8fbc8f":"Dark sea green","#6699cc":"Blue-gray","#e6e6fa":"Lavender","#9400d3":"Dark violet","#330066":"Deep violet","#36454f":"Charcoal grey","#808080":"Gray"};gon.first_day_of_week=0;gon.time_display_relative=true;gon.time_display_format=0;gon.ee=true;gon.jh=false;gon.dot_com=false;gon.uf_error_prefix="UF";gon.pat_prefix="";gon.keyboard_shortcuts_enabled=true;gon.broadcast_message_dismissal_path="/-/users/broadcast_message_dismissals";gon.diagramsnet_url="https://embed.diagrams.net";gon.version="18.9.1-ee";gon.current_user_id=41201;gon.current_username="tedbow";gon.current_user_fullname="Ted Bowman";gon.current_user_avatar_url="/uploads/-/system/user/avatar/41201/picture-240860-1461180559.jpg";gon.text_editor="not_set";gon.features={"uiForOrganizations":false,"organizationSwitching":false,"findAndReplace":false,"removeMonitorMetrics":true,"newProjectCreationForm":false,"workItemsClientSideBoards":false,"glqlWorkItems":true,"glqlAggregation":false,"glqlTypescript":false,"projectStudioEnabled":true,"securityManagerRoleEnabled":false,"advancedContextResolver":true,"duoUiNext":false,"dapUseFoundationalFlowsSetting":true,"duoChatBinaryFeedback":false,"allowIframesInMarkdown":false,"glqlLoadOnClick":false,"showMergeRequestStatusDraft":false,"mrPipelinesGraphql":false,"notificationsTodosButtons":false,"mergeWidgetStopPolling":false,"mergeTrainsSkipTrain":true,"mrReportsTab":false};gon.roadmap_epics_limit=1000;gon.ai={"chat":{"total_model_token":4096,"max_response_token":300,"input_content_limit":15184}};gon.subscriptions_url="https://customers.gitlab.com";gon.abilities={"resolveVulnerabilityWithAi":false,"measureCommentTemperature":false};
+//]]>
+</script>
+<script>
+//<![CDATA[
+window.uploads_path = "/project/canvas/uploads";
+
+
+
+//]]>
+</script>
+<script>
+//<![CDATA[
+const root = document.documentElement;
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  root.classList.add('gl-dark');
+}
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (e.matches) {
+    root.classList.add('gl-dark');
+  } else {
+    root.classList.remove('gl-dark');
+  }
+});
+
+//]]>
+</script>
+<script>
+//<![CDATA[
+var gl = window.gl || {};
+gl.startup_calls = {"/project/canvas/-/merge_requests/660/diffs_metadata.json?diff_head=true\u0026view=inline\u0026w=1":{},"/project/canvas/-/merge_requests/660/discussions.json?notes_filter=0\u0026per_page=20\u0026persist_filter=false":{},"/project/canvas/-/merge_requests/660/widget.json":{},"/project/canvas/-/merge_requests/660/cached_widget.json":{},"/project/canvas/-/merge_requests/660.json?serializer=sidebar_extras":{}};
+gl.startup_graphql_calls = null;
+
+if (gl.startup_calls && window.fetch) {
+  Object.keys(gl.startup_calls).forEach(apiCall => {
+   gl.startup_calls[apiCall] = {
+      fetchCall: fetch(apiCall, {
+        // Emulate XHR for Rails AJAX request checks
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        // fetch won’t send cookies in older browsers, unless you set the credentials init option.
+        // We set to `same-origin` which is default value in modern browsers.
+        // See https://github.com/whatwg/fetch/pull/585 for more information.
+        credentials: 'same-origin'
+      })
+    };
+  });
+}
+if (gl.startup_graphql_calls && window.fetch) {
+  const headers = {"X-CSRF-Token":"h5oYryZr2gFyef8xHVmixKs-LS26v2n2QNzheV2re3EK3va_oJne9bt6nCib5ktV-T0sUzUASdQ3qp1p-Dhyrg","x-gitlab-feature-category":"code_review_workflow"};
+  const url = `https://git.drupalcode.org/api/graphql`
+
+  const opts = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...headers,
+    }
+  };
+
+  gl.startup_graphql_calls = gl.startup_graphql_calls.map(call => ({
+    ...call,
+    fetchCall: fetch(url, {
+      ...opts,
+      credentials: 'same-origin',
+      body: JSON.stringify(call)
+    })
+  }))
+}
+
+
+//]]>
+</script>
+
+
+
+<meta content="light dark" name="color-scheme">
+<link rel="stylesheet" href="/assets/application-9e8889e3cef31f1127573c849241a8e0dcc71180500f636d991775331e5f888b.css" media="(prefers-color-scheme: light)" />
+<link rel="stylesheet" href="/assets/application_dark-356d95c4fa890d9f5f361b90ec62bfe31462684c92c1ae4a227b21c27347b045.css" media="(prefers-color-scheme: dark)" />
+<link rel="stylesheet" href="/assets/page_bundles/merge_request-4bd34e27c1c628d7a3725c87f29df0bbec117870cb0c4600a325708c94b128ba.css" /><link rel="stylesheet" href="/assets/page_bundles/issuable-a1426ec32621b16dfde0bb759644dde9c2420a266b82578555e8cf4478d95dca.css" /><link rel="stylesheet" href="/assets/page_bundles/notes_shared-8f7a9513332533cc4a53b3be3d16e69570e82bc87b3f8913578eaeb0dce57e21.css" /><link rel="stylesheet" href="/assets/page_bundles/design_management-714c36aa7869317006d0fdf3fa26fe925dcbcda6a0c71a93a3e54f3fc27ca849.css" /><link rel="stylesheet" href="/assets/page_bundles/merge_requests-48c3a4a8c93b041e5b37db65df96a2d7f544285ef25cca3841fdb928defbd03c.css" /><link rel="stylesheet" href="/assets/page_bundles/pipelines-73aa3826d1ff6db534ba4e57bcc5d791bd6058b88c0caeaa5c16d7857acb5ac2.css" /><link rel="stylesheet" href="/assets/page_bundles/reports-29e64d01ce221f24f5d01336bdfebb32405c7ed6bd1ca434396aacedb72dd3e3.css" /><link rel="stylesheet" href="/assets/page_bundles/ci_status-a8a0940e57bbda1e5773df806e02e1d49d605920f355620790dff8de65c19ff4.css" /><link rel="stylesheet" href="/assets/page_bundles/labels-b23cc06813aa6fbbc608e40531a9a2c605d4b464b1a2b1bd22360ba37986127f.css" /><link rel="stylesheet" href="/assets/page_bundles/commit_description-9e7efe20f0cef17d0606edabfad0418e9eb224aaeaa2dae32c817060fa60abcc.css" /><link rel="stylesheet" href="/assets/page_bundles/work_items-af321897c3b1ae7c1f6f0cb993681211b837df7ec8e5ff59e3795fd08ab83a13.css" />
+<link rel="stylesheet" href="/assets/tailwind_cqs-d51dc05c8c0696a511881802ecd259633fbabf6608e57c39e367821db8c4ad01.css" />
+
+
+<link rel="stylesheet" href="/assets/fonts-deb7ad1d55ca77c0172d8538d53442af63604ff490c74acc2859db295c125bdb.css" />
+<link rel="stylesheet" href="/assets/highlight/themes/white-9c3096bebbc271536c91d4e96afdef34cf54f198accca96d32008405a3a398da.css" media="(prefers-color-scheme: light)" />
+<link rel="stylesheet" href="/assets/highlight/themes/dark-bab508e186c8119f0cfb965d3a8a74c6ee2b10c5d2cf129a41c0bc522b98655d.css" media="(prefers-color-scheme: dark)" />
+
+<script src="/assets/webpack/runtime.0c42aa58.bundle.js" defer="defer"></script>
+<script src="/assets/webpack/main.c45db50e.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/tracker.f99708a3.chunk.js" defer="defer"></script>
+<script>
+//<![CDATA[
+window.snowplowOptions = {"namespace":"gl","hostname":"git.drupalcode.org:443","postPath":"/-/collect_events","forceSecureTracker":true,"appId":"gitlab_sm"};
+gl = window.gl || {};
+gl.snowplowStandardContext = {"schema":"iglu:com.gitlab/gitlab_standard/jsonschema/1-1-7","data":{"environment":"self-managed","source":"gitlab-rails","correlation_id":"01KJZ60Z7T3MDENW1KYKXPZC0E","plan":"ultimate","extra":{},"user_id":"uUzhIg3rhQdoNJsDYAMYYomJ8f4tX1EpsUFPwdvj9Jg=","global_user_id":"0c33glab7q54Od/vix9QDuU19GxtMt0ohhK7vB9eZxM=","user_type":"human","is_gitlab_team_member":null,"namespace_id":2,"ultimate_parent_namespace_id":2,"project_id":19391,"feature_enabled_by_namespace_ids":null,"realm":"self-managed","deployment_type":"self-managed","instance_id":"6e66ee1b-7067-4bcf-b68e-670755757232","unique_instance_id":"1efb4667-cc49-50e9-9aca-80a2551d62d5","host_name":"git.drupalcode.org","instance_version":"18.9.1","context_generated_at":"2026-03-05T14:22:00.857Z"}};
+gl.snowplowPseudonymizedPageUrl = "https://git.drupalcode.org/namespace2/project19391/-/merge_requests/660";
+gl.maskedDefaultReferrerUrl = "https://git.drupalcode.org/namespace/project/-/merge_requests";
+gl.ga4MeasurementId = 'G-ENFH3X7M5Y';
+gl.duoEvents = ["ai_question_category","perform_completion_worker","process_gitlab_duo_question","agent_platform_session_created","agent_platform_session_dropped","agent_platform_session_finished","agent_platform_session_resumed","agent_platform_session_started","agent_platform_session_stopped","ai_response_time","ci_repository_xray_artifact_created","cleanup_stuck_agent_platform_session","click_dap_trial_or_paid_empty_state_agent","click_dap_trial_or_paid_empty_state_explore_agents_link","click_dap_trial_or_paid_empty_state_prompt","click_delete_ai_catalog_item_button","click_disable_ai_catalog_item_button","click_duo_agentic_not_available_empty_state_learn_more","click_duo_agentic_not_available_empty_state_start_trial","click_duplicate_ai_catalog_item_button","click_enable_ai_catalog_item_button","click_purchase_seats_button_group_duo_pro_home_page","code_suggestion_accepted_in_ide","code_suggestion_rejected_in_ide","code_suggestion_shown_in_ide","code_suggestions_connection_details_rate_limit_exceeded","code_suggestions_direct_access_rate_limit_exceeded","code_suggestions_rate_limit_exceeded","create_ai_catalog_item","create_ai_catalog_item_consumer","create_ai_self_hosted_model","default_answer","delete_ai_catalog_item","delete_ai_catalog_item_consumer","delete_ai_self_hosted_model","detected_high_comment_temperature","detected_repeated_high_comment_temperature","dismiss_sast_vulnerability_false_positive_analysis","encounter_duo_code_review_error_during_review","error_answer","excluded_files_from_duo_code_review","execute_llm_method","filter_ai_fp","find_no_issues_duo_code_review_after_review","find_nothing_to_review_duo_code_review_on_mr","finish_duo_workflow_execution","finish_mcp_tool_call","forced_high_temperature_commenting","i_quickactions_q","include_repository_xray_data_into_code_generation_prompt","mention_gitlabduo_in_mr_comment","post_comment_duo_code_review_on_diff","process_gitlab_duo_slash_command","react_thumbs_down_on_duo_code_review_comment","react_thumbs_up_on_duo_code_review_comment","reported_sast_vulnerability_false_positive_analysis","request_ask_help","request_duo_chat_response","request_review_duo_code_review_on_mr_by_author","request_review_duo_code_review_on_mr_by_non_author","requested_comment_temperature","retry_duo_workflow_execution","start_duo_workflow_execution","start_mcp_tool_call","submit_gitlab_duo_question","tokens_per_embedding","tokens_per_user_request_prompt","tokens_per_user_request_response","trigger_ai_catalog_item","trigger_sast_vulnerability_fp_detection_workflow","trigger_sast_vulnerability_resolution_workflow","trigger_secret_detection_vulnerability_fp_detection_workflow","troubleshoot_job","update_ai_catalog_item","update_ai_catalog_item_consumer","update_ai_self_hosted_model","update_model_selection_feature","update_self_hosted_ai_feature_to_vendored_model","view_ai_catalog_item","view_ai_catalog_item_index","view_ai_catalog_project_managed","view_dap_trial_or_paid_empty_state","view_duo_agentic_not_available_empty_state"];
+gl.onlySendDuoEvents = true;
+
+
+//]]>
+</script>
+<link rel="preload" href="/assets/application-9e8889e3cef31f1127573c849241a8e0dcc71180500f636d991775331e5f888b.css" as="style" type="text/css">
+<link rel="preload" href="/assets/highlight/themes/white-9c3096bebbc271536c91d4e96afdef34cf54f198accca96d32008405a3a398da.css" as="style" type="text/css">
+
+
+
+
+<script src="/assets/webpack/commons-pages.search.show-super_sidebar.859fa515.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/super_sidebar.a2ef804f.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/prosemirror.18b146ef.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.groups-pages.groups.achievements-pages.groups.activity-pages.groups.analytics.ci_cd_an-6751a3a9.e7669245.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/d44db2dd.9279d623.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.admin.topics.edit-pages.admin.topics.new-pages.groups.comment_templates-pages.groups.e-62d8c87c.d85f4a7d.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/540c13ba.09322a47.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.admin.topics.edit-pages.admin.topics.new-pages.groups.comment_templates-pages.groups.e-27598f61.6f8b3910.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.admin.topics.edit-pages.admin.topics.new-pages.groups.comment_templates-pages.groups.e-39fd14c8.a094e7f9.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.admin.topics.edit-pages.admin.topics.new-pages.groups.comment_templates-pages.groups.e-9ce223ed.e932346f.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/e3fb5bcf.8659a199.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/cb024f01.6df5209b.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.dashboard.milestones.show-pages.groups.epics.index-pages.groups.epics.new-pages.groups-aee4cc0c.b0509995.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.groups.epics.index-pages.groups.epics.new-pages.groups.epics.show-pages.groups.issues--3e0d22fb.03a215a6.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/1f5b0d56.17cc9e8e.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.dashboard.milestones.show-pages.groups.merge_requests-pages.groups.milestones.edit-pag-863b7fdd.6704bcd8.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-pages.groups.merge_requests-pages.groups.settings.repository.show-pages.projects.incidents.s-273224e7.2b62f216.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/36ac9cf2.c0b1ff6b.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/commons-mountGroupApprovalSettings-pages.groups.security.compliance_dashboards-pages.groups.security-2dfa282d.a9daf515.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/5847159e.f642aaa0.chunk.js" defer="defer"></script>
+<script src="/assets/webpack/pages.projects.merge_requests.show.8b04bd8f.chunk.js" defer="defer"></script>
+
+<meta content="object" property="og:type">
+<meta content="GitLab" property="og:site_name">
+<meta content="Add langcode to error metadata in API responses (!660) · Merge requests · project / canvas · GitLab" property="og:title">
+<meta content="For more information about this repository, visit the project page at https://www.drupal.org/project/canvas" property="og:description">
+<meta content="https://git.drupalcode.org/assets/twitter_card-570ddb06edf56a2312253c5872489847a0f385112ddbcd71ccfa1570febab5d2.jpg" property="og:image">
+<meta content="64" property="og:image:width">
+<meta content="64" property="og:image:height">
+<meta content="https://git.drupalcode.org/project/canvas/-/merge_requests/660" property="og:url">
+<meta content="summary" property="twitter:card">
+<meta content="Add langcode to error metadata in API responses (!660) · Merge requests · project / canvas · GitLab" property="twitter:title">
+<meta content="For more information about this repository, visit the project page at https://www.drupal.org/project/canvas" property="twitter:description">
+<meta content="https://git.drupalcode.org/assets/twitter_card-570ddb06edf56a2312253c5872489847a0f385112ddbcd71ccfa1570febab5d2.jpg" property="twitter:image">
+<meta property="twitter:label1" content="Author"><meta property="twitter:data1" content="Lamiae Elhazzaz">
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="CFvn58J9sHI5zNr782jl2q1Yl2jtBS-6vNyCIRyx4TyFHwn3RI-0hvDPueJ11wxL_1uWFmK6D5jLqv4xuSLo4w" />
+<meta name="csp-nonce" />
+<meta name="action-cable-url" content="/-/cable" />
+<link href="/-/manifest.json" rel="manifest">
+<link rel="icon" type="image/png" href="/uploads/-/system/appearance/favicon/1/gitlab-drop.png" id="favicon" data-original-href="/uploads/-/system/appearance/favicon/1/gitlab-drop.png" />
+<link rel="apple-touch-icon" type="image/x-icon" href="/assets/apple-touch-icon-b049d4bc0dd9626f31db825d61880737befc7835982586d015bded10b4435460.png" />
+<link href="/search/opensearch.xml" rel="search" title="Search GitLab" type="application/opensearchdescription+xml">
+
+
+
+
+<meta content="For more information about this repository, visit the project page at https://www.drupal.org/project/canvas" name="description">
+<meta content="#F4F0FF" media="(prefers-color-scheme: light)" name="theme-color">
+<meta content="#25202F" media="(prefers-color-scheme: dark)" name="theme-color">
+</head>
+
+<body class="tab-width-8 gl-browser-chrome gl-platform-mac" data-group="project" data-group-full-path="project" data-namespace-id="2" data-page="projects:merge_requests:show" data-page-type-id="660" data-project="canvas" data-project-full-path="project/canvas" data-project-id="19391" data-project-studio-enabled="true">
+<div id="js-tooltips-container"></div>
+<script>
+//<![CDATA[
+gl = window.gl || {};
+gl.GfmAutoComplete = gl.GfmAutoComplete || {};
+gl.GfmAutoComplete.dataSources = {"epics":"/project/canvas/-/autocomplete_sources/epics","iterations":"/project/canvas/-/autocomplete_sources/iterations","vulnerabilities":"/project/canvas/-/autocomplete_sources/vulnerabilities","members":"/project/canvas/-/autocomplete_sources/members?type=MergeRequest\u0026type_id=660","issues":"/project/canvas/-/autocomplete_sources/issues","mergeRequests":"/project/canvas/-/autocomplete_sources/merge_requests","labels":"/project/canvas/-/autocomplete_sources/labels?type=MergeRequest\u0026type_id=660","milestones":"/project/canvas/-/autocomplete_sources/milestones","commands":"/project/canvas/-/autocomplete_sources/commands?type=MergeRequest\u0026type_id=660","snippets":"/project/canvas/-/autocomplete_sources/snippets","contacts":"/project/canvas/-/autocomplete_sources/contacts?type=MergeRequest\u0026type_id=660","wikis":"/project/canvas/-/autocomplete_sources/wikis"};
+
+
+//]]>
+</script>
+<script>
+//<![CDATA[
+gl = window.gl || {};
+gl.client = {"isChrome":true,"isMac":true};
+
+
+//]]>
+</script>
+
+
+<header class="super-topbar js-super-topbar"></header>
+<div class="layout-page js-page-layout page-gutter  page-with-super-sidebar page-with-super-sidebar-collapsed">
+<script>
+//<![CDATA[
+const outer = document.createElement('div');
+outer.style.visibility = 'hidden';
+outer.style.overflow = 'scroll';
+document.body.appendChild(outer);
+const inner = document.createElement('div');
+outer.appendChild(inner);
+const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+outer.parentNode.removeChild(outer);
+document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+
+//]]>
+</script><aside class="js-super-sidebar super-sidebar super-sidebar-loading super-sidebar-is-icon-only" data-command-palette="{&quot;project_files_url&quot;:&quot;/project/canvas/-/files/1.x?format=json&quot;,&quot;project_blob_url&quot;:&quot;/project/canvas/-/blob/1.x&quot;}" data-is-saas="false" data-root-path="/" data-sidebar="{&quot;is_logged_in&quot;:true,&quot;compare_plans_url&quot;:&quot;https://about.gitlab.com/pricing&quot;,&quot;context_switcher_links&quot;:[{&quot;title&quot;:&quot;Your work&quot;,&quot;link&quot;:&quot;/&quot;,&quot;icon&quot;:&quot;work&quot;},{&quot;title&quot;:&quot;Explore&quot;,&quot;link&quot;:&quot;/explore&quot;,&quot;icon&quot;:&quot;compass&quot;},{&quot;title&quot;:&quot;Profile&quot;,&quot;link&quot;:&quot;/-/user_settings/profile&quot;,&quot;icon&quot;:&quot;profile&quot;},{&quot;title&quot;:&quot;Preferences&quot;,&quot;link&quot;:&quot;/-/profile/preferences&quot;,&quot;icon&quot;:&quot;preferences&quot;}],&quot;current_menu_items&quot;:[{&quot;id&quot;:&quot;project_overview&quot;,&quot;title&quot;:&quot;canvas&quot;,&quot;entity_id&quot;:19391,&quot;link&quot;:&quot;/project/canvas&quot;,&quot;link_classes&quot;:&quot;shortcuts-project&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;manage_menu&quot;,&quot;title&quot;:&quot;Manage&quot;,&quot;icon&quot;:&quot;users&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/activity&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;activity&quot;,&quot;title&quot;:&quot;Activity&quot;,&quot;link&quot;:&quot;/project/canvas/activity&quot;,&quot;link_classes&quot;:&quot;shortcuts-project-activity&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;members&quot;,&quot;title&quot;:&quot;Members&quot;,&quot;link&quot;:&quot;/project/canvas/-/project_members&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;labels&quot;,&quot;title&quot;:&quot;Labels&quot;,&quot;link&quot;:&quot;/project/canvas/-/labels&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;plan_menu&quot;,&quot;title&quot;:&quot;Plan&quot;,&quot;icon&quot;:&quot;planning&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/-/wikis/home&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;project_wiki&quot;,&quot;title&quot;:&quot;Wiki&quot;,&quot;link&quot;:&quot;/project/canvas/-/wikis/home&quot;,&quot;link_classes&quot;:&quot;shortcuts-wiki&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;external_issue_tracker&quot;,&quot;title&quot;:&quot;Custom issue tracker&quot;,&quot;link&quot;:&quot;https://www.drupal.org/project/canvas&quot;,&quot;link_classes&quot;:&quot;shortcuts-external_tracker&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;code_menu&quot;,&quot;title&quot;:&quot;Code&quot;,&quot;icon&quot;:&quot;code&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/-/merge_requests&quot;,&quot;is_active&quot;:true,&quot;items&quot;:[{&quot;id&quot;:&quot;project_merge_request_list&quot;,&quot;title&quot;:&quot;Merge requests&quot;,&quot;link&quot;:&quot;/project/canvas/-/merge_requests&quot;,&quot;link_classes&quot;:&quot;shortcuts-merge_requests&quot;,&quot;pill_count_field&quot;:&quot;openMergeRequestsCount&quot;,&quot;pill_count_dynamic&quot;:false,&quot;is_active&quot;:true},{&quot;id&quot;:&quot;files&quot;,&quot;title&quot;:&quot;Repository&quot;,&quot;link&quot;:&quot;/project/canvas/-/tree/1.x&quot;,&quot;link_classes&quot;:&quot;shortcuts-tree&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;branches&quot;,&quot;title&quot;:&quot;Branches&quot;,&quot;link&quot;:&quot;/project/canvas/-/branches&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;commits&quot;,&quot;title&quot;:&quot;Commits&quot;,&quot;link&quot;:&quot;/project/canvas/-/commits/1.x?ref_type=heads&quot;,&quot;link_classes&quot;:&quot;shortcuts-commits&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;tags&quot;,&quot;title&quot;:&quot;Tags&quot;,&quot;link&quot;:&quot;/project/canvas/-/tags&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;graphs&quot;,&quot;title&quot;:&quot;Repository graph&quot;,&quot;link&quot;:&quot;/project/canvas/-/network/1.x?ref_type=heads&quot;,&quot;link_classes&quot;:&quot;shortcuts-network&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;compare&quot;,&quot;title&quot;:&quot;Compare revisions&quot;,&quot;link&quot;:&quot;/project/canvas/-/compare?from=1.x\u0026to=1.x&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;project_snippets&quot;,&quot;title&quot;:&quot;Snippets&quot;,&quot;link&quot;:&quot;/project/canvas/-/snippets&quot;,&quot;link_classes&quot;:&quot;shortcuts-snippets&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;file_locks&quot;,&quot;title&quot;:&quot;Locked files&quot;,&quot;link&quot;:&quot;/project/canvas/path_locks&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;build_menu&quot;,&quot;title&quot;:&quot;Build&quot;,&quot;icon&quot;:&quot;rocket&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/-/pipelines&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;pipelines&quot;,&quot;title&quot;:&quot;Pipelines&quot;,&quot;link&quot;:&quot;/project/canvas/-/pipelines&quot;,&quot;link_classes&quot;:&quot;shortcuts-pipelines&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;jobs&quot;,&quot;title&quot;:&quot;Jobs&quot;,&quot;link&quot;:&quot;/project/canvas/-/jobs&quot;,&quot;link_classes&quot;:&quot;shortcuts-builds&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;pipelines_editor&quot;,&quot;title&quot;:&quot;Pipeline editor&quot;,&quot;link&quot;:&quot;/project/canvas/-/ci/editor?branch_name=1.x&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;pipeline_schedules&quot;,&quot;title&quot;:&quot;Pipeline schedules&quot;,&quot;link&quot;:&quot;/project/canvas/-/pipeline_schedules&quot;,&quot;link_classes&quot;:&quot;shortcuts-builds&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;artifacts&quot;,&quot;title&quot;:&quot;Artifacts&quot;,&quot;link&quot;:&quot;/project/canvas/-/artifacts&quot;,&quot;link_classes&quot;:&quot;shortcuts-builds&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;secure_menu&quot;,&quot;title&quot;:&quot;Secure&quot;,&quot;icon&quot;:&quot;shield&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/-/security/dashboard&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;dashboard&quot;,&quot;title&quot;:&quot;Security dashboard&quot;,&quot;link&quot;:&quot;/project/canvas/-/security/dashboard&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;vulnerability_report&quot;,&quot;title&quot;:&quot;Vulnerability report&quot;,&quot;link&quot;:&quot;/project/canvas/-/security/vulnerability_report&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;dependency_list&quot;,&quot;title&quot;:&quot;Dependency list&quot;,&quot;link&quot;:&quot;/project/canvas/-/dependencies&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;audit_events&quot;,&quot;title&quot;:&quot;Audit events&quot;,&quot;link&quot;:&quot;/project/canvas/-/audit_events&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;scan_policies&quot;,&quot;title&quot;:&quot;Policies&quot;,&quot;link&quot;:&quot;/project/canvas/-/security/policies&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;on_demand_scans&quot;,&quot;title&quot;:&quot;On-demand scans&quot;,&quot;link&quot;:&quot;/project/canvas/-/on_demand_scans&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;configuration&quot;,&quot;title&quot;:&quot;Security configuration&quot;,&quot;link&quot;:&quot;/project/canvas/-/security/configuration&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;deploy_menu&quot;,&quot;title&quot;:&quot;Deploy&quot;,&quot;icon&quot;:&quot;deployments&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/-/ml/models&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;model_registry&quot;,&quot;title&quot;:&quot;Model registry&quot;,&quot;link&quot;:&quot;/project/canvas/-/ml/models&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;pages&quot;,&quot;title&quot;:&quot;Pages&quot;,&quot;link&quot;:&quot;/project/canvas/pages&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;analyze_menu&quot;,&quot;title&quot;:&quot;Analyze&quot;,&quot;icon&quot;:&quot;chart&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/-/analytics/dashboards&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;dashboards_analytics&quot;,&quot;title&quot;:&quot;Analytics dashboards&quot;,&quot;link&quot;:&quot;/project/canvas/-/analytics/dashboards&quot;,&quot;link_classes&quot;:&quot;shortcuts-project-dashboards-analytics&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;cycle_analytics&quot;,&quot;title&quot;:&quot;Value stream analytics&quot;,&quot;link&quot;:&quot;/project/canvas/-/value_stream_analytics&quot;,&quot;link_classes&quot;:&quot;shortcuts-project-cycle-analytics&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;contributors&quot;,&quot;title&quot;:&quot;Contributor analytics&quot;,&quot;link&quot;:&quot;/project/canvas/-/graphs/1.x?ref_type=heads&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;ci_cd_analytics&quot;,&quot;title&quot;:&quot;CI/CD analytics&quot;,&quot;link&quot;:&quot;/project/canvas/-/pipelines/charts&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;repository_analytics&quot;,&quot;title&quot;:&quot;Repository analytics&quot;,&quot;link&quot;:&quot;/project/canvas/-/graphs/1.x/charts&quot;,&quot;link_classes&quot;:&quot;shortcuts-repository-charts&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;code_review&quot;,&quot;title&quot;:&quot;Code review analytics&quot;,&quot;link&quot;:&quot;/project/canvas/-/analytics/code_reviews&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;insights&quot;,&quot;title&quot;:&quot;Insights&quot;,&quot;link&quot;:&quot;/project/canvas/insights/&quot;,&quot;link_classes&quot;:&quot;shortcuts-project-insights&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;model_experiments&quot;,&quot;title&quot;:&quot;Model experiments&quot;,&quot;link&quot;:&quot;/project/canvas/-/ml/experiments&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:false},{&quot;id&quot;:&quot;settings_menu&quot;,&quot;title&quot;:&quot;Settings&quot;,&quot;icon&quot;:&quot;settings&quot;,&quot;avatar_shape&quot;:&quot;rect&quot;,&quot;link&quot;:&quot;/project/canvas/edit&quot;,&quot;is_active&quot;:false,&quot;items&quot;:[{&quot;id&quot;:&quot;general&quot;,&quot;title&quot;:&quot;General&quot;,&quot;link&quot;:&quot;/project/canvas/edit&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;integrations&quot;,&quot;title&quot;:&quot;Integrations&quot;,&quot;link&quot;:&quot;/project/canvas/-/settings/integrations&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;webhooks&quot;,&quot;title&quot;:&quot;Webhooks&quot;,&quot;link&quot;:&quot;/project/canvas/-/hooks&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;access_tokens&quot;,&quot;title&quot;:&quot;Access tokens&quot;,&quot;link&quot;:&quot;/project/canvas/-/settings/access_tokens&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;repository&quot;,&quot;title&quot;:&quot;Repository&quot;,&quot;link&quot;:&quot;/project/canvas/-/settings/repository&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;merge_request_settings&quot;,&quot;title&quot;:&quot;Merge requests&quot;,&quot;link&quot;:&quot;/project/canvas/-/settings/merge_requests&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;ci_cd&quot;,&quot;title&quot;:&quot;CI/CD&quot;,&quot;link&quot;:&quot;/project/canvas/-/settings/ci_cd&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;monitor&quot;,&quot;title&quot;:&quot;Monitor&quot;,&quot;link&quot;:&quot;/project/canvas/-/settings/operations&quot;,&quot;is_active&quot;:false},{&quot;id&quot;:&quot;usage_quotas&quot;,&quot;title&quot;:&quot;Usage quotas&quot;,&quot;link&quot;:&quot;/project/canvas/-/usage_quotas&quot;,&quot;is_active&quot;:false}],&quot;separated&quot;:true}],&quot;current_context_header&quot;:&quot;Project&quot;,&quot;university_path&quot;:&quot;https://university.gitlab.com&quot;,&quot;support_path&quot;:&quot;https://support.gitlab.com&quot;,&quot;docs_path&quot;:&quot;/help/docs&quot;,&quot;display_whats_new&quot;:false,&quot;show_version_check&quot;:false,&quot;search&quot;:{&quot;search_path&quot;:&quot;/search&quot;,&quot;issues_path&quot;:&quot;/dashboard/issues&quot;,&quot;mr_path&quot;:&quot;/dashboard/merge_requests&quot;,&quot;autocomplete_path&quot;:&quot;/search/autocomplete&quot;,&quot;settings_path&quot;:&quot;/search/settings&quot;,&quot;search_context&quot;:{&quot;group&quot;:{&quot;id&quot;:2,&quot;name&quot;:&quot;project&quot;,&quot;full_name&quot;:&quot;project&quot;},&quot;group_metadata&quot;:{&quot;issues_path&quot;:&quot;/groups/project/-/issues&quot;,&quot;mr_path&quot;:&quot;/groups/project/-/merge_requests?assignee_username=tedbow&quot;},&quot;project&quot;:{&quot;id&quot;:19391,&quot;name&quot;:&quot;canvas&quot;},&quot;project_metadata&quot;:{&quot;mr_path&quot;:&quot;/project/canvas/-/merge_requests?assignee_username=tedbow&quot;},&quot;code_search&quot;:false,&quot;scope&quot;:&quot;merge_requests&quot;,&quot;for_snippets&quot;:null}},&quot;panel_type&quot;:&quot;project&quot;,&quot;shortcut_links&quot;:[{&quot;title&quot;:&quot;Milestones&quot;,&quot;href&quot;:&quot;/dashboard/milestones&quot;,&quot;css_class&quot;:&quot;dashboard-shortcuts-milestones&quot;},{&quot;title&quot;:&quot;Snippets&quot;,&quot;href&quot;:&quot;/dashboard/snippets&quot;,&quot;css_class&quot;:&quot;dashboard-shortcuts-snippets&quot;},{&quot;title&quot;:&quot;Activity&quot;,&quot;href&quot;:&quot;/dashboard/activity&quot;,&quot;css_class&quot;:&quot;dashboard-shortcuts-activity&quot;},{&quot;title&quot;:&quot;Groups&quot;,&quot;href&quot;:&quot;/dashboard/groups&quot;,&quot;css_class&quot;:&quot;dashboard-shortcuts-groups&quot;},{&quot;title&quot;:&quot;Projects&quot;,&quot;href&quot;:&quot;/dashboard/projects&quot;,&quot;css_class&quot;:&quot;dashboard-shortcuts-projects&quot;}],&quot;terms&quot;:&quot;/-/users/terms&quot;,&quot;is_admin&quot;:false,&quot;name&quot;:&quot;Ted Bowman&quot;,&quot;username&quot;:&quot;tedbow&quot;,&quot;admin_url&quot;:&quot;/admin&quot;,&quot;admin_mode&quot;:{&quot;admin_mode_feature_enabled&quot;:false,&quot;admin_mode_active&quot;:false,&quot;enter_admin_mode_url&quot;:&quot;/admin/session/new&quot;,&quot;leave_admin_mode_url&quot;:&quot;/admin/session/destroy&quot;,&quot;user_is_admin&quot;:false},&quot;avatar_url&quot;:&quot;/uploads/-/system/user/avatar/41201/picture-240860-1461180559.jpg&quot;,&quot;has_link_to_profile&quot;:true,&quot;link_to_profile&quot;:&quot;/tedbow&quot;,&quot;logo_url&quot;:&quot;/uploads/-/system/appearance/header_logo/1/gitlab-drop.svg&quot;,&quot;status&quot;:{&quot;can_update&quot;:true,&quot;busy&quot;:null,&quot;customized&quot;:null,&quot;availability&quot;:&quot;&quot;,&quot;emoji&quot;:null,&quot;message_html&quot;:null,&quot;message&quot;:null,&quot;clear_after&quot;:null},&quot;settings&quot;:{&quot;has_settings&quot;:true,&quot;profile_path&quot;:&quot;/-/user_settings/profile&quot;,&quot;profile_preferences_path&quot;:&quot;/-/profile/preferences&quot;},&quot;user_counts&quot;:{&quot;assigned_issues&quot;:0,&quot;assigned_merge_requests&quot;:143,&quot;review_requested_merge_requests&quot;:4,&quot;todos&quot;:358,&quot;last_update&quot;:1772720520942},&quot;can_sign_out&quot;:true,&quot;sign_out_link&quot;:&quot;/users/sign_out&quot;,&quot;issues_dashboard_path&quot;:&quot;/dashboard/issues?assignee_username=tedbow&quot;,&quot;merge_request_dashboard_path&quot;:&quot;/dashboard/merge_requests&quot;,&quot;todos_dashboard_path&quot;:&quot;/dashboard/todos&quot;,&quot;create_new_menu_groups&quot;:[{&quot;name&quot;:&quot;In this project&quot;,&quot;items&quot;:[{&quot;text&quot;:&quot;New merge request&quot;,&quot;href&quot;:&quot;/project/canvas/-/merge_requests/new&quot;,&quot;component&quot;:null,&quot;extraAttrs&quot;:{&quot;data-track-label&quot;:&quot;new_mr&quot;,&quot;data-track-action&quot;:&quot;click_link&quot;,&quot;data-track-property&quot;:&quot;nav_create_menu&quot;,&quot;data-testid&quot;:&quot;create_menu_item&quot;,&quot;data-qa-create-menu-item&quot;:&quot;new_mr&quot;}},{&quot;text&quot;:&quot;New snippet&quot;,&quot;href&quot;:&quot;/project/canvas/-/snippets/new&quot;,&quot;component&quot;:null,&quot;extraAttrs&quot;:{&quot;data-track-label&quot;:&quot;new_snippet&quot;,&quot;data-track-action&quot;:&quot;click_link&quot;,&quot;data-track-property&quot;:&quot;nav_create_menu&quot;,&quot;data-testid&quot;:&quot;create_menu_item&quot;,&quot;data-qa-create-menu-item&quot;:&quot;new_snippet&quot;}},{&quot;text&quot;:&quot;Invite members&quot;,&quot;href&quot;:null,&quot;component&quot;:&quot;invite_members&quot;,&quot;extraAttrs&quot;:{&quot;data-track-label&quot;:&quot;invite&quot;,&quot;data-track-action&quot;:&quot;click_link&quot;,&quot;data-track-property&quot;:&quot;nav_create_menu&quot;,&quot;data-testid&quot;:&quot;create_menu_item&quot;,&quot;data-qa-create-menu-item&quot;:&quot;invite&quot;}}]},{&quot;name&quot;:&quot;In GitLab&quot;,&quot;items&quot;:[{&quot;text&quot;:&quot;New snippet&quot;,&quot;href&quot;:&quot;/-/snippets/new&quot;,&quot;component&quot;:null,&quot;extraAttrs&quot;:{&quot;data-track-label&quot;:&quot;general_new_snippet&quot;,&quot;data-track-action&quot;:&quot;click_link&quot;,&quot;data-track-property&quot;:&quot;nav_create_menu&quot;,&quot;data-testid&quot;:&quot;create_menu_item&quot;,&quot;data-qa-create-menu-item&quot;:&quot;general_new_snippet&quot;}}]}],&quot;projects_path&quot;:&quot;/dashboard/projects&quot;,&quot;groups_path&quot;:&quot;/dashboard/groups&quot;,&quot;gitlab_com_but_not_canary&quot;:false,&quot;gitlab_com_and_canary&quot;:false,&quot;canary_toggle_com_url&quot;:&quot;https://next.gitlab.com&quot;,&quot;current_context&quot;:{&quot;namespace&quot;:&quot;projects&quot;,&quot;item&quot;:{&quot;id&quot;:19391,&quot;name&quot;:&quot;canvas&quot;,&quot;namespace&quot;:&quot;project / canvas&quot;,&quot;fullPath&quot;:&quot;project/canvas&quot;,&quot;webUrl&quot;:&quot;/project/canvas&quot;,&quot;avatarUrl&quot;:null}},&quot;pinned_items&quot;:[&quot;project_issue_list&quot;,&quot;project_merge_request_list&quot;],&quot;update_pins_url&quot;:&quot;/-/users/pins&quot;,&quot;is_impersonating&quot;:false,&quot;stop_impersonation_path&quot;:&quot;/admin/impersonation&quot;,&quot;track_visits_path&quot;:&quot;/-/track_namespace_visits&quot;,&quot;work_items&quot;:{&quot;full_path&quot;:&quot;project/canvas&quot;,&quot;has_issuable_health_status_feature&quot;:&quot;true&quot;,&quot;issues_list_path&quot;:&quot;/project/canvas/-/issues&quot;,&quot;labels_manage_path&quot;:&quot;/project/canvas/-/labels&quot;,&quot;can_admin_label&quot;:&quot;true&quot;,&quot;has_issue_weights_feature&quot;:&quot;true&quot;,&quot;has_iterations_feature&quot;:&quot;true&quot;,&quot;work_item_planning_view_enabled&quot;:&quot;false&quot;},&quot;has_multiple_organizations&quot;:false}"></aside>
+
+<div class="panels-container gl-flex gl-gap-3">
+<div class="content-panels gl-flex-1 gl-w-full gl-flex gl-gap-3 gl-relative js-content-panels gl-@container/content-panels">
+<div class="js-static-panel static-panel content-wrapper gl-relative paneled-view gl-flex-1 gl-overflow-y-auto gl-bg-default" id="static-panel-portal">
+<div class="panel-header">
+<div class="broadcast-wrapper">
+
+
+
+</div>
+<div class="top-bar-fixed container-fluid gl-rounded-t-lg gl-sticky gl-top-0 gl-left-0 gl-mx-0 gl-w-full" data-testid="top-bar">
+<div class="top-bar-container gl-flex gl-items-center gl-gap-2">
+<div class="gl-grow gl-basis-0 gl-flex gl-items-center gl-justify-start gl-gap-3">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"project","item":"https://git.drupalcode.org/project"},{"@type":"ListItem","position":2,"name":"canvas","item":"https://git.drupalcode.org/project/canvas"},{"@type":"ListItem","position":3,"name":"Merge requests","item":"https://git.drupalcode.org/project/canvas/-/merge_requests"},{"@type":"ListItem","position":4,"name":"!660","item":"https://git.drupalcode.org/project/canvas/-/merge_requests/660"}]}
+
+
+</script>
+<div data-testid="breadcrumb-links" id="js-vue-page-breadcrumbs-wrapper">
+<div data-breadcrumbs-json="[{&quot;text&quot;:&quot;project&quot;,&quot;href&quot;:&quot;/project&quot;,&quot;avatarPath&quot;:null},{&quot;text&quot;:&quot;canvas&quot;,&quot;href&quot;:&quot;/project/canvas&quot;,&quot;avatarPath&quot;:null},{&quot;text&quot;:&quot;Merge requests&quot;,&quot;href&quot;:&quot;/project/canvas/-/merge_requests&quot;,&quot;avatarPath&quot;:null},{&quot;text&quot;:&quot;!660&quot;,&quot;href&quot;:&quot;/project/canvas/-/merge_requests/660&quot;,&quot;avatarPath&quot;:null}]" id="js-vue-page-breadcrumbs"></div>
+<div id="js-injected-page-breadcrumbs"></div>
+<div id="js-page-breadcrumbs-extra"></div>
+</div>
+
+
+<div id="js-work-item-feedback"></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="panel-content">
+<div class="panel-content-inner js-static-panel-inner">
+<div class="alert-wrapper alert-wrapper-top-space gl-flex gl-flex-col gl-gap-3 container-fluid container-limited">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="container-fluid container-limited project-highlight-puc">
+<main class="content gl-@container/panel gl-pb-3" id="content-body" itemscope itemtype="http://schema.org/SoftwareSourceCode">
+<div id="js-drawer-container"></div>
+<div class="flash-container flash-container-page sticky" data-testid="flash-container">
+<div id="js-global-alerts"></div>
+</div>
+
+
+<div class="js-invite-members-modal" data-access-levels="{&quot;Guest&quot;:10,&quot;Reporter&quot;:20,&quot;Developer&quot;:30,&quot;Maintainer&quot;:40}" data-default-access-level="10" data-full-path="project/canvas" data-has-gitlab-subscription="false" data-help-link="https://git.drupalcode.org/help/user/permissions.md" data-id="19391" data-is-project="true" data-name="canvas" data-overage-members-modal-available="false" data-reload-page-on-submit="false" data-root-group-path="project" data-root-id="2" data-search-url="https://git.drupalcode.org/project/canvas/-/project_members/invite_search.json"></div>
+
+<div class="js-hand-raise-lead-modal" data-submit-path="/-/gitlab_subscriptions/hand_raise_leads" data-user="{&quot;namespace_id&quot;:2,&quot;user_name&quot;:&quot;tedbow&quot;,&quot;first_name&quot;:&quot;Ted&quot;,&quot;last_name&quot;:&quot;Bowman&quot;,&quot;company_name&quot;:&quot;&quot;}"></div>
+
+
+
+
+
+<div class="merge-request" data-lock-version="0" data-mr-action="show" data-project-path="project/canvas" data-url="/project/canvas/-/merge_requests/660.json">
+<div class="detail-page-header gl-flex gl-pt-5 gl-gap-3 gl-flex-wrap gl-mb-3 @sm/panel:gl-flex-nowrap @sm/panel:gl-mb-0 is-merge-request">
+<h1 class="title gl-heading-1 gl-self-center gl-mb-0 gl-flex-1 gl-wrap-anywhere" data-testid="title-content">
+Add langcode to error metadata in API responses
+</h1>
+<div class="gl-flex gl-flex-row gl-gap-3 gl-w-full js-issuable-actions @sm/panel:gl-w-auto">
+<a aria-label="Edit merge request" aria-keyshortcuts="e" class="gl-button btn btn-md btn-default gl-hidden @sm/panel:gl-inline-flex gl-self-start has-tooltip js-issuable-edit" data-html="true" data-testid="edit-title-button" title="Edit merge request &lt;kbd class=&#39;flat !gl-ml-2&#39; aria-hidden=true&gt;e&lt;/kbd&gt;" href="/project/canvas/-/merge_requests/660/edit"><span class="gl-button-text">
+Edit
+
+</span>
+
+</a><div class="dropdown gl-dropdown gl-flex-1">
+<div data-is-fork="true" data-reviewing-docs-path="/help/user/project/merge_requests/merge_request_troubleshooting.md#check-out-merge-requests-locally-through-the-head-ref" data-source-branch="canvas-3575960-langcode-api-response" data-source-project-default-url="git@git.drupal.org:issue/canvas-3575960.git" data-source-project-full-path="issue/canvas-3575960" data-source-project-path="canvas-3575960" id="js-check-out-modal"></div>
+<button class="gl-button btn btn-md btn-default gl-flex gl-self-start gl-w-full @sm/panel:gl-w-auto !gl-pr-3" data-toggle="dropdown" data-testid="mr-code-dropdown" type="button"><span class="gl-button-text gl-inline-flex gl-justify-between gl-w-full">
+Code
+<svg class="s16 gl-icon gl-ml-2 !gl-mr-0" data-testid="chevron-down-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#chevron-down"></use></svg>
+
+</span>
+
+</button><div class="dropdown-menu dropdown-menu-right">
+<div class="gl-dropdown-inner">
+<div class="gl-dropdown-contents">
+<ul>
+<li class="gl-dropdown-section-header">
+<header class="dropdown-header">
+Review changes
+</header>
+</li>
+<li class="gl-dropdown-item">
+<button class="dropdown-item js-check-out-modal-trigger" type="button">
+<div class="gl-dropdown-item-text-wrapper">
+Check out branch
+</div>
+</button>
+</li>
+<li class="gl-dropdown-item">
+<a class="dropdown-item" target="_blank" data-testid="open-in-web-ide-button" href="/-/ide/project/issue/canvas-3575960/merge_requests/660?target_project=project%2Fcanvas"><div class="gl-dropdown-item-text-wrapper">
+Open in Web IDE
+</div>
+</a></li>
+<li class="gl-dropdown-item">
+<a target="_blank" class="dropdown-item" href="https://gitpod.io/#https://git.drupalcode.org/project/canvas/-/merge_requests/660"><div class="gl-dropdown-item-text-wrapper">
+Open in Ona
+</div>
+</a></li>
+<li class="gl-dropdown-item">
+<a target="_blank" class="dropdown-item" data-testid="open-in-workspace-button" data-event-tracking="click_new_workspace_button" data-event-label="merge_requests:show" href="/-/remote_development/workspaces/new?project=issue%2Fcanvas-3575960&amp;gitRef=canvas-3575960-langcode-api-response"><div class="gl-dropdown-item-text-wrapper">
+Open in Workspace
+</div>
+</a></li>
+
+<li class="gl-dropdown-divider">
+<hr class="dropdown-divider">
+</li>
+<li class="gl-dropdown-section-header">
+<header class="dropdown-header">
+Download
+</header>
+</li>
+<li class="gl-dropdown-item">
+<a class="dropdown-item" download="" data-testid="download-email-patches-menu-item" href="/project/canvas/-/merge_requests/660.patch"><div class="gl-dropdown-item-text-wrapper">
+Patches
+</div>
+</a></li>
+<li class="gl-dropdown-item">
+<a class="dropdown-item" download="" data-testid="download-plain-diff-menu-item" href="/project/canvas/-/merge_requests/660.diff"><div class="gl-dropdown-item-text-wrapper">
+Plain diff
+</div>
+</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="js-mr-more-dropdown" data-can-update-merge-request data-clipboard-text="project/canvas!660" data-edit-url="/project/canvas/-/merge_requests/660/edit" data-is-logged-in="#&lt;User:0x00007f14602dd9a0&gt;" data-merge-request="{&quot;iid&quot;:660,&quot;draft&quot;:false,&quot;target_project_id&quot;:19391}" data-open data-project-path="project/canvas" data-report-abuse-path="/-/abuse_reports/add_category" data-reported-user-id="204808" data-url="https://git.drupalcode.org/project/canvas/-/merge_requests/660"></div>
+<button class="gl-button btn btn-md btn-default btn-icon gl-h-fit gutter-toggle js-sidebar-toggle @lg/panel:!gl-hidden" type="button"><svg class="s16 gl-icon gl-button-icon " data-testid="chevron-double-lg-left-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#chevron-double-lg-left"></use></svg>
+<span class="gl-button-text">
+<span class="gl-sr-only">Expand sidebar</span>
+
+</span>
+
+</button></div>
+</div>
+
+<div data-can-summarize="false" data-diffs-path="https://git.drupalcode.org/project/canvas/-/merge_requests/660/diffs" data-new-comment-template-paths="[{&quot;text&quot;:&quot;Your comment templates&quot;,&quot;href&quot;:&quot;/-/profile/comment_templates&quot;},{&quot;text&quot;:&quot;Project comment templates&quot;,&quot;href&quot;:&quot;/project/canvas/-/comment_templates&quot;}]" id="js-review-drawer"></div>
+<div data-data="{&quot;iid&quot;:660,&quot;canResolveDiscussion&quot;:&quot;true&quot;,&quot;defaultBranchName&quot;:&quot;1.x&quot;,&quot;projectPath&quot;:&quot;project/canvas&quot;,&quot;sourceProjectPath&quot;:&quot;issue/canvas-3575960&quot;,&quot;title&quot;:&quot;Add langcode to error metadata in API responses&quot;,&quot;isFluidLayout&quot;:&quot;false&quot;,&quot;blocksMerge&quot;:&quot;false&quot;,&quot;imported&quot;:&quot;false&quot;,&quot;isDraft&quot;:&quot;false&quot;,&quot;tabs&quot;:[[&quot;show&quot;,&quot;Overview&quot;,&quot;/project/canvas/-/merge_requests/660&quot;,4],[&quot;commits&quot;,&quot;Commits&quot;,&quot;/project/canvas/-/merge_requests/660/commits&quot;,2],[&quot;pipelines&quot;,&quot;Pipelines&quot;,&quot;/project/canvas/-/merge_requests/660/pipelines&quot;,2],[&quot;diffs&quot;,&quot;Changes&quot;,&quot;/project/canvas/-/merge_requests/660/diffs&quot;,&quot;2&quot;]]}" id="js-merge-sticky-header"></div>
+<div class="merge-request-details issuable-details" data-id="19391">
+<div class="merge-request-sticky-header-wrapper js-merge-request-sticky-header-wrapper">
+<div class="merge-request-sticky-header gl-border-b">
+<div class="detail-page-description gl-pt-2 gl-pb-4 gl-flex gl-items-baseline gl-flex-wrap gl-text-subtle gl-relative is-merge-request">
+<div class="js-mr-header" data-hidden="false" data-iid="660" data-imported="false" data-is-draft="false" data-project-path="project/canvas" data-state="opened"></div>
+<a class="gl-my-0 gl-ml-1 gl-mr-2 gl-hidden gl-overflow-hidden gl-text-ellipsis gl-whitespace-nowrap gl-font-bold gl-text-default merge-request-sticky-title" aria-hidden="true" href="#top">Add langcode to error metadata in API responses
+</a><div class="merge-request-author-container"><a class="author-link gl-text-link gl-font-bold gl-mr-2 js-user-link" data-user-id="204808" data-username="lamiae" data-name="Lamiae Elhazzaz" data-testid="author-link" href="/lamiae"><span class="author">Lamiae Elhazzaz</span></a>requested to merge </div><a title="issue/canvas-3575960:canvas-3575960-langcode-api-response" class="ref-container gl-inline-block gl-truncate gl-max-w-26 gl-ml-2 gl-shrink-0" href="/issue/canvas-3575960/-/tree/canvas-3575960-langcode-api-response"><span class="gl-align-middle -gl-mr-2 has-tooltip" title="The source project is a fork"><svg class="s12 gl-ml-1 has-tooltip" data-testid="fork-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#fork"></use></svg></span> issue/canvas-3575960:canvas-3575960-langcode-api-response</a> <button class="gl-button btn btn-icon btn-sm btn-default btn-default-tertiary gl-inline-block gl-mx-1 js-source-branch-copy" title="Copy branch name &lt;kbd class=&#39;flat gl-ml-2&#39; aria-hidden=true&gt;b&lt;/kbd&gt;" aria-keyshortcuts="b" aria-label="Copy branch name" aria-live="polite" data-toggle="tooltip" data-placement="bottom" data-container="body" data-html="true" data-clipboard-text="canvas-3575960-langcode-api-response" type="button"><svg class="s16 gl-icon gl-button-icon " data-testid="copy-to-clipboard-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#copy-to-clipboard"></use></svg>
+
+</button> into <a title="1.x" class="ref-container gl-inline-block gl-truncate gl-max-w-26 gl-shrink-0 gl-mx-2" href="/project/canvas/-/tree/1.x">1.x</a>   <time class="js-timeago gl-inline-block" title="Mar 2, 2026 10:43am" datetime="2026-03-02T10:43:04Z" tabindex="0" aria-label="Mar 2, 2026 10:43am" data-toggle="tooltip" data-placement="top" data-container="body">Mar 02, 2026</time>
+</div>
+
+<div class="merge-request-tabs-container gl-flex gl-justify-between gl-relative gl-gap-2 is-merge-request js-tabs-affix">
+<ul class="merge-request-tabs nav-tabs nav nav-links gl-flex gl-flex-nowrap gl-m-0 gl-p-0 gl-border-0 gl-h-9">
+<li class="notes-tab active" data-testid="notes-tab">
+<a data-action="show" data-target="#notes" data-toggle="tabvue" href="/project/canvas/-/merge_requests/660">Overview
+<span class="gl-badge badge badge-pill badge-neutral"><span class="gl-badge-content"><span class="js-discussions-count">4</span>
+</span></span></a>
+</li>
+<li class="commits-tab" data-testid="commits-tab">
+<a data-action="commits" data-target="#commits" data-toggle="tabvue" href="/project/canvas/-/merge_requests/660/commits">Commits
+<span class="gl-badge badge badge-pill badge-neutral"><span class="gl-badge-content"><span class="js-commits-count">2</span>
+</span></span></a>
+</li>
+<li class="pipelines-tab">
+<a data-action="pipelines" data-target="#pipelines" data-toggle="tabvue" href="/project/canvas/-/merge_requests/660/pipelines">Pipelines
+<span class="gl-badge badge badge-pill badge-neutral"><span class="gl-badge-content"><span class="js-pipelines-mr-count">2</span>
+</span></span></a>
+</li>
+
+<li class="diffs-tab js-diffs-tab" data-testid="diffs-tab" id="diffs-tab">
+<a data-action="diffs" data-target="#diffs" data-toggle="tabvue" href="/project/canvas/-/merge_requests/660/diffs">Changes
+<span class="gl-badge badge badge-pill badge-neutral"><span class="gl-badge-content"><span class="js-changes-tab-count" data-gid="gid://gitlab/MergeRequest/142818">2</span>
+</span></span></a>
+</li>
+</ul>
+<div class="merge-request-tabs-actions gl-flex gl-flex-wrap gl-items-center gl-gap-3">
+<div data-blocks-merge="false" data-can-resolve-discussion="true" id="js-vue-discussion-counter"></div>
+<div class="js-sidebar-todo-widget-root" data-id="142818" data-iid="660" data-project-path="project/canvas"></div>
+<div id="js-submit-review-button"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-content" id="diff-notes-app">
+<div id="js-diff-file-finder">
+<div id="js-code-navigation"></div>
+</div>
+<div class="tab-pane notes voting_notes" id="notes" style="display: block">
+<div class="merge-request-overview">
+<section>
+<div class="issuable-discussion js-vue-notes-event">
+<div class="emoji-block emoji-list-container js-noteable-awards">
+<div class="gl-flex gl-flex-wrap gl-justify-between gl-pt-3">
+<div data-can-award-emoji="true" data-path="/api/v4/projects/19391/merge_requests/660/award_emoji" data-show-default-award-emojis="true" id="js-vue-awards-block"></div>
+
+</div>
+
+</div>
+
+<div class="js-verification-alert" data-identity-verification-path="/-/identity_verification" data-identity-verification-required="false"></div>
+<script>
+//<![CDATA[
+window.gl = window.gl || {};
+window.gl.mrWidgetData = {"id":142818,"iid":660,"source_project_full_path":"issue/canvas-3575960","target_project_full_path":"project/canvas","can_create_pipeline_in_target_project":true,"email_patches_path":"/project/canvas/-/merge_requests/660.patch","plain_diff_path":"/project/canvas/-/merge_requests/660.diff","merge_request_basic_path":"/project/canvas/-/merge_requests/660.json?serializer=basic","merge_request_widget_path":"/project/canvas/-/merge_requests/660/widget.json","merge_request_cached_widget_path":"/project/canvas/-/merge_requests/660/cached_widget.json","commit_change_content_path":"/project/canvas/-/merge_requests/660/commit_change_content","conflicts_docs_path":"/help/user/project/merge_requests/conflicts.md","reviewing_and_managing_merge_requests_docs_path":"/help/user/project/merge_requests/merge_request_troubleshooting.md#check-out-merge-requests-locally-through-the-head-ref","merge_request_pipelines_docs_path":"/help/ci/pipelines/merge_request_pipelines.md","ci_environments_status_path":"/project/canvas/-/merge_requests/660/ci_environments_status","user_callouts_path":"/-/users/callouts","suggest_pipeline_feature_id":"suggest_pipeline","migrate_jenkins_feature_id":"migrate_from_jenkins_banner","is_dismissed_suggest_pipeline":false,"is_dismissed_jenkins_migration":false,"human_access":"Maintainer","new_project_pipeline_path":"/project/canvas/-/pipelines/new","source_project_default_url":"git@git.drupal.org:issue/canvas-3575960.git","issues_links":{"assign_to_closing":"/project/canvas/-/merge_requests/660/assign_related_issues","assign_to_closing_count":0,"closing":"","closing_count":0,"mentioned_but_not_closing":"","mentioned_count":0},"security_reports_docs_path":"/help/user/application_security/detect/security_scanning_results.md#merge-request-security-widget","enabled_reports":{"sast":false,"container_scanning":false,"dast":false,"dependency_scanning":false,"license_scanning":false,"coverage_fuzzing":false,"secret_detection":false,"api_fuzzing":false},"show_gitpod_button":true,"gitpod_url":"https://gitpod.io/#https://git.drupalcode.org/project/canvas/-/merge_requests/660","gitpod_enabled":true,"merge_request_path":"/project/canvas/-/merge_requests/660","require_password_to_approve":false,"merge_request_approvers_available":true,"multiple_approval_rules_available":true,"license_scanning":{"can_manage_licenses":true,"full_report_path":"/issue/canvas-3575960/-/pipelines/756995/licenses"},"pipeline_id":756995,"pipeline_iid":5,"can_read_vulnerabilities":true,"can_read_vulnerability_feedback":true,"create_vulnerability_feedback_issue_path":null,"create_vulnerability_feedback_merge_request_path":"/project/canvas/-/vulnerability_feedback","create_vulnerability_feedback_dismissal_path":"/project/canvas/-/vulnerability_feedback","discover_project_security_path":null,"has_approvals_available":true,"api_approval_settings_path":"/api/v4/projects/19391/merge_requests/660/approval_settings","merge_immediately_docs_path":"/help/ci/pipelines/merge_trains.md#skip-the-merge-train-and-merge-immediately","saml_approval_path":null,"require_saml_auth_to_approve":false}
+
+window.gl.mrWidgetData.artifacts_endpoint = '/project/canvas/-/pipelines/:pipeline_artifacts_id/downloadable_artifacts.json';
+window.gl.mrWidgetData.artifacts_endpoint_placeholder = ':pipeline_artifacts_id';
+window.gl.mrWidgetData.pipeline_etag = '/api/graphql:pipelines/sha/09ad58b7da753d2532debe62486870aab1956366';
+window.gl.mrWidgetData.squash_before_merge_help_path = '/help/user/project/merge_requests/squash_and_merge.md';
+window.gl.mrWidgetData.ci_troubleshooting_docs_path = '/help/ci/debugging.md';
+window.gl.mrWidgetData.mr_troubleshooting_docs_path = '/help/user/project/merge_requests/merge_request_troubleshooting.md';
+window.gl.mrWidgetData.pipeline_must_succeed_docs_path = '/help/user/project/merge_requests/auto_merge.md#require-a-successful-pipeline-for-merge';
+window.gl.mrWidgetData.code_coverage_check_help_page_path = '/help/ci/testing/code_coverage/_index.md#add-a-coverage-check-approval-rule';
+window.gl.mrWidgetData.security_configuration_path = '/project/canvas/-/security/configuration';
+window.gl.mrWidgetData.license_compliance_docs_path = '/help/user/compliance/license_scanning_of_cyclonedx_files/_index.md';
+window.gl.mrWidgetData.eligible_approvers_docs_path = '/help/user/project/merge_requests/approvals/rules.md#eligible-approvers';
+window.gl.mrWidgetData.approvals_help_path = '/help/user/project/merge_requests/approvals/_index.md';
+window.gl.mrWidgetData.codequality_help_path = '/help/ci/testing/code_quality.md#pipeline-details-view';
+window.gl.mrWidgetData.false_positive_doc_url = '/help/user/application_security/vulnerabilities/_index.md';
+window.gl.mrWidgetData.can_view_false_positive = 'true';
+window.gl.mrWidgetData.user_preferences_gitpod_path = '/-/profile/preferences#user_gitpod_enabled';
+window.gl.mrWidgetData.user_profile_enable_gitpod_path = '/-/user_settings/profile?user%5Bgitpod_enabled%5D=true';
+window.gl.mrWidgetData.saml_approval_path = window.gl.mrWidgetData.saml_approval_path;
+
+
+
+//]]>
+</script><h2 class="gl-sr-only" id="merge-request-widgets-heading">
+Merge request reports
+</h2>
+<div aria-labelledby="merge-request-widgets-heading" class="mr-widget" id="js-vue-mr-widget" role="region"></div>
+
+<div data-archived="false" data-current-user-data="{&quot;id&quot;:41201,&quot;username&quot;:&quot;tedbow&quot;,&quot;public_email&quot;:&quot;&quot;,&quot;name&quot;:&quot;Ted Bowman&quot;,&quot;state&quot;:&quot;active&quot;,&quot;locked&quot;:false,&quot;avatar_url&quot;:&quot;https://git.drupalcode.org/uploads/-/system/user/avatar/41201/picture-240860-1461180559.jpg&quot;,&quot;web_url&quot;:&quot;https://git.drupalcode.org/tedbow&quot;,&quot;show_status&quot;:false,&quot;path&quot;:&quot;/tedbow&quot;,&quot;user_preference&quot;:{&quot;issue_notes_filter&quot;:0,&quot;merge_request_notes_filter&quot;:0,&quot;notes_filters&quot;:{&quot;Show all activity&quot;:0,&quot;Show comments only&quot;:1,&quot;Show history only&quot;:2},&quot;default_notes_filter&quot;:0,&quot;epic_notes_filter&quot;:0},&quot;can_fork&quot;:true,&quot;can_create_merge_request&quot;:true,&quot;fork_path&quot;:&quot;/project/canvas/-/forks?continue%5Bnotice%5D=You%27re+not+allowed+to+make+changes+to+this+project+directly.+A+fork+of+this+project+has+been+created+that+you+can+make+changes+in%2C+so+you+can+submit+a+merge+request.\u0026continue%5Bnotice_now%5D=You%27re+not+allowed+to+make+changes+to+this+project+directly.+A+fork+of+this+project+is+being+created+that+you+can+make+changes+in%2C+so+you+can+submit+a+merge+request.\u0026continue%5Bto%5D=Edit\u0026namespace_key=41203&quot;}" data-endpoint-metadata="/project/canvas/-/merge_requests/660/diffs_metadata.json?diff_head=true&amp;view=inline&amp;w=1" data-help-page-path="/help/user/project/merge_requests/reviews/suggestions.md" data-is-locked="" data-new-comment-template-paths="[{&quot;text&quot;:&quot;Your comment templates&quot;,&quot;href&quot;:&quot;/-/profile/comment_templates&quot;},{&quot;text&quot;:&quot;Project comment templates&quot;,&quot;href&quot;:&quot;/project/canvas/-/comment_templates&quot;}]" data-noteable-data="{&quot;id&quot;:142818,&quot;iid&quot;:660,&quot;description&quot;:&quot;&quot;,&quot;title&quot;:&quot;Add langcode to error metadata in API responses&quot;,&quot;merge_params&quot;:{&quot;force_remove_source_branch&quot;:&quot;0&quot;},&quot;state&quot;:&quot;opened&quot;,&quot;source_branch&quot;:&quot;canvas-3575960-langcode-api-response&quot;,&quot;target_branch&quot;:&quot;1.x&quot;,&quot;source_branch_path&quot;:&quot;/issue/canvas-3575960/-/tree/canvas-3575960-langcode-api-response&quot;,&quot;target_branch_path&quot;:&quot;/project/canvas/-/tree/1.x&quot;,&quot;diff_head_sha&quot;:&quot;09ad58b7da753d2532debe62486870aab1956366&quot;,&quot;create_note_path&quot;:&quot;/project/canvas/notes?target_id=142818\u0026target_type=merge_request&quot;,&quot;preview_note_path&quot;:&quot;/project/canvas/-/preview_markdown?target_id=660\u0026target_type=MergeRequest&quot;,&quot;can_receive_suggestion&quot;:true,&quot;create_issue_to_resolve_discussions_path&quot;:null,&quot;new_blob_path&quot;:&quot;/issue/canvas-3575960/-/new/canvas-3575960-langcode-api-response&quot;,&quot;current_user&quot;:{&quot;can_create_note&quot;:true,&quot;can_update&quot;:true,&quot;can_create_confidential_note&quot;:true},&quot;is_project_archived&quot;:false,&quot;project_id&quot;:19391,&quot;require_password_to_approve&quot;:false}" data-noteable-type="MergeRequest" data-notes-data="{&quot;noteableType&quot;:&quot;merge_request&quot;,&quot;noteableId&quot;:142818,&quot;projectId&quot;:19391,&quot;groupId&quot;:null,&quot;discussionsPath&quot;:&quot;/project/canvas/-/merge_requests/660/discussions.json&quot;,&quot;registerPath&quot;:&quot;/users/sign_up?redirect_to_referer=yes&quot;,&quot;newSessionPath&quot;:&quot;/users/sign_in?redirect_to_referer=yes&quot;,&quot;markdownDocsPath&quot;:&quot;/help/user/markdown.md&quot;,&quot;quickActionsDocsPath&quot;:&quot;/help/user/project/quick_actions.md&quot;,&quot;closePath&quot;:&quot;/project/canvas/-/merge_requests/660?merge_request%5Bstate_event%5D=close&quot;,&quot;reopenPath&quot;:&quot;/project/canvas/-/merge_requests/660?merge_request%5Bstate_event%5D=reopen&quot;,&quot;notesPath&quot;:&quot;/project/canvas/noteable/merge_request/142818/notes&quot;,&quot;prerenderedNotesCount&quot;:5,&quot;lastFetchedAt&quot;:1772720520000000,&quot;notesFilter&quot;:0,&quot;draftsPath&quot;:&quot;/project/canvas/-/merge_requests/660/drafts&quot;,&quot;draftsPublishPath&quot;:&quot;/project/canvas/-/merge_requests/660/drafts/publish&quot;,&quot;draftsDiscardPath&quot;:&quot;/project/canvas/-/merge_requests/660/drafts/discard&quot;}" data-notes-filter-value="0" data-notes-filters="{&quot;Show all activity&quot;:0,&quot;Show comments only&quot;:1,&quot;Show history only&quot;:2}" data-report-abuse-path="/-/abuse_reports/add_category" data-target-type="merge_request" id="js-vue-mr-discussions"></div>
+</div>
+</section>
+<aside aria-label="merge_request" aria-live="polite" class="right-sidebar js-right-sidebar js-issuable-sidebar right-sidebar-expanded right-sidebar-merge-requests right-sidebar-collapsed" data-always-show-toggle data-auto-collapse data-issuable-type="merge_request" data-signed-in>
+<div class="issuable-sidebar is-merge-request">
+<div class="issuable-sidebar-header @md/panel:gl-flex @lg/panel:!gl-hidden gl-justify-end">
+<button class="gl-button btn btn-md btn-default gutter-toggle gl-float-right js-sidebar-toggle has-tooltip !gl-border-0" type="button" aria-label="Toggle sidebar" title="Expand sidebar" data-container="body" data-placement="left" data-boundary="viewport" type="button"><span class="gl-button-text">
+<span class="js-sidebar-toggle-container gl-button-text" data-is-expanded="false"><svg class="s16 js-sidebar-expand " data-testid="chevron-double-lg-left-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#chevron-double-lg-left"></use></svg><svg class="s16 js-sidebar-collapse hidden" data-testid="chevron-double-lg-right-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#chevron-double-lg-right"></use></svg></span>
+
+</span>
+
+</button></div>
+<form class="issuable-context-form inline-update js-issuable-update !gl-pr-2" action="/project/canvas/-/merge_requests/660.json" accept-charset="UTF-8" data-remote="true" method="post"><div class="block assignee" data-testid="assignee-block-container">
+<div class="js-sidebar-assignees-root" data-directly-invite-members data-field="merge_request" data-max-assignees="200">
+<div class="title hide-collapsed gl-flex gl-justify-between gl-items-center !gl-mb-0">
+<span class="gl-font-bold">Assignee</span>
+<span class="gl-spinner-container" role="status"><span aria-hidden class="gl-spinner gl-spinner-sm gl-spinner-dark !gl-align-text-bottom"></span><span class="gl-sr-only !gl-absolute">Loading</span>
+</span>
+</div>
+</div>
+
+</div>
+<div class="block reviewer" data-testid="reviewers-block-container">
+<div class="js-sidebar-reviewers-root" data-field="merge_request" data-signed-in>
+<div class="title hide-collapsed gl-flex gl-justify-between gl-items-center !gl-mb-0">
+<span class="gl-font-bold">Reviewers</span>
+<span class="gl-spinner-container" role="status"><span aria-hidden class="gl-spinner gl-spinner-sm gl-spinner-dark !gl-align-text-bottom"></span><span class="gl-sr-only !gl-absolute">Loading</span>
+</span>
+</div>
+</div>
+<div class="selectbox hide-collapsed">
+<div class="js-reviewers-inputs"></div>
+<div class="dropdown js-sidebar-reviewer-dropdown"><button class="dropdown-menu-toggle js-reviewer-search js-author-search js-multiselect js-save-user-data js-invite-members-track" type="button" data-first-user="tedbow" data-current-user="true" data-iid="660" data-issuable-type="merge_request" data-project-id="19391" data-author-id="204808" data-field-name="merge_request[reviewer_ids][]" data-issue-update="/project/canvas/-/merge_requests/660.json" data-ability-name="merge_request" data-null-user="true" data-display="static" data-multi-select="true" data-dropdown-title="Select reviewers" data-dropdown-header="Reviewers" data-suggested-reviewers-help-path="/help/user/project/merge_requests/reviews/_index.md#request-a-review" data-suggested-reviewers-header="Suggestion(s)" data-all-members-header="All project members" data-show-suggested="true" data-max-select="200" data-track-action="show_invite_members" data-track-label="edit_reviewer" data-toggle="dropdown"><span class="dropdown-toggle-text ">Select reviewers</span><svg class="s16 dropdown-menu-toggle-icon" data-testid="chevron-down-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#chevron-down"></use></svg></button><div class="dropdown-menu dropdown-select dropdown-menu-user dropdown-menu-selectable dropdown-menu-author dropdown-extended-height"><div class="dropdown-title gl-flex"><span class="gl-ml-auto">Request review from</span><button class="dropdown-title-button dropdown-menu-close gl-ml-auto" aria-label="Close" type="button"><svg class="s16 dropdown-menu-close-icon" data-testid="close-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#close"></use></svg></button></div><div class="dropdown-input"><input type="search" data-testid="dropdown-input-field" class="dropdown-input-field" placeholder="Search users" autocomplete="off" /><svg class="s16 dropdown-input-search" data-testid="search-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#search"></use></svg><svg class="s16 dropdown-input-clear js-dropdown-input-clear" data-testid="close-icon"><use href="/assets/icons-41229992eca580608aadaaa9b83b717650b2863442574d0ebb87f859c42a3b6c.svg#close"></use></svg></div><div data-testid="dropdown-list-content" class="dropdown-content "></div><div class="dropdown-footer"><ul class="dropdown-footer-list">
+<li>
+<div class="js-invite-members-trigger" data-display-text="Invite Members" data-trigger-element="anchor" data-trigger-source="merge_request_reviewer_dropdown"></div>
+</li>
+</ul>
+</div><div class="dropdown-loading"><div class="gl-spinner-container gl-mt-7" role="status"><span aria-hidden class="gl-spinner gl-spinner-md gl-spinner-dark !gl-align-text-bottom"></span><span class="gl-sr-only !gl-absolute">Loading</span>
+</div></div></div></div>
+</div>
+
+</div>
+<div class="js-sidebar-labels-widget-root" data-allow-label-create="true" data-allow-scoped-labels="true" data-can-edit="true" data-iid="660" data-issuable-type="merge_request" data-labels-fetch-path="/project/canvas/-/labels.json?include_ancestor_groups=true" data-labels-manage-path="/project/canvas/-/labels" data-project-issues-path="/project/canvas/-/merge_requests" data-project-path="project/canvas" data-selected-labels="[]"></div>
+<div class="block milestone" data-testid="sidebar-milestones">
+<div class="js-sidebar-milestone-widget-root" data-can-edit="true" data-issue-iid="660" data-project-path="project/canvas"></div>
+</div>
+
+<div class="js-sidebar-time-tracking-root block">
+<!-- / Fallback while content is loading -->
+<div class="title hide-collapsed gl-flex gl-justify-between gl-items-center !gl-mb-0">
+<span class="gl-font-bold">Time tracking</span>
+<span class="gl-spinner-container" role="status"><span aria-hidden class="gl-spinner gl-spinner-sm gl-spinner-dark !gl-align-text-bottom"></span><span class="gl-sr-only !gl-absolute">Loading</span>
+</span>
+</div>
+</div>
+<div class="js-sidebar-participants-widget-root"></div>
+</form><script class="js-sidebar-options" type="application/json">{"endpoint":"/project/canvas/-/merge_requests/660.json?serializer=sidebar_extras","toggleSubscriptionEndpoint":"/project/canvas/-/merge_requests/660/toggle_subscription","moveIssueEndpoint":"/project/canvas/-/issues/660/move","projectsAutocompleteEndpoint":"/-/autocomplete/projects?project_id=19391","editable":"true","currentUser":{"id":41201,"username":"tedbow","public_email":"","name":"Ted Bowman","state":"active","locked":false,"avatar_url":"https://git.drupalcode.org/uploads/-/system/user/avatar/41201/picture-240860-1461180559.jpg","web_url":"https://git.drupalcode.org/tedbow","todo":null,"can_edit":true,"can_move":false,"can_admin_label":true,"can_create_timelogs":true},"rootPath":"/","fullPath":"project/canvas","iid":660,"id":142818,"severity":null,"timeTrackingLimitToHours":false,"canCreateTimelogs":true,"createNoteEmail":null,"issuableType":"merge_request","directlyInviteMembers":"true","weightOptions":["None","Any",0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"weightNoneValue":"None","multipleApprovalRulesAvailable":true}</script>
+</div>
+</aside>
+
+</div>
+
+</div>
+<div class="tab-pane commits" id="commits" style="">
+
+</div>
+<div class="tab-pane pipelines" id="pipelines" style="">
+<div data-artifacts-endpoint="/project/canvas/-/pipelines/:pipeline_artifacts_id/downloadable_artifacts.json" data-artifacts-endpoint-placeholder=":pipeline_artifacts_id" data-disable-initialization data-empty-state-svg-path="/assets/illustrations/empty-state/empty-pipeline-md-da65fef91300a7624533aef4ed0ccc9a4e26aea98447f3b3f38214f0b6179c54.svg" data-endpoint="/project/canvas/-/merge_requests/660/pipelines" data-error-state-svg-path="/assets/illustrations/empty-state/empty-job-failed-md-de6ea5f513519f451925880fe046b96bb15e72638ea39b35795c5eeda04f4f09.svg" data-full-path="project/canvas" data-graphql-path="/api/graphql" data-project-id="19391" id="commit-pipeline-table-view"></div>
+
+
+</div>
+
+<div class="tab-pane diffs" data-changes-empty-state-illustration="/assets/illustrations/empty-state/empty-commit-md-3d909692128c5f66d129418cf4f8e73c6e12b09409e62b1cc81e940e66fc5a1f.svg" data-codequality-report-available="false" data-current-user-data="{&quot;id&quot;:41201,&quot;username&quot;:&quot;tedbow&quot;,&quot;public_email&quot;:&quot;&quot;,&quot;name&quot;:&quot;Ted Bowman&quot;,&quot;state&quot;:&quot;active&quot;,&quot;locked&quot;:false,&quot;avatar_url&quot;:&quot;https://git.drupalcode.org/uploads/-/system/user/avatar/41201/picture-240860-1461180559.jpg&quot;,&quot;web_url&quot;:&quot;https://git.drupalcode.org/tedbow&quot;,&quot;show_status&quot;:false,&quot;path&quot;:&quot;/tedbow&quot;,&quot;user_preference&quot;:{&quot;issue_notes_filter&quot;:0,&quot;merge_request_notes_filter&quot;:0,&quot;notes_filters&quot;:{&quot;Show all activity&quot;:0,&quot;Show comments only&quot;:1,&quot;Show history only&quot;:2},&quot;default_notes_filter&quot;:0,&quot;epic_notes_filter&quot;:0},&quot;can_fork&quot;:true,&quot;can_create_merge_request&quot;:true,&quot;fork_path&quot;:&quot;/project/canvas/-/forks?continue%5Bnotice%5D=You%27re+not+allowed+to+make+changes+to+this+project+directly.+A+fork+of+this+project+has+been+created+that+you+can+make+changes+in%2C+so+you+can+submit+a+merge+request.\u0026continue%5Bnotice_now%5D=You%27re+not+allowed+to+make+changes+to+this+project+directly.+A+fork+of+this+project+is+being+created+that+you+can+make+changes+in%2C+so+you+can+submit+a+merge+request.\u0026continue%5Bto%5D=Edit\u0026namespace_key=41203&quot;}" data-default-suggestion-commit-message="Apply %{suggestions_count} suggestion(s) to %{files_count} file(s)
+
+%{co_authored_by}" data-dismiss-endpoint="/-/users/callouts" data-endpoint="/project/canvas/-/merge_requests/660/diffs.json?diff_head=true" data-endpoint-batch="/project/canvas/-/merge_requests/660/diffs_batch.json?diff_head=true" data-endpoint-diff-for-path="/project/canvas/-/merge_requests/660/diff_for_path.json" data-endpoint-metadata="/project/canvas/-/merge_requests/660/diffs_metadata.json?diff_head=true&amp;view=inline&amp;w=1" data-file-by-file-default="false" data-help-page-path="/help/user/project/merge_requests/reviews/suggestions.md" data-iid="660" data-is-fluid-layout="false" data-is-forked="false" data-new-comment-template-paths="[{&quot;text&quot;:&quot;Your comment templates&quot;,&quot;href&quot;:&quot;/-/profile/comment_templates&quot;},{&quot;text&quot;:&quot;Project comment templates&quot;,&quot;href&quot;:&quot;/project/canvas/-/comment_templates&quot;}]" data-per-page="5" data-project-path="/project/canvas" data-sast-report-available="false" data-show-suggest-popover="false" data-show-whitespace-default="false" data-source-project-default-url="git@git.drupal.org:issue/canvas-3575960.git" data-source-project-full-path="issue/canvas-3575960" data-update-current-user-path="/api/v4/user/preferences" id="js-diffs-app" style="">
+
+</div>
+
+</div>
+<div class="mr-loading-status">
+<div class="loading hide">
+<div class="gl-spinner-container" role="status"><span aria-hidden class="gl-spinner gl-spinner-lg gl-spinner-dark !gl-align-text-bottom"></span><span class="gl-sr-only !gl-absolute">Loading</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="js-reviewer-drawer-portal"></div>
+<script>
+//<![CDATA[
+  window.gl = window.gl || {};
+  window.gl.webIDEPath = '/-/ide/project/project/canvas/edit/'
+
+
+//]]>
+</script>
+
+<script>
+//<![CDATA[
+// Append static, server-generated data not included in merge request entity (EE-Only)
+// Object.assign would be useful here, but it blows up Phantom.js in tests
+window.gl.mrWidgetData.is_geo_secondary_node = 'false' === 'true';
+window.gl.mrWidgetData.geo_secondary_help_path = '/help/administration/geo/replication/configuration.md';
+window.gl.mrWidgetData.sast_help_path = '/help/user/application_security/sast/_index.md';
+window.gl.mrWidgetData.secret_detection_help_path = '/help/user/application_security/secret_detection/_index.md';
+window.gl.mrWidgetData.container_scanning_help_path = '/help/user/application_security/container_scanning/_index.md';
+window.gl.mrWidgetData.dast_help_path = '/help/user/application_security/dast/_index.md';
+window.gl.mrWidgetData.dependency_scanning_help_path = '/help/user/application_security/dependency_scanning/_index.md';
+window.gl.mrWidgetData.api_fuzzing_help_path = '/help/user/application_security/api_fuzzing/_index.md';
+window.gl.mrWidgetData.coverage_fuzzing_help_path = '/help/user/application_security/coverage_fuzzing/_index.md';
+window.gl.mrWidgetData.license_scanning_comparison_path = '/project/canvas/-/merge_requests/660/license_scanning_reports'
+window.gl.mrWidgetData.license_scanning_comparison_collapsed_path = '/project/canvas/-/merge_requests/660/license_scanning_reports_collapsed'
+window.gl.mrWidgetData.aiCommitMessageEnabled = false
+window.gl.mrWidgetData.dismissal_descriptions = '{\"acceptable_risk\":\"The vulnerability is known, and has not been remediated or mitigated, but is considered to be an acceptable business risk.\",\"false_positive\":\"An error in reporting in which a test result incorrectly indicates the presence of a vulnerability in a system when the vulnerability is not present.\",\"mitigating_control\":\"A management, operational, or technical control (that is, safeguard or countermeasure) employed by an organization that provides equivalent or comparable protection for an information system.\",\"used_in_tests\":\"The finding is not a vulnerability because it is part of a test or is test data.\",\"not_applicable\":\"The vulnerability is known, and has not been remediated or mitigated, but is considered to be in a part of the application that will not be updated.\"}';
+window.gl.mrWidgetData.customize_jira_issue_enabled = '';
+window.gl.mrWidgetData.commit_path_template = '/project/canvas/-/commit/$COMMIT_SHA';
+window.gl.mrWidgetData.merge_trains_path = '/project/canvas/-/merge_trains';
+window.gl.mrWidgetData.validity_checks_enabled = 'false';
+
+
+
+//]]>
+</script><script>
+//<![CDATA[
+window.gl.mrWidgetData.security_policies_path = '/project/canvas/-/security/policies';
+
+
+
+//]]>
+</script><script>
+//<![CDATA[
+window.gl.mrWidgetData.path_locks_path = '/project/canvas/path_locks'
+
+
+
+//]]>
+</script>
+
+
+</main>
+</div>
+
+</div>
+
+</div>
+</div>
+<div class="js-dynamic-panel paneled-view contextual-panel gl-@container/panel !gl-absolute gl-shadow-lg @xl/content-panels:gl-w-1/2 @xl/content-panels:gl-shadow-none @xl/content-panels:!gl-relative" id="contextual-panel-portal"></div>
+</div>
+</div>
+
+</div>
+
+
+<script>
+//<![CDATA[
+if ('loading' in HTMLImageElement.prototype) {
+  document.querySelectorAll('img.lazy').forEach(img => {
+    img.loading = 'lazy';
+    let imgUrl = img.dataset.src;
+    // Only adding width + height for avatars for now
+    if (imgUrl.indexOf('/avatar/') > -1 && imgUrl.indexOf('?') === -1) {
+      const targetWidth = img.getAttribute('width') || img.width;
+      imgUrl += `?width=${targetWidth}`;
+    }
+    img.src = imgUrl;
+    img.removeAttribute('data-src');
+    img.classList.remove('lazy');
+    img.classList.add('js-lazy-loaded');
+    img.dataset.testid = 'js-lazy-loaded-content';
+  });
+}
+
+//]]>
+</script>
+<script>
+//<![CDATA[
+gl = window.gl || {};
+gl.experiments = {};
+
+
+//]]>
+</script>
+
+</body>
+</html>
+
