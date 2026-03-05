@@ -1,5 +1,7 @@
 // Adds a link to the related Drupal.org issue (with title) at the top of GitLab MR pages
-(function addDrupalIssueLink() {
+(async function addDrupalIssueLink() {
+  let src = chrome.runtime.getURL("common.js");
+  const { utils } = await import(src);
   // Find the issue reference link
   const issueRef = document.querySelector('a.ref-container[href^="/issue/"]');
   if (!issueRef) return;
@@ -12,7 +14,7 @@
     .then((response) => response.json())
     .then((data) => {
       const title = (data && data.title) ? data.title.trim().replace(/\s+/g, ' ') : `Drupal.org issue #${issueId}`;
-      const status = data.field_issue_status && data.field_issue_status.und && data.field_issue_status.und[0] ? data.field_issue_status.und[0].value : 'Unknown';
+      const status = utils.getStatusForId(data.field_issue_status);
       // Build info div
       const infoDiv = document.createElement('div');
       infoDiv.style.display = 'block';
