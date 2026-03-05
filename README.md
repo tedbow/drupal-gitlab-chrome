@@ -8,6 +8,8 @@ This Chrome extension provides a suite of productivity enhancements for working 
 
 ## Features
 
+- **Paste Drupal.org Issue Links in GitLab**: When you paste a Drupal.org issue URL into a GitLab merge request textarea, it is automatically converted into a Markdown link with the issue title. ![Paste Drupal.org link on GitLab textarea](readme-files/paste-drupal-org-link-on-gitlab-textarea.gif)
+- **Show Related Drupal.org Issue on GitLab MR**: On GitLab merge request pages, a banner is added at the top showing the related Drupal.org issue, its status, and the assigned user. ![Drupal.org link on MR](readme-files/drupal-org-link-on-mr.png)
 - **Issue Queue Enhancements**: Adds toolbars, filters, and bulk actions to Drupal.org issue search and listing pages, including multi-page loading and project-specific utilities.
 - **Issue Node Tools**: Enhances individual issue pages with quick tag buttons, merge test controls, comment enhancements (such as @mention autocomplete and sticky textarea), and information collectors.
 - **Tag Management**: Provides quick-add buttons for common tags, configurable via the extension options.
