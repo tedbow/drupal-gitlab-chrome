@@ -25,6 +25,7 @@ const stickyPlugin = {
       padding: 2px 6px;
       cursor: pointer;
       background: #f5f5f5;
+      color: #333;
       border: 1px solid #ccc;
       border-radius: 3px;
       z-index: 10000;
@@ -71,8 +72,8 @@ const stickyPlugin = {
     Object.assign(textarea.style, {
       position: "fixed",
       bottom: "0",
-      left: "0",
-      width: "100%",
+      left: `${textarea.getBoundingClientRect().left}px`,
+      width: `${textarea.offsetWidth}px`,
       zIndex: "9998",
       boxShadow: "0 -3px 10px rgba(0,0,0,0.25)",
       borderTop: "3px solid #0679c8",
@@ -80,6 +81,7 @@ const stickyPlugin = {
 
     btn.textContent = "📌 Unstick";
     btn.style.background = "#d6eaf8";
+    btn.style.color = "#0679c8";
     btn.style.borderColor = "#0679c8";
     btn.title = "Restore textarea to original position";
 
@@ -103,6 +105,7 @@ const stickyPlugin = {
 
     btn.textContent = "📌 Sticky";
     btn.style.background = "#f5f5f5";
+    btn.style.color = "#333";
     btn.style.borderColor = "#ccc";
     btn.title = "Fix textarea to bottom of screen while scrolling";
   },
