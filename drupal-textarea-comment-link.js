@@ -27,10 +27,15 @@ const commentLinkPlugin = {
   expand: function (textarea, commentMap) {
     const value = textarea.value;
     const pos = textarea.selectionStart;
-    const newValue = value.replace(/#(\d+)(?=\D)/g, (match, num) => {
-      const anchor = commentMap[parseInt(num, 10)];
-      return anchor !== undefined ? `<a href="#${anchor}">#${num}</a>` : match;
-    });
+    // Match existing <a>…</a> blocks first (skip them), then match bare #N.
+    const newValue = value.replace(
+      /(<a\b[^>]*>[\s\S]*?<\/a>)|#(\d+)(?=\D)/g,
+      (match, existingAnchor, num) => {
+        if (existingAnchor) return existingAnchor; // preserve already-converted links
+        const anchor = commentMap[parseInt(num, 10)];
+        return anchor !== undefined ? `<a href="#${anchor}">#${num}</a>` : match;
+      }
+    );
     if (newValue !== value) {
       textarea.value = newValue;
       const delta = newValue.length - value.length;
