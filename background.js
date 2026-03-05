@@ -18,4 +18,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("sample_call was called");
     return true; // Will respond asynchronously.
   }
+  if (request.call === "triggerClick" && sender.tab) {
+    chrome.scripting.executeScript({
+      target: { tabId: sender.tab.id },
+      world: "MAIN",
+      func: (elementId) => {
+        const btn = document.getElementById(elementId);
+        if (!btn) return;
+        // Drupal 7 AJAX binds to mousedown on submit buttons, not click.
+        if (typeof jQuery !== "undefined") {
+          jQuery(btn).trigger("mousedown").trigger("click");
+        } else {
+          btn.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, cancelable: true }));
+          btn.click();
+        }
+      },
+      args: [request.elementId],
+    });
+    return false;
+  }
 });
