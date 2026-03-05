@@ -21,6 +21,9 @@ function save_options() {
   const auto_tags = convertTextAreaToArray(
     document.getElementById("auto_tags")
   );
+  const common_usernames = convertTextAreaToArray(
+    document.getElementById("common_usernames")
+  );
   const load_pages = document.getElementById("load_pages").checked;
   const project_test_requirements = {};
   document.querySelectorAll(".project-tests").forEach((textArea) => {
@@ -34,6 +37,7 @@ function save_options() {
       load_pages: load_pages,
       project_test_requirements: project_test_requirements,
       auto_tags: auto_tags,
+      common_usernames: common_usernames,
     },
     function () {
       // Reset from storage to remove empty lines, if any.
@@ -55,6 +59,7 @@ function restore_options() {
       project_test_requirements: {},
       load_pages: false,
       auto_tags: [],
+      common_usernames: [],
     },
     function (items) {
       if (items.auto_tags.length === 0) {
@@ -71,6 +76,10 @@ function restore_options() {
       setTextAreaValueByArray(
         document.getElementById("auto_tags"),
         items.auto_tags
+      );
+      setTextAreaValueByArray(
+        document.getElementById("common_usernames"),
+        items.common_usernames
       );
       document.getElementById("load_pages").checked = items.load_pages;
       document

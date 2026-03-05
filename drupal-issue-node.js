@@ -7,8 +7,11 @@
   const { issueCollect } = await import(src);
   src = chrome.runtime.getURL("drupal-merge-tests.js");
   const { mergeTests } = await import(src);
+  src = chrome.runtime.getURL("drupal-textarea-enhance.js");
+  const { textareaEnhance } = await import(src);
   issueTags.addButtons();
   bulkActions.doBulkAction();
   mergeTests.stopMerge();
   issueCollect.doAction();
+  textareaEnhance.init();
 })();

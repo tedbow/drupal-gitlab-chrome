@@ -59,7 +59,8 @@
         "drupal-bulk-actions.js",
         "drupal-issue-tags.js",
         "drupal-merge-tests.js",
-        "drupal-collect-issue-info.js"
+        "drupal-collect-issue-info.js",
+        "drupal-textarea-enhance.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },
