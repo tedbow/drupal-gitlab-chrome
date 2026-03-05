@@ -2,6 +2,7 @@ import { mentionPlugin } from "./drupal-textarea-mention.js";
 import { commentLinkPlugin } from "./drupal-textarea-comment-link.js";
 import { pastePlugin } from "./drupal-textarea-paste.js";
 import { tagsPlugin } from "./drupal-textarea-tags.js";
+import { stickyPlugin } from "./drupal-textarea-sticky.js";
 
 /**
  * Coordinator for textarea enhancements on Drupal.org issue pages.
@@ -16,7 +17,7 @@ import { tagsPlugin } from "./drupal-textarea-tags.js";
  * Then register the plugin in the `plugins` array below.
  */
 const textareaEnhance = {
-  plugins: [mentionPlugin, commentLinkPlugin, pastePlugin, tagsPlugin],
+  plugins: [mentionPlugin, commentLinkPlugin, pastePlugin, tagsPlugin, stickyPlugin],
 
   buildContext: function (commonUsernames) {
     return {

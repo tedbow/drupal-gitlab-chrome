@@ -64,7 +64,9 @@
         "drupal-textarea-mention.js",
         "drupal-textarea-comment-link.js",
         "drupal-textarea-paste.js",
-        "drupal-textarea-tags.js"
+        "drupal-textarea-tags.js",
+        "drupal-textarea-sticky.js",
+        "drupal-textarea-utils.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },
