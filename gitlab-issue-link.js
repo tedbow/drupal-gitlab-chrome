@@ -12,19 +12,51 @@
     .then((response) => response.json())
     .then((data) => {
       const title = (data && data.title) ? data.title.trim().replace(/\s+/g, ' ') : `Drupal.org issue #${issueId}`;
+      const status = data.field_issue_status && data.field_issue_status.und && data.field_issue_status.und[0] ? data.field_issue_status.und[0].value : 'Unknown';
+      // Build info div
+      const infoDiv = document.createElement('div');
+      infoDiv.style.display = 'block';
+      infoDiv.style.fontWeight = 'bold';
+      infoDiv.style.marginBottom = '10px';
+      // Link
       const link = document.createElement('a');
       link.href = `https://www.drupal.org/project/canvas/issues/${issueId}`;
       link.textContent = `Drupal.org: ${title}`;
       link.target = '_blank';
-      link.style.display = 'block';
-      link.style.fontWeight = 'bold';
-      link.style.marginBottom = '10px';
-      // Insert at the top of the page (before the MR title)
-      const mrTitle = document.querySelector('.detail-page-header .titlefff');
-      if (mrTitle && mrTitle.parentNode) {
-        mrTitle.parentNode.insertBefore(link, mrTitle);
+      link.style.marginRight = '10px';
+      infoDiv.appendChild(link);
+      // Status
+      const statusSpan = document.createElement('span');
+      statusSpan.textContent = `Status: ${status}`;
+      statusSpan.style.marginRight = '10px';
+      infoDiv.appendChild(statusSpan);
+      // Assignee (fetch user info if assigned)
+      const assigneeSpan = document.createElement('span');
+      assigneeSpan.textContent = 'Assigned to: ';
+      infoDiv.appendChild(assigneeSpan);
+      let assigneeUri = null;
+      if (data.field_issue_assigned && data.field_issue_assigned.uri) {
+        assigneeUri = `${data.field_issue_assigned.uri}.json`;
+      }
+      if (assigneeUri) {
+        fetch(assigneeUri)
+          .then((response) => response.json())
+          .then((userData) => {
+            const name = userData.name ? userData.name : 'Unknown';
+            assigneeSpan.textContent += name;
+          })
+          .catch(() => {
+            assigneeSpan.textContent += 'Unknown';
+          });
       } else {
-        document.body.insertBefore(link, document.body.firstChild);
+        assigneeSpan.textContent += 'Unassigned';
+      }
+      // Insert at the top of the page (before the MR title)
+      const mrTitle = document.querySelector('.merge-request-details .title, .merge-request-title');
+      if (mrTitle && mrTitle.parentNode) {
+        mrTitle.parentNode.insertBefore(infoDiv, mrTitle);
+      } else {
+        document.body.insertBefore(infoDiv, document.body.firstChild);
       }
     });
 })();
