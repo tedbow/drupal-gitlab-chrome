@@ -24,7 +24,6 @@
       const link = document.createElement('a');
       link.href = `https://www.drupal.org/project/canvas/issues/${issueId}`;
       link.textContent = `Drupal.org: ${title}`;
-      link.target = '_blank';
       link.style.marginRight = '10px';
       infoDiv.appendChild(link);
       // Status
