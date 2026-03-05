@@ -16,6 +16,45 @@ const textareaEnhance = {
   },
 
   /**
+   * Builds a map of comment sequential number → comment anchor ID.
+   * e.g. { 1: "comment-16319120" }
+   */
+  getCommentMap: function () {
+    const map = {};
+    document.querySelectorAll("a.permalink").forEach((link) => {
+      const text = link.textContent.replace("Comment", "").trim();
+      const num = parseInt(text.replace("#", ""), 10);
+      if (!isNaN(num)) {
+        const anchor = link.getAttribute("href").split("#")[1];
+        if (anchor) {
+          map[num] = anchor;
+        }
+      }
+    });
+    return map;
+  },
+
+  /**
+   * Expands #N references in textarea text to HTML anchor links.
+   * Only replaces when #N is followed by a non-digit character (space, punctuation, etc.)
+   * so the user can finish typing a multi-digit number.
+   * e.g. #11 + space → <a href="#comment-16492411">#11</a>
+   */
+  expandCommentLinks: function (textarea, commentMap) {
+    const value = textarea.value;
+    const pos = textarea.selectionStart;
+    const newValue = value.replace(/#(\d+)(?=\D)/g, (match, num) => {
+      const anchor = commentMap[parseInt(num, 10)];
+      return anchor !== undefined ? `<a href="#${anchor}">#${num}</a>` : match;
+    });
+    if (newValue !== value) {
+      textarea.value = newValue;
+      const delta = newValue.length - value.length;
+      textarea.setSelectionRange(pos + delta, pos + delta);
+    }
+  },
+
+  /**
    * Returns the combined list of page usernames and configured common usernames.
    */
   getAllUsernames: function (commonUsernames) {
@@ -115,10 +154,37 @@ const textareaEnhance = {
   },
 
   /**
+   * Handles paste events: converts pasted Drupal issue URLs to [#ISSUE_NUMBER].
+   * e.g. https://www.drupal.org/project/canvas/issues/3554197 → [#3554197]
+   */
+  handlePaste: function (textarea, e) {
+    const pasted = e.clipboardData.getData("text");
+    const drupalIssueUrlPattern = /https?:\/\/www\.drupal\.org\/(?:project\/[^/]+\/issues|node|i)\/(\d+)[^\s]*/g;
+    const replaced = pasted.replace(drupalIssueUrlPattern, (match, issueId) => `[#${issueId}]`);
+    if (replaced === pasted) return; // nothing to do
+
+    e.preventDefault();
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const before = textarea.value.slice(0, start);
+    const after = textarea.value.slice(end);
+    textarea.value = before + replaced + after;
+    const newPos = start + replaced.length;
+    textarea.setSelectionRange(newPos, newPos);
+  },
+
+  /**
    * Attaches autocomplete behaviour to a single textarea element.
    */
-  attachToTextarea: function (textarea, allUsernames) {
+  attachToTextarea: function (textarea, allUsernames, commentMap) {
+    textarea.addEventListener("paste", (e) => {
+      this.handlePaste(textarea, e);
+    });
+
     textarea.addEventListener("input", () => {
+      // Expand #N comment references first
+      this.expandCommentLinks(textarea, commentMap);
+
       const prefix = this.getCurrentMentionPrefix(textarea);
       if (prefix === null) {
         this.removeDropdown();
@@ -176,8 +242,9 @@ const textareaEnhance = {
   init: function () {
     chrome.storage.sync.get({ common_usernames: [] }, (items) => {
       const allUsernames = this.getAllUsernames(items.common_usernames);
+      const commentMap = this.getCommentMap();
       document.querySelectorAll("textarea").forEach((textarea) => {
-        this.attachToTextarea(textarea, allUsernames);
+        this.attachToTextarea(textarea, allUsernames, commentMap);
       });
     });
   },
