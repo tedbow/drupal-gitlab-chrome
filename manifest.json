@@ -27,7 +27,7 @@
     {
       "type": "module",
       "matches": ["https://git.drupalcode.org/project/*"],
-      "js": ["gitlab.js"],
+      "js": ["gitlab.js", "gitlab-textarea-paste.js"],
       "css": ["gitlab-styles.css"]
     },
     {
