@@ -34,6 +34,8 @@ const textareaUtils = {
       min-width: 150px;
     `;
 
+    // Cache for fetched issue titles
+    const issueTitleCache = {};
     labels.forEach((label, i) => {
       const item = document.createElement("li");
       item.textContent = label;
@@ -44,9 +46,34 @@ const textareaUtils = {
         font-size: 13px;
         white-space: nowrap;
       `;
-      item.addEventListener("mouseenter", () => {
+      // If the label looks like an external issue, add a data attribute
+      const match = label.match(/#?(\d{5,})/);
+      if (match) {
+        item.setAttribute("data-external-issue", match[1]);
+      }
+      item.addEventListener("mouseenter", async () => {
         item.style.background = "#0679c8";
         item.style.color = "#fff";
+        const issueId = item.getAttribute("data-external-issue");
+        if (issueId && !item.getAttribute("data-title-fetched")) {
+          if (issueTitleCache[issueId]) {
+            item.title = issueTitleCache[issueId];
+            item.setAttribute("data-title-fetched", "1");
+          } else {
+            try {
+              const resp = await fetch(`https://www.drupal.org/api-d7/node/${issueId}.json`);
+              if (resp.ok) {
+                const data = await resp.json();
+                const title = (data && data.title) ? data.title.trim().replace(/\s+/g, ' ') : `Drupal.org issue #${issueId}`;
+                issueTitleCache[issueId] = title;
+                item.title = title;
+                item.setAttribute("data-title-fetched", "1");
+              }
+            } catch (e) {
+              // ignore fetch errors
+            }
+          }
+        }
       });
       item.addEventListener("mouseleave", () => {
         item.style.background = "";
@@ -58,6 +85,7 @@ const textareaUtils = {
       });
       dropdown.appendChild(item);
     });
+    // TODO: Mark this todo as done when complete.
 
     document.body.appendChild(dropdown);
     this.positionDropdown(dropdown, textarea);

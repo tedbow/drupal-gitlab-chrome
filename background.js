@@ -5,8 +5,8 @@ function fetchJson(url, parser, sendResponse) {
   fetch(url)
     .then((response) => response.text())
     .then((text) => sendResponse({ issues: parser(text) }))
-    // @todo handle error.
-    .catch((error) => sendResponse({ farewell: error }));
+    // Handles REST call failure with a user-friendly fallback message.
+    .catch((error) => sendResponse({ farewell: "Could not fetch issue information. Please check the issue ID or your network connection." }));
 }
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   console.log(

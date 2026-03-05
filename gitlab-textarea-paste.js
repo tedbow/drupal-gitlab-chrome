@@ -23,7 +23,7 @@ function handlePaste(e) {
   matches.forEach(async ([match, issueId]) => {
     const title = await fetchIssueTitle(issueId);
     const cleanTitle = title ? title.trim().replace(/\s+/g, ' ') : '';
-    const md = title ? `[${cleanTitle}](${match})` : match;
+    const md = title ? `[${cleanTitle}](${match})` : `[Drupal.org issue #${issueId}](${match})`;
     replaced = replaced.replace(match, md);
     pending--;
     if (pending === 0) {
