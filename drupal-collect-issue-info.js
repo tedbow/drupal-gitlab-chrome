@@ -1,14 +1,14 @@
 /**
  * Issue Information Collector
- * 
+ *
  * This file implements a utility for batch processing Drupal.org issue pages.
  * It allows users to:
  * 1. Input a list of issue URLs to visit
  * 2. Specify CSS selectors to extract information from each page
  * 3. Collect data from multiple issue pages sequentially
  * 4. Return to the starting page with all collected data
- * 
- * The tool is useful for gathering structured information across multiple 
+ *
+ * The tool is useful for gathering structured information across multiple
  * Drupal.org issues for reporting or analysis.
  */
 
@@ -27,10 +27,10 @@ const issueCollect = {
     const collectLabel = document.createElement("summary");
     collectLabel.innerText = "Get Issue info";
     inputDetails.appendChild(collectLabel);
-    
+
     // Find the issue table to attach our form
     const table = utils.getIssueTableElement();
-    
+
     // Create the form container
     const issueCollectDiv = document.createElement("div");
     const issueCollectDivLabel = document.createElement("h4");
@@ -38,7 +38,7 @@ const issueCollect = {
     inputDetails.appendChild(issueCollectDivLabel);
     issueCollectDiv.className = "issueCollectDiv";
     inputDetails.appendChild(issueCollectDiv);
-    
+
     // Create URL input section
     const collectIssuesLabel = document.createElement("h2");
     collectIssuesLabel.innerText = "Issue URLs";
@@ -47,7 +47,7 @@ const issueCollect = {
     issuesTextArea.name = `collect-issues`;
     issuesTextArea.id = "collect-issues";
     issueCollectDiv.append(issuesTextArea);
-    
+
     // Create selectors input section
     const collectSelectorsLabel = document.createElement("h2");
     collectSelectorsLabel.innerText = "Element selectors";
@@ -66,7 +66,7 @@ const issueCollect = {
     resultTextArea.id = "collect-results";
     resultTextArea.rows = 10; // Make results textarea taller
     issueCollectDiv.append(resultTextArea);
-    
+
     // Add the form to the page
     table.parentNode.append(inputDetails);
 
@@ -92,48 +92,55 @@ const issueCollect = {
       );
     };
     inputDetails.appendChild(actionButton);
-    
+
     // Check if we're returning from a completed collection process
     chrome.storage.sync.get({ collect_issues: {} }, function (items) {
       if (items.collect_issues.hasOwnProperty("finish_msg")) {
         // Automatically open the form
         inputDetails.open = true;
-        
+
         // Format and display collection results
-        let textValue = '';
-        if (items.collect_issues.results && Array.isArray(items.collect_issues.results)) {
+        let textValue = "";
+        if (
+          items.collect_issues.results &&
+          Array.isArray(items.collect_issues.results)
+        ) {
           items.collect_issues.results.forEach(function (result) {
-            textValue += result.join(',');
+            textValue += result.join(",");
             textValue += "\n";
           });
         }
-        
+
         // Create status message in red above results
-        const statusMessage = document.createElement('div');
+        const statusMessage = document.createElement("div");
         statusMessage.innerText = items.collect_issues.finish_msg;
-        statusMessage.style.color = '#cc0000'; // Drupal red
-        statusMessage.style.fontWeight = 'bold';
-        statusMessage.style.padding = '0.5rem 0';
-        statusMessage.style.marginBottom = '0.5rem';
-        
+        statusMessage.style.color = "#cc0000"; // Drupal red
+        statusMessage.style.fontWeight = "bold";
+        statusMessage.style.padding = "0.5rem 0";
+        statusMessage.style.marginBottom = "0.5rem";
+
         // Add the message before the results textarea
-        const collectResultsLabel = document.getElementById('collect-results').previousElementSibling;
+        const collectResultsLabel =
+          document.getElementById("collect-results").previousElementSibling;
         if (collectResultsLabel) {
           collectResultsLabel.after(statusMessage);
         }
-        
+
         // Set the result text
-        const resultElement = document.getElementById('collect-results');
+        const resultElement = document.getElementById("collect-results");
         if (resultElement) {
           resultElement.value = textValue;
-          
+
           // Set focus on the result textarea and scroll into view
           setTimeout(() => {
             resultElement.focus();
-            resultElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            resultElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
           }, 500);
         }
-        
+
         // Clear the collection state
         chrome.storage.sync.set(
           {
@@ -144,7 +151,7 @@ const issueCollect = {
       }
     });
   },
-  
+
   /**
    * Navigate to the next URL in the collection queue
    * Adds a small delay to prevent rate limiting
@@ -157,7 +164,7 @@ const issueCollect = {
       }
     });
   },
-  
+
   /**
    * Utility function to convert textarea content into an array of lines
    * Removes empty lines and trims whitespace
@@ -170,7 +177,7 @@ const issueCollect = {
       .map((line) => line.trim())
       .filter((n) => n);
   },
-  
+
   /**
    * Performs data collection on the current issue page
    * This runs automatically when navigating to an issue page in the collection queue
@@ -190,7 +197,7 @@ const issueCollect = {
         }
         return;
       }
-      
+
       // Check if current URL is in our collection list
       if (!items.collect_issues.urls.includes(url)) {
         // Validate we're on a Drupal.org issue page
@@ -205,10 +212,8 @@ const issueCollect = {
       }
 
       // Start collecting data, beginning with the current URL
-      const collected = [
-          url
-      ];
-      
+      const collected = [url];
+
       // Extract data using the provided CSS selectors
       if (items.collect_issues.hasOwnProperty("selectors")) {
         items.collect_issues.selectors.forEach(function (selector) {
@@ -217,31 +222,34 @@ const issueCollect = {
             alert(`Could not find ${selector}`);
             return;
           }
-          collected.push(document.querySelector(selector).textContent)
-        })
+          collected.push(document.querySelector(selector).textContent);
+        });
       }
-      
+
       // Store the collected data
       items.collect_issues.results.push(collected);
 
       // Remove current URL from the queue
       const urls = utils.removeArrayItem(items.collect_issues.urls, url);
 
-      // Prepare the next state 
+      // Prepare the next state
       let newBulksActions;
       if (urls.length === 0) {
         // If no more URLs to process, prepare completion state
         newBulksActions = {
-          finish_msg: "✅ Collection complete! Processed " + items.collect_issues.results.length + " issue pages",
+          finish_msg:
+            "✅ Collection complete! Processed " +
+            items.collect_issues.results.length +
+            " issue pages",
           return_url: items.collect_issues.return_url,
-          results: items.collect_issues.results || []
+          results: items.collect_issues.results || [],
         };
       } else {
         // Otherwise update the URL queue
         items.collect_issues.urls = urls;
         newBulksActions = items.collect_issues;
       }
-      
+
       // Store the updated state and navigate to next URL or return
       chrome.storage.sync.set(
         {
@@ -251,8 +259,7 @@ const issueCollect = {
           if (urls.length === 0) {
             // If collection is complete, return to start page
             window.location.href = items.collect_issues.return_url;
-          }
-          else {
+          } else {
             // Otherwise go to next URL in the queue
             window.location.href = urls[0];
           }

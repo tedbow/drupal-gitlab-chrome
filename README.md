@@ -18,22 +18,27 @@ This Chrome extension provides a suite of productivity enhancements for working 
 - **Options Page**: Lets you configure projects, common tags, and usernames for autocomplete.
 
 ## Supported Sites
+
 - [Drupal.org](https://www.drupal.org/)
 - [GitLab for Drupal](https://git.drupalcode.org/)
 
 ## Installation
+
 1. Clone or download this repository.
 2. In Chrome, go to `chrome://extensions/` and enable Developer Mode.
 3. Click "Load unpacked" and select this directory.
 4. Configure your projects and preferences via the extension options.
 
 ## Usage
+
 - Visit Drupal.org issue queues or issue pages to see the enhanced toolbars and features.
 - Use the options page to set up your projects, common tags, and usernames for autocomplete.
 
 ## Development
+
 - Main logic is in modular JS files loaded as content scripts for specific Drupal.org and GitLab pages.
 - See `manifest.json` for script/page mappings.
 
 ## License
+
 MIT

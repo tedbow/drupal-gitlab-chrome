@@ -7,7 +7,8 @@
  * add it there.
  */
 const pastePlugin = {
-  DRUPAL_ISSUE_URL: /https?:\/\/www\.drupal\.org\/(?:project\/[^/]+\/issues|node|i)\/(\d+)[^\s]*/g,
+  DRUPAL_ISSUE_URL:
+    /https?:\/\/www\.drupal\.org\/(?:project\/[^/]+\/issues|node|i)\/(\d+)[^\s]*/g,
 
   /**
    * Returns all current values from the Related Issues Links URL inputs.
@@ -16,8 +17,8 @@ const pastePlugin = {
     return Array.from(
       document.querySelectorAll(
         '#edit-field-issue-related-links input[id*="-url"], ' +
-        '#field-issue-related-links-add-more-wrapper input[id*="-url"], ' +
-        'input[id^="edit-field-issue-related-links-und-"][id*="-url"]'
+          '#field-issue-related-links-add-more-wrapper input[id*="-url"], ' +
+          'input[id^="edit-field-issue-related-links-und-"][id*="-url"]'
       )
     );
   },
@@ -91,7 +92,8 @@ const pastePlugin = {
    */
   offerRelatedLink: function (issueId, originalUrl) {
     if (this.isInRelatedLinks(issueId)) return;
-    if (!window.confirm(`Add issue #${issueId} to "Related issues links"?`)) return;
+    if (!window.confirm(`Add issue #${issueId} to "Related issues links"?`))
+      return;
 
     if (!this.setEmptyRelatedLink(originalUrl)) {
       this.addViaButton(originalUrl);
@@ -122,8 +124,12 @@ const pastePlugin = {
       textarea.setSelectionRange(newPos, newPos);
 
       // Only offer to add to related links if the field exists on this page
-      if (document.getElementById("edit-field-issue-related-links-und-add-more") ||
-          this.getRelatedLinkInputs().length > 0) {
+      if (
+        document.getElementById(
+          "edit-field-issue-related-links-und-add-more"
+        ) ||
+        this.getRelatedLinkInputs().length > 0
+      ) {
         replacements.forEach(({ issueId, originalUrl }) => {
           this.offerRelatedLink(issueId, originalUrl);
         });

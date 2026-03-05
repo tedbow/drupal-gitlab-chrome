@@ -9,7 +9,8 @@ const stickyPlugin = {
   attach: function (textarea) {
     // Wrap textarea in a relative container so the button can be positioned
     const wrapper = document.createElement("div");
-    wrapper.style.cssText = "position: relative; display: inline-block; width: 100%;";
+    wrapper.style.cssText =
+      "position: relative; display: inline-block; width: 100%;";
     textarea.parentNode.insertBefore(wrapper, textarea);
     wrapper.appendChild(textarea);
 

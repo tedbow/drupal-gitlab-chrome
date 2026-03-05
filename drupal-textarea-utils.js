@@ -108,14 +108,22 @@ const textareaUtils = {
 
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        if (active) { active.classList.remove("dat-active"); active.style.background = ""; active.style.color = ""; }
+        if (active) {
+          active.classList.remove("dat-active");
+          active.style.background = "";
+          active.style.color = "";
+        }
         idx = (idx + 1) % items.length;
         items[idx].classList.add("dat-active");
         items[idx].style.background = "#0679c8";
         items[idx].style.color = "#fff";
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        if (active) { active.classList.remove("dat-active"); active.style.background = ""; active.style.color = ""; }
+        if (active) {
+          active.classList.remove("dat-active");
+          active.style.background = "";
+          active.style.color = "";
+        }
         idx = (idx - 1 + items.length) % items.length;
         items[idx].classList.add("dat-active");
         items[idx].style.background = "#0679c8";

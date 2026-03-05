@@ -29,7 +29,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (typeof jQuery !== "undefined") {
           jQuery(btn).trigger("mousedown").trigger("click");
         } else {
-          btn.dispatchEvent(new MouseEvent("mousedown", { bubbles: true, cancelable: true }));
+          btn.dispatchEvent(
+            new MouseEvent("mousedown", { bubbles: true, cancelable: true })
+          );
           btn.click();
         }
       },

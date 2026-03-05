@@ -11,7 +11,19 @@ import { textareaUtils } from "./drupal-textarea-utils.js";
 const DROPDOWN_ID = "dat-tags-dropdown";
 
 const tagsPlugin = {
-  FALLBACK_TAGS: ["blockquote", "code", "del", "em", "h2", "h3", "h4", "li", "ol", "strong", "ul"],
+  FALLBACK_TAGS: [
+    "blockquote",
+    "code",
+    "del",
+    "em",
+    "h2",
+    "h3",
+    "h4",
+    "li",
+    "ol",
+    "strong",
+    "ul",
+  ],
 
   getTagsFromPage: function () {
     try {
@@ -45,7 +57,10 @@ const tagsPlugin = {
   buildInsertion: function (tag, selectedText) {
     if (tag === "ul" || tag === "ol") {
       const inner = selectedText
-        ? selectedText.split("\n").map((line) => `  <li>${line}</li>`).join("\n")
+        ? selectedText
+            .split("\n")
+            .map((line) => `  <li>${line}</li>`)
+            .join("\n")
         : `  <li></li>`;
       const inserted = `<${tag}>\n${inner}\n</${tag}>`;
       const cursorOffset = `<${tag}>\n  <li>`.length;

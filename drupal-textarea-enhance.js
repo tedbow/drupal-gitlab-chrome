@@ -17,7 +17,13 @@ import { stickyPlugin } from "./drupal-textarea-sticky.js";
  * Then register the plugin in the `plugins` array below.
  */
 const textareaEnhance = {
-  plugins: [mentionPlugin, commentLinkPlugin, pastePlugin, tagsPlugin, stickyPlugin],
+  plugins: [
+    mentionPlugin,
+    commentLinkPlugin,
+    pastePlugin,
+    tagsPlugin,
+    stickyPlugin,
+  ],
 
   buildContext: function (commonUsernames) {
     return {

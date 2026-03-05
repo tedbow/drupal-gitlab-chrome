@@ -33,7 +33,9 @@ const commentLinkPlugin = {
       (match, existingAnchor, num) => {
         if (existingAnchor) return existingAnchor; // preserve already-converted links
         const anchor = commentMap[parseInt(num, 10)];
-        return anchor !== undefined ? `<a href="#${anchor}">#${num}</a>` : match;
+        return anchor !== undefined
+          ? `<a href="#${anchor}">#${num}</a>`
+          : match;
       }
     );
     if (newValue !== value) {
