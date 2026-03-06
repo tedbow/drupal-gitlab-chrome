@@ -41,6 +41,11 @@ This Chrome extension provides a suite of productivity enhancements for working 
 - Main logic is in modular JS files loaded as content scripts for specific Drupal.org and GitLab pages.
 - See `manifest.json` for script/page mappings.
 
+# Todo: Features to add
+- on drupal.org when pasting file path like src/Config/Schema/JsonSchemaObject.php b/src/Config/Schema/JsonSchemaObject.php surround by <code> tags
+
+
 ## License
+
 
 MIT
