@@ -1,6 +1,6 @@
 # ⚠️ WARNING: Use at Your Own Risk! ⚠️
 
-This extension is a wild beast—tame it if you dare! It may eat your issues, tag your friends, or cause spontaneous productivity. No warranty, no guarantees, and definitely no refunds. Proceed with caution and a sense of humor.
+This extension is a wild beast—tame it if you dare🦁! It may eat your issues, tag your friends, or cause spontaneous productivity. No warranty, no guarantees, and definitely no refunds. Proceed with caution and a sense of humor.
 
 # DAT Drupal.org Chrome Extension
 
