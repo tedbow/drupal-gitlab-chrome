@@ -3,8 +3,8 @@
  *
  * When a Drupal.org issue URL is pasted into a textarea it is converted to
  * the [#ISSUE_NUMBER] shorthand format. If the issue is not already listed
- * in the "Related issues links" field, the user is offered the option to
- * add it there.
+ * in the "Related issues links" field and not the parent issue, the user is
+ * offered the option to add it there.
  */
 const pastePlugin = {
   DRUPAL_ISSUE_URL:
@@ -93,8 +93,11 @@ const pastePlugin = {
   offerRelatedLink: function (issueId, originalUrl) {
     if (this.isInRelatedLinks(issueId)) return;
     // Do not offer to add if this is the parent link field
-    const parentInput = document.querySelector('input[id^="edit-field-issue-parent-link"][id$="-url"]');
-    if (parentInput && parentInput.value && parentInput.value.includes(issueId)) return;
+    const parentInput = document.querySelector(
+      'input[id^="edit-field-issue-parent-link"][id$="-url"]'
+    );
+    if (parentInput && parentInput.value && parentInput.value.includes(issueId))
+      return;
     if (!window.confirm(`Add issue #${issueId} to \"Related issues links\"?`))
       return;
 
