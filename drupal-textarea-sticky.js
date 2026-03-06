@@ -1,40 +1,29 @@
+// Load Sticksy library
+const loadSticksy = new Promise((resolve) => {
+  if (window.Sticksy) {
+    resolve();
+    return;
+  }
+  const script = document.createElement("script");
+  script.src = chrome.runtime.getURL("sticksy.min.js");
+  script.onload = () => {
+    resolve();
+  };
+  document.head.appendChild(script);
+});
+
 /**
  * Plugin: Sticky textarea
  *
- * Adds a 📌 toggle button above each textarea. When activated, the textarea
- * is fixed to the bottom of the viewport so the user can scroll the page
- * while continuing to type. Clicking again restores the original position.
+ * Adds a 📌 toggle button above each textarea. When activated, uses Sticksy.js
+ * to keep the textarea visible while scrolling. Clicking again restores the original position.
  */
 const stickyPlugin = {
   attach: function (textarea) {
-    // Find the toolbar above the textarea (BUEditor example: .bue-ui.editor-container)
-    let toolbar = null;
-    let node = textarea.parentNode;
-    while (node && !toolbar) {
-      toolbar =
-        node.querySelector && node.querySelector(".bue-ui.editor-container");
-      node = node.parentNode;
-    }
-    // If not found, fallback to previous sibling
-    if (
-      !toolbar &&
-      textarea.parentNode.previousElementSibling &&
-      textarea.parentNode.previousElementSibling.classList.contains("bue-ui")
-    ) {
-      toolbar = textarea.parentNode.previousElementSibling;
-    }
-
-    // Wrap textarea in a relative container so the button can be positioned
-    const wrapper = document.createElement("div");
-    wrapper.style.cssText =
-      "position: relative; display: inline-block; width: 100%;";
-    textarea.parentNode.insertBefore(wrapper, textarea);
-    wrapper.appendChild(textarea);
-
     const btn = document.createElement("button");
     btn.type = "button";
     btn.textContent = "📌 Sticky";
-    btn.title = "Fix textarea to bottom of screen while scrolling";
+    btn.title = "Stick textarea to viewport while scrolling";
     btn.style.cssText = `
       position: absolute;
       top: -24px;
@@ -50,166 +39,54 @@ const stickyPlugin = {
       line-height: 1.4;
     `;
 
-    wrapper.appendChild(btn);
+    // Wrap textarea in a container that Sticksy can work with
+    const container = document.createElement("div");
+    container.style.cssText =
+      "position: relative; display: block; width: 100%;";
+    textarea.parentNode.insertBefore(container, textarea);
+    container.appendChild(textarea);
+    container.appendChild(btn);
 
     let isSticky = false;
-    let savedStyles = {};
-    let savedToolbarStyles = {};
-    // Placeholder keeps the original space in the document flow
-    const placeholder = document.createElement("div");
+    let stickysyInstance = null;
 
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
+      await loadSticksy;
+
       if (!isSticky) {
-        this.makeSticky(
-          textarea,
-          wrapper,
-          btn,
-          placeholder,
-          savedStyles,
-          toolbar,
-          savedToolbarStyles
-        );
+        // Activate sticky positioning
+        stickysyInstance = new window.Sticksy(textarea, {
+          topSpacing: 0,
+        });
+
+        btn.textContent = "📌 Unstick";
+        btn.style.background = "#d6eaf8";
+        btn.style.color = "#0679c8";
+        btn.style.borderColor = "#0679c8";
+        btn.title = "Restore textarea to original position";
+
+        textarea.style.boxShadow = "0 -3px 10px rgba(0,0,0,0.25)";
+        textarea.style.borderTop = "3px solid #0679c8";
+
+        textarea.focus();
       } else {
-        this.unstick(
-          textarea,
-          wrapper,
-          btn,
-          placeholder,
-          savedStyles,
-          toolbar,
-          savedToolbarStyles
-        );
+        // Deactivate sticky positioning
+        if (stickysyInstance) {
+          stickysyInstance.disable();
+          stickysyInstance = null;
+        }
+
+        textarea.style.boxShadow = "";
+        textarea.style.borderTop = "";
+
+        btn.textContent = "📌 Sticky";
+        btn.style.background = "#f5f5f5";
+        btn.style.color = "#333";
+        btn.style.borderColor = "#ccc";
+        btn.title = "Stick textarea to viewport while scrolling";
       }
       isSticky = !isSticky;
     });
-  },
-
-  makeSticky: function (
-    textarea,
-    wrapper,
-    btn,
-    placeholder,
-    savedStyles,
-    toolbar,
-    savedToolbarStyles
-  ) {
-    const rect = textarea.getBoundingClientRect();
-
-    // Reserve the original space so the page layout doesn't jump
-    placeholder.style.cssText = `
-      display: block;
-      width: ${textarea.offsetWidth}px;
-      height: ${textarea.offsetHeight}px;
-    `;
-    textarea.parentNode.insertBefore(placeholder, textarea);
-
-    // Save inline styles to restore later
-    savedStyles.position = textarea.style.position;
-    savedStyles.bottom = textarea.style.bottom;
-    savedStyles.left = textarea.style.left;
-    savedStyles.width = textarea.style.width;
-    savedStyles.zIndex = textarea.style.zIndex;
-    savedStyles.boxShadow = textarea.style.boxShadow;
-    savedStyles.borderTop = textarea.style.borderTop;
-
-    Object.assign(textarea.style, {
-      position: "fixed",
-      bottom: "0",
-      left: `${textarea.getBoundingClientRect().left}px`,
-      width: `${textarea.offsetWidth}px`,
-      zIndex: "9998",
-      boxShadow: "0 -3px 10px rgba(0,0,0,0.25)",
-      borderTop: "3px solid #0679c8",
-    });
-
-    const newTextAreaRect = textarea.getBoundingClientRect();
-    if (toolbar) {
-      savedToolbarStyles.position = toolbar.style.position;
-      savedToolbarStyles.left = toolbar.style.left;
-      savedToolbarStyles.width = toolbar.style.width;
-      savedToolbarStyles.zIndex = toolbar.style.zIndex;
-      savedToolbarStyles.boxShadow = toolbar.style.boxShadow;
-      savedToolbarStyles.bottom = toolbar.style.bottom;
-
-      const toolbarHeight = toolbar.offsetHeight; // Ensure toolbar is in DOM to get height
-      // Place toolbar just above textarea
-      Object.assign(toolbar.style, {
-        position: "fixed",
-        left: `${newTextAreaRect.left}px`,
-        width: `${textarea.offsetWidth}px`,
-        zIndex: "9999",
-        boxShadow: "0 -3px 10px rgba(0,0,0,0.15)",
-        top: `${newTextAreaRect.top - toolbarHeight - 8}px`,
-        bottom: "auto",
-      });
-    }
-
-    // Make sticky button fixed just above the toolbar
-    Object.assign(btn.style, {
-      position: "fixed",
-      left: `${
-        textarea.getBoundingClientRect().left +
-        textarea.offsetWidth -
-        btn.offsetWidth
-      }px`,
-      width: `${btn.offsetWidth}px`,
-      zIndex: "10001",
-      boxShadow: "0 -3px 10px rgba(0,0,0,0.10)",
-      top: `${newTextAreaRect.top - 8}px`,
-      right: "auto",
-    });
-
-    btn.textContent = "📌 Unstick";
-    btn.style.background = "#d6eaf8";
-    btn.style.color = "#0679c8";
-    btn.style.borderColor = "#0679c8";
-    btn.title = "Restore textarea to original position";
-
-    textarea.focus();
-  },
-
-  unstick: function (
-    textarea,
-    wrapper,
-    btn,
-    placeholder,
-    savedStyles,
-    toolbar,
-    savedToolbarStyles
-  ) {
-    Object.assign(textarea.style, {
-      position: savedStyles.position,
-      bottom: savedStyles.bottom,
-      left: savedStyles.left,
-      width: savedStyles.width,
-      zIndex: savedStyles.zIndex,
-      boxShadow: savedStyles.boxShadow,
-      borderTop: savedStyles.borderTop,
-    });
-
-    if (toolbar && savedToolbarStyles) {
-      Object.assign(toolbar.style, {
-        position: savedToolbarStyles.position,
-        bottom: savedToolbarStyles.bottom,
-        left: savedToolbarStyles.left,
-        width: savedToolbarStyles.width,
-        zIndex: savedToolbarStyles.zIndex,
-        boxShadow: savedToolbarStyles.boxShadow,
-      });
-    }
-
-    if (placeholder.parentNode) {
-      placeholder.parentNode.removeChild(placeholder);
-    }
-
-    btn.textContent = "📌 Sticky";
-    btn.style.background = "#f5f5f5";
-    btn.style.color = "#333";
-    btn.style.borderColor = "#ccc";
-    btn.title = "Fix textarea to bottom of screen while scrolling";
-    btn.style.position = "absolute";
-    btn.style.top = "-24px";
-    btn.style.right = "0";
   },
 };
 

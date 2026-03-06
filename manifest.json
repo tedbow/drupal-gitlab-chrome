@@ -67,7 +67,8 @@
         "drupal-textarea-tags.js",
         "drupal-textarea-sticky.js",
         "drupal-textarea-utils.js",
-        "drupal-page-click.js"
+        "drupal-page-click.js",
+        "sticksy.min.js"
       ],
       "matches": ["https://www.drupal.org/*"]
     },
