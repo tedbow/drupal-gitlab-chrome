@@ -1,7 +1,8 @@
 // Plugin: Convert pasted Drupal.org issue URLs to Markdown links with issue title on GitLab MR pages
 // Listens for paste events in textareas and replaces Drupal.org issue URLs with [Issue Title](URL)
 
-const DRUPAL_ISSUE_URL = /https?:\/\/www\.drupal\.org\/(?:project\/[^/]+\/issues|node|i)\/(\d+)[^\s]*/g;
+const DRUPAL_ISSUE_URL =
+  /https?:\/\/www\.drupal\.org\/(?:project\/[^/]+\/issues|node|i)\/(\d+)[^\s]*/g;
 
 function fetchIssueTitle(issueId) {
   return fetch(`https://www.drupal.org/api-d7/node/${issueId}.json`)
@@ -22,12 +23,13 @@ function handlePaste(e) {
   let pending = matches.length;
   matches.forEach(async ([match, issueId]) => {
     const title = await fetchIssueTitle(issueId);
-    const cleanTitle = title ? title.trim().replace(/\s+/g, ' ') : '';
+    const cleanTitle = title ? title.trim().replace(/\s+/g, " ") : "";
     const md = title ? `[${cleanTitle}](${match})` : match;
     replaced = replaced.replace(match, md);
     pending--;
     if (pending === 0) {
-      textarea.value = textarea.value.slice(0, start) + replaced + textarea.value.slice(end);
+      textarea.value =
+        textarea.value.slice(0, start) + replaced + textarea.value.slice(end);
       const newPos = start + replaced.length;
       textarea.setSelectionRange(newPos, newPos);
     }
