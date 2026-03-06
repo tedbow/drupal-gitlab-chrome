@@ -92,7 +92,10 @@ const pastePlugin = {
    */
   offerRelatedLink: function (issueId, originalUrl) {
     if (this.isInRelatedLinks(issueId)) return;
-    if (!window.confirm(`Add issue #${issueId} to "Related issues links"?`))
+    // Do not offer to add if this is the parent link field
+    const parentInput = document.querySelector('input[id^="edit-field-issue-parent-link"][id$="-url"]');
+    if (parentInput && parentInput.value && parentInput.value.includes(issueId)) return;
+    if (!window.confirm(`Add issue #${issueId} to \"Related issues links\"?`))
       return;
 
     if (!this.setEmptyRelatedLink(originalUrl)) {
