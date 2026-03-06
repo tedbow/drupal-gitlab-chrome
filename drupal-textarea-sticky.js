@@ -122,6 +122,7 @@ const stickyPlugin = {
       borderTop: "3px solid #0679c8",
     });
 
+    const newTextAreaRect = textarea.getBoundingClientRect();
     if (toolbar) {
       savedToolbarStyles.position = toolbar.style.position;
       savedToolbarStyles.left = toolbar.style.left;
@@ -130,19 +131,33 @@ const stickyPlugin = {
       savedToolbarStyles.boxShadow = toolbar.style.boxShadow;
       savedToolbarStyles.bottom = toolbar.style.bottom;
 
-      const rect = textarea.getBoundingClientRect();
       const toolbarHeight = toolbar.offsetHeight; // Ensure toolbar is in DOM to get height
       // Place toolbar just above textarea
       Object.assign(toolbar.style, {
         position: "fixed",
-        left: `${rect.left}px`,
+        left: `${newTextAreaRect.left}px`,
         width: `${textarea.offsetWidth}px`,
         zIndex: "9999",
         boxShadow: "0 -3px 10px rgba(0,0,0,0.15)",
-        top: `${rect.top - toolbarHeight - 8}px`,
+        top: `${newTextAreaRect.top - toolbarHeight - 8}px`,
         bottom: "auto",
       });
     }
+
+    // Make sticky button fixed just above the toolbar
+    Object.assign(btn.style, {
+      position: "fixed",
+      left: `${
+        textarea.getBoundingClientRect().left +
+        textarea.offsetWidth -
+        btn.offsetWidth
+      }px`,
+      width: `${btn.offsetWidth}px`,
+      zIndex: "10001",
+      boxShadow: "0 -3px 10px rgba(0,0,0,0.10)",
+      top: `${newTextAreaRect.top - 8}px`,
+      right: "auto",
+    });
 
     btn.textContent = "📌 Unstick";
     btn.style.background = "#d6eaf8";
@@ -192,6 +207,9 @@ const stickyPlugin = {
     btn.style.color = "#333";
     btn.style.borderColor = "#ccc";
     btn.title = "Fix textarea to bottom of screen while scrolling";
+    btn.style.position = "absolute";
+    btn.style.top = "-24px";
+    btn.style.right = "0";
   },
 };
 
