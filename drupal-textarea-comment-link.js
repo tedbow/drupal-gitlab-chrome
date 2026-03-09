@@ -27,9 +27,9 @@ const commentLinkPlugin = {
   expand: function (textarea, commentMap) {
     const value = textarea.value;
     const pos = textarea.selectionStart;
-    // Match existing <a>…</a> blocks first (skip them), then match bare #N.
+    // Match existing <a>…</a> blocks first (skip them), then match bare #N followed by whitespace or end-of-line.
     const newValue = value.replace(
-      /(<a\b[^>]*>[\s\S]*?<\/a>)|#(\d+)(?=\D)/g,
+      /(<a\b[^>]*>[\s\S]*?<\/a>)|#(\d+)(?=\s|$)/g,
       (match, existingAnchor, num) => {
         if (existingAnchor) return existingAnchor; // preserve already-converted links
         const anchor = commentMap[parseInt(num, 10)];
