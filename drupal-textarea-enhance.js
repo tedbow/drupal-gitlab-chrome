@@ -19,7 +19,7 @@ import { stickyPlugin } from "./drupal-textarea-sticky.js";
 const textareaEnhance = {
   plugins: [
     mentionPlugin,
-    commentLinkPlugin,
+    //commentLinkPlugin,
     pastePlugin,
     tagsPlugin,
     stickyPlugin,
@@ -28,7 +28,7 @@ const textareaEnhance = {
   buildContext: function (commonUsernames) {
     return {
       allUsernames: mentionPlugin.getAllUsernames(commonUsernames),
-      commentMap: commentLinkPlugin.buildCommentMap(),
+      // commentMap: commentLinkPlugin.buildCommentMap(),
       allowedTags: tagsPlugin.getTagsFromPage(),
     };
   },
