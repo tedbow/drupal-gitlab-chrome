@@ -20,7 +20,7 @@
     },
     {
       "type": "module",
-      "matches": ["https://www.drupal.org/project/*/issues/*"],
+      "matches": ["https://www.drupal.org/project/*/issues/*", "https://www.drupal.org/node/add/project-issue/*"],
       "css": ["content-styles.css"],
       "js": ["drupal-issue-node.js"]
     },
