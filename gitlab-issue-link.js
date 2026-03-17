@@ -21,7 +21,7 @@
           infoDiv.style.fontWeight = "bold";
           infoDiv.style.marginBottom = "10px";
           const link = document.createElement("a");
-          link.href = `https://www.drupal.org/project/canvas/issues/${issueId}`;
+          link.href = `https://drupal.org/i/${issueId}`;
           link.textContent = `Drupal.org: ${title}`;
           link.style.marginRight = "10px";
           infoDiv.appendChild(link);
