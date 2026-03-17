@@ -25,6 +25,11 @@
           link.textContent = `Drupal.org: ${title}`;
           link.style.marginRight = "10px";
           infoDiv.appendChild(link);
+          const contribLink = document.createElement("a");
+          contribLink.href = `https://new.drupal.org/contribution-record?source_link=https%3A//www.drupal.org/node/${issueId}`;
+          contribLink.textContent = `[Contribution record]`;
+          contribLink.style.marginRight = "10px";
+          infoDiv.appendChild(contribLink);
           const statusSpan = document.createElement("span");
           statusSpan.textContent = `Status: ${status}`;
           statusSpan.style.marginRight = "10px";
